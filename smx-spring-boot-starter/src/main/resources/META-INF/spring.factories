@@ -1,0 +1,4 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.zboss.sbs.smx.enumconvert.MvcEnumConverterConfig,\
+com.zboss.sbs.smx.enumconvert.FastJsonAutoConfiguration
