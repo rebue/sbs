@@ -1,16 +1,32 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.zboss.sbs</groupId>
-    <artifactId>sbs-parent</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
-    <packaging>pom</packaging>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.zboss.sbs</groupId>
+	<artifactId>sbs-parent</artifactId>
+	<version>1.0.3-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-    <modules>
-        <module>dozer-spring-boot-starter</module>
-        <module>druid-spring-boot-starter</module>
-        <module>redis-spring-boot-starter</module>
-        <module>smx-spring-boot-starter</module>
-    </modules>
+	<modules>
+		<module>dozer-spring-boot-starter</module>
+		<module>druid-spring-boot-starter</module>
+		<module>feign-spring-boot-starter</module>
+		<module>redis-spring-boot-starter</module>
+		<module>smx-spring-boot-starter</module>
+	</modules>
 
+	<!-- 配置部署的远程仓库 -->
+	<distributionManagement>
+		<snapshotRepository>
+			<id>my-snapshots</id>
+			<name>my-snapshots</name>
+			<url>http://${nexus.ip}/repository/my-snapshots/</url>
+			<uniqueVersion>true</uniqueVersion>
+		</snapshotRepository>
+		<repository>
+			<id>my-releases</id>
+			<name>my-releases</name>
+			<url>http://${nexus.ip}/repository/my-releases/</url>
+		</repository>
+	</distributionManagement>
 </project>
