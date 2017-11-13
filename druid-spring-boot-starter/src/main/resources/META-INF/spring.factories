@@ -1,3 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.zboss.sbs.druid.DruidStatConfig,com.zboss.sbx.druid.DruidDataSourceConfig
+rebue.sbs.druid.DruidStatConfig,\
+rebue.sbs.druid.DruidDataSourceConfig

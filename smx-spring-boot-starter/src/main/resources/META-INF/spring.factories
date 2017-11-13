@@ -1,4 +1,5 @@
 # Auto Configure
+#rebue.sbs.smx.enumconvert.FastJsonAutoConfiguration
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.zboss.sbs.smx.enumconvert.MvcEnumConverterConfig,\
-com.zboss.sbs.smx.enumconvert.FastJsonAutoConfiguration
+rebue.sbs.smx.EnumConverterFactoryConfigigurerAdapter,\
+rebue.sbs.smx.JacksonHttpMessageConverterAutoConfiguration
