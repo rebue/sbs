@@ -22,7 +22,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 public class JacksonHttpMessageConverterAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean(com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter.class)
+    @ConditionalOnMissingBean(MappingJackson2HttpMessageConverter.class)
     public HttpMessageConverters customConverters() {
         // 让spring mvc支持text/json/xml几种格式，并且统一编码为utf-8
         MappingJackson2HttpMessageConverter httpMessageConverter = new MappingJackson2HttpMessageConverter();
