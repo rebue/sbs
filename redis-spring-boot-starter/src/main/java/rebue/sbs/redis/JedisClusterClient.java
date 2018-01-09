@@ -4,10 +4,11 @@ import java.util.Map;
 import java.util.Set;
 
 import rebue.wheel.protostuff.ProtostuffUtils;
-
+import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPubSub;
 
 public class JedisClusterClient implements RedisClient {
 
@@ -15,6 +16,11 @@ public class JedisClusterClient implements RedisClient {
 
     public JedisClusterClient(JedisCluster jedisCluster) {
         _jedisCluster = jedisCluster;
+    }
+
+    @Override
+    public Boolean expire(final String key, final int seconds) {
+        return _jedisCluster.expire(key, seconds) == 1 ? true : false;
     }
 
     @Override
@@ -133,5 +139,43 @@ public class JedisClusterClient implements RedisClient {
     @Override
     public String srandmember(String key) {
         return _jedisCluster.srandmember(key);
+    }
+
+    @Override
+    public Long publish(final String channel, final String message) {
+        return _jedisCluster.publish(channel, message);
+    }
+
+    @Override
+    public Long publish(final String channel, final Object message) {
+        return _jedisCluster.publish(channel.getBytes(), ProtostuffUtils.serialize(message));
+    }
+
+    @Override
+    public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
+        _jedisCluster.subscribe(jedisPubSub, channels);
+    }
+
+    @Override
+    public void subscribe(final BinaryJedisPubSub jedisPubSub, final String... channels) {
+        byte[][] bytesArray = new byte[channels.length][];
+        for (int i = 0; i < bytesArray.length; i++) {
+            bytesArray[i] = channels[i].getBytes();
+        }
+        _jedisCluster.subscribe(jedisPubSub, bytesArray);
+    }
+
+    @Override
+    public void subscribeByPatterns(final JedisPubSub jedisPubSub, final String... patterns) {
+        _jedisCluster.psubscribe(jedisPubSub, patterns);
+    }
+
+    @Override
+    public void subscribeByPatterns(final BinaryJedisPubSub jedisPubSub, final String... patterns) {
+        byte[][] bytesArray = new byte[patterns.length][];
+        for (int i = 0; i < bytesArray.length; i++) {
+            bytesArray[i] = patterns[i].getBytes();
+        }
+        _jedisCluster.psubscribe(jedisPubSub, bytesArray);
     }
 }

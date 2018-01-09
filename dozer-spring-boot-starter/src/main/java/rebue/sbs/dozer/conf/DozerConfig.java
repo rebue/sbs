@@ -1,17 +1,18 @@
 package rebue.sbs.dozer.conf;
 
-import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
+import com.github.dozermapper.spring.DozerBeanMapperFactoryBean;
+
 @Configuration
 @EnableConfigurationProperties(DozerConfig.class)
 public class DozerConfig {
-    @Value("${sbx.dozer.mappingFiles:classpath*:conf/dozer/*.xml}")
-    private Resource[] mappingFiles;
+//    @Value("${sbs.dozer.mappingFiles:classpath*:conf/dozer/*.xml}")
+//    private Resource[] mappingFiles;
 
     @Bean
     public DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean(

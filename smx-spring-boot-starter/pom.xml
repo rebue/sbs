@@ -1,37 +1,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>rebue.sbs</groupId>
-	<artifactId>smx-spring-boot-starter</artifactId>
-	<description>Spring Mvc Extends</description>
-
 	<parent>
 		<groupId>rebue.common-pom</groupId>
 		<artifactId>sb-dependencies</artifactId>
 		<version>1.0.3-SNAPSHOT</version>
 	</parent>
 
+	<groupId>rebue.sbs</groupId>
+	<artifactId>smx-spring-boot-starter</artifactId>
+	<description>Spring Mvc Extends</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>${wheel.groupId}</groupId>
 			<artifactId>wheel-core</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-autoconfigure</artifactId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<dependency>

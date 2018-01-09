@@ -6,7 +6,8 @@ spring:
         # 集群类型 (Single,RedisCluster)
         clusterType: RedisCluster
         # Single类型需要配置连接Redis的url
-        url: redis://192.168.56.70:6379
+        host: 192.168.56.70
+        port: 6379
         # 最大实例数
         maxTotal: 100
         # 最大空闲实例数

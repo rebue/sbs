@@ -1,8 +1,17 @@
 package rebue.sbs.redis;
 
 import rebue.wheel.protostuff.ProtostuffUtils;
+import redis.clients.jedis.BinaryJedisPubSub;
+import redis.clients.jedis.JedisPubSub;
 
 public interface RedisClient {
+
+    /**
+     * 设置Key在多少秒后失效
+     * 
+     * @return 设置成功，返回true，失败则返回false，可能是key不存在
+     */
+    Boolean expire(final String key, final int seconds);
 
     /**
      * 检查key是否存在
@@ -19,6 +28,31 @@ public interface RedisClient {
      * @return
      */
     Boolean exists(byte[] key);
+
+    /**
+     * 是否调用只有一次(默认Key只保留3天以供判断)
+     */
+    default Boolean isOnce(final String key) {
+        return isOnce(key, 3 * 24 * 60 * 60);
+    }
+
+    /**
+     * 是否调用只有一次
+     * 
+     * @param key
+     * @param seconds
+     *            保留多少秒的Key以供判断是否重复
+     * @return
+     */
+    default Boolean isOnce(final String key, final Integer seconds) {
+        Long count = incr(key);
+        if (count == 1) {
+            expire(key, seconds);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * 自增(如果没有找到key，会自动创建key并设置为1)
@@ -129,6 +163,12 @@ public interface RedisClient {
      */
     String pop(String key);
 
+    /**
+     * 获取并删除key的值
+     * 
+     * @param key
+     * @return 如果找到了，返回key的值；如果没找到，返回null
+     */
     <T> T popObj(String key, Class<T> clazz);
 
     /**
@@ -162,4 +202,35 @@ public interface RedisClient {
      * @return 随机获取的元素
      */
     String srandmember(String key);
+
+    /**
+     * 发布消息
+     */
+    Long publish(final String channel, final String message);
+
+    /**
+     * 发布消息
+     */
+    void subscribe(final JedisPubSub jedisPubSub, final String... channels);
+
+    /**
+     * 发布消息
+     */
+    Long publish(final String channel, final Object message);
+
+    /**
+     * 订阅消息
+     */
+    void subscribe(final BinaryJedisPubSub jedisPubSub, final String... channels);
+
+    /**
+     * 订阅消息
+     */
+    void subscribeByPatterns(final JedisPubSub jedisPubSub, final String... patterns);
+
+    /**
+     * 订阅消息
+     */
+    void subscribeByPatterns(final BinaryJedisPubSub jedisPubSub, final String... patterns);
+
 }

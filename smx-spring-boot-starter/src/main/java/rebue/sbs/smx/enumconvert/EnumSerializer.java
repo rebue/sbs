@@ -22,7 +22,6 @@ public class EnumSerializer implements ObjectSerializer, ObjectDeserializer {
 
     @Override
     public int getFastMatchToken() {
-        // TODO Auto-generated method stub
         return 0;
     }
 

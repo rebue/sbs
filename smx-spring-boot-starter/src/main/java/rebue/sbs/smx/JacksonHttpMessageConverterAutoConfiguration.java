@@ -29,7 +29,9 @@ public class JacksonHttpMessageConverterAutoConfiguration {
         httpMessageConverter.setSupportedMediaTypes(Arrays.asList(//
                 new MediaType("text", "plain", Charset.forName("utf-8")), //
                 new MediaType("application", "json", Charset.forName("utf-8")), //
-                new MediaType("application", "xml", Charset.forName("utf-8"))//
+                new MediaType("application", "xml", Charset.forName("utf-8")),//
+                new MediaType("multipart", "form-data", Charset.forName("utf-8")),//
+                new MediaType("application", "x-www-from-urlencoded", Charset.forName("utf-8"))//
         ));
 
         return new HttpMessageConverters(httpMessageConverter);

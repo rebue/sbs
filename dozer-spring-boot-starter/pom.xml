@@ -5,6 +5,7 @@
 		<groupId>rebue.common-pom</groupId>
 		<artifactId>sb-dependencies</artifactId>
 		<version>1.0.3-SNAPSHOT</version>
+		<relativePath />
 	</parent>
 
 	<groupId>rebue.sbs</groupId>
@@ -31,11 +32,11 @@
 
 		<!-- 可以在JavaBean到JavaBean之间进行递归数据复制 -->
 		<dependency>
-			<groupId>net.sf.dozer</groupId>
-			<artifactId>dozer</artifactId>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.dozer</groupId>
+			<groupId>com.github.dozermapper</groupId>
 			<artifactId>dozer-spring</artifactId>
 		</dependency>
 	</dependencies>

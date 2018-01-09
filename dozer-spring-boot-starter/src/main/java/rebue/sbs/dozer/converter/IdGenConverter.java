@@ -15,7 +15,7 @@ public class IdGenConverter implements CustomConverter {
     @Override
     public Object convert(Object existingDestinationFieldValue, Object sourceFieldValue, Class<?> destinationClass,
             Class<?> sourceClass) {
-        return IdWorker3Helper.nextId();
+        return IdWorker3Helper.getId();
     }
 
 }
