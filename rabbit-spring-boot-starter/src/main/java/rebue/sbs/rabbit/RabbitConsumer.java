@@ -42,9 +42,13 @@ public class RabbitConsumer {
                     T msg = ProtostuffUtils.deserialize(body, msgClazz);
                     _log.info("接收到RabbitMQ传来的消息: Message={},Exchange={},Queue={},ConsumerTag={},envelope={}", msg,
                             exchangeName, queueName, consumerTag, envelope);
-                    handler.handle(msg);
-                    // 应答OK，如果前面的处理发生异常，不会进行到这里
-                    channel.basicAck(envelope.getDeliveryTag(), false);
+                    if (handler.handle(msg)) {
+                        // 应答ACK（false表示仅仅应答当前的这条消息）
+                        channel.basicAck(envelope.getDeliveryTag(), false);
+                    } else {
+                        // 应答NACK，消息重新入列
+                        channel.basicReject(envelope.getDeliveryTag(), true);
+                    }
                 }
             });
             return true;
