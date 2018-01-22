@@ -2,32 +2,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>rebue.common-pom</groupId>
+		<artifactId>sb-dependencies</artifactId>
+		<version>1.0.3-SNAPSHOT</version>
+		<relativePath />
+	</parent>
+
 	<groupId>rebue.sbs</groupId>
-	<artifactId>sbs-aggregator</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<artifactId>sbs</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
 		<module>dozer-spring-boot-starter</module>
-		<!-- <module>druid-spring-boot-starter</module> -->
 		<module>feign-spring-boot-starter</module>
 		<module>redis-spring-boot-starter</module>
 		<module>smx-spring-boot-starter</module>
 		<module>rabbit-spring-boot-starter</module>
 	</modules>
 
-	<!-- 配置部署的远程仓库 -->
-	<distributionManagement>
-		<snapshotRepository>
-			<id>my-snapshots</id>
-			<name>my-snapshots</name>
-			<url>${my-snapshots.url}</url>
-			<uniqueVersion>true</uniqueVersion>
-		</snapshotRepository>
-		<repository>
-			<id>my-releases</id>
-			<name>my-releases</name>
-			<url>${my-releases.url}</url>
-		</repository>
-	</distributionManagement>
 </project>

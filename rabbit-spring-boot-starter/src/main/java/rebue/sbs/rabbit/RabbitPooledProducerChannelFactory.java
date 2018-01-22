@@ -23,6 +23,7 @@ public class RabbitPooledProducerChannelFactory extends BasePooledObjectFactory<
 
     @Override
     public Channel create() throws Exception {
+        Thread.sleep(1);    // 让出cpu占用，以防高并发下大批量创建对象时卡死
         Channel channel = _connection.createChannel();
         channel.confirmSelect();
         return channel;
