@@ -3,7 +3,7 @@ package rebue.sbs.smx;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 自定义枚举转换工厂的配置适配器<br>
@@ -14,8 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @ConditionalOnWebApplication
-//public class EnumConverterFactoryConfigigurerAdapter implements WebMvcConfigurer {
-public class EnumConverterFactoryConfigigurerAdapter extends WebMvcConfigurerAdapter {
+public class EnumConverterFactoryConfigigurerAdapter implements WebMvcConfigurer {
+//public class EnumConverterFactoryConfigigurerAdapter extends WebMvcConfigurerAdapter {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
