@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>rebue.sbs</groupId>
 		<artifactId>sbs</artifactId>
-		<version>1.0.3-SNAPSHOT</version>
+		<version>1.0.5</version>
 	</parent>
 
 	<artifactId>redis-spring-boot-starter</artifactId>
 
 	<dependencies>
 		<dependency>
-			<groupId>${wheel.groupId}</groupId>
+			<groupId>rebue.wheel</groupId>
 			<artifactId>wheel-protostuff</artifactId>
 		</dependency>
 
