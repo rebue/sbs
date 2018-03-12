@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>rebue.sbs</groupId>
+		<groupId>com.github.rebue.sbs</groupId>
 		<artifactId>sbs</artifactId>
 		<version>1.0.5</version>
 	</parent>
@@ -13,7 +13,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>rebue.wheel</groupId>
+			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-core</artifactId>
 		</dependency>
 

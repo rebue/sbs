@@ -3,13 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>rebue.common-pom</groupId>
+		<groupId>com.github.rebue.common-pom</groupId>
 		<artifactId>sb-dependencies</artifactId>
 		<version>1.0.5</version>
-		<relativePath />
 	</parent>
 
-	<groupId>rebue.sbs</groupId>
+	<groupId>com.github.rebue.sbs</groupId>
 	<artifactId>sbs</artifactId>
 	<packaging>pom</packaging>
 	<description>Spring Boot Starter类项目</description>
