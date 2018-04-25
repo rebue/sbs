@@ -5,6 +5,8 @@ import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * 初始化JsonParserBean
  * 
@@ -12,11 +14,16 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-public class JsonParserBean {
+public class JsonBean {
 
     @Bean
     public JsonParser getJsonParser() {
         return JsonParserFactory.getJsonParser();
+    }
+
+    @Bean
+    public ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
     }
 
 }
