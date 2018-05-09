@@ -3,4 +3,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 rebue.sbs.smx.EnumConverterFactoryConfigigurerAdapter,\
 rebue.sbs.smx.JacksonConfigurer,\
 rebue.sbs.smx.JsonBean,\
-rebue.sbs.smx.CorsAutoConfig
+rebue.sbs.smx.CorsAutoConfig,\
+rebue.sbs.smx.StringToLongConfigurer
