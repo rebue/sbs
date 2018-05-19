@@ -42,6 +42,7 @@ public class RabbitProducer {
      * 声明Exchange
      */
     public void declareExchange(String exchangeName) throws Exception {
+        _log.info("RabbitMQ声明Exchange: {}", exchangeName);
         // 初始化exchange
         Channel channel = _channelPool.borrowObject();
         try {
@@ -57,15 +58,17 @@ public class RabbitProducer {
     }
 
     private void send(String exchangeName, byte[] msg) {
-        _log.debug("生产者发送消息: {}", new String(msg));
+        _log.info("生产者发送消息: {} - {}", exchangeName, new String(msg));
         Channel channel = null;
         try {
             channel = _channelPool.borrowObject();
             channel.basicPublish(exchangeName, "", true, MessageProperties.PERSISTENT_BASIC, msg);
-            if (!channel.waitForConfirms()) {
-                _log.error("发送消息不成功(NACK): {}", new String(msg));
-                throw new RuntimeException("发送消息不成功(NACK)");
+            if (!channel.waitForConfirms(10000)) {
+                String errorMsg = ("生产者发送消息不成功");
+                _log.error("{}: {} - {}", errorMsg, exchangeName, new String(msg));
+                throw new RuntimeException(errorMsg);
             }
+            _log.info("生产者发送消息成功: {} - {}", exchangeName, new String(msg));
         } catch (Exception e) {
             _log.error("生产者发送消息出现异常", e);
             throw new RuntimeException(e);
