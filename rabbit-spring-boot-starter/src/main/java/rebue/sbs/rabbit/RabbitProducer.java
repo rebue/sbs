@@ -21,6 +21,11 @@ public class RabbitProducer {
 
     private GenericObjectPool<Channel> _channelPool;
 
+    /**
+     * 默认发送消息超时判断的毫秒数(默认为10000毫秒)
+     */
+    private Long                       _defaultSendTimeoutMs;
+
     public RabbitProducer(RabbitProperties properties) throws IOException, TimeoutException {
         // 获取连接
         Connection connection = RabbitConnectionFactory.newConnection(properties);
@@ -31,6 +36,8 @@ public class RabbitProducer {
         config.setMinIdle(Runtime.getRuntime().availableProcessors());
         // 配置Channel池保持最大对象的数量
         config.setMaxTotal(properties.getChannelMaxTotal());
+        // 默认发送消息超时判断的毫秒数(默认为10000毫秒)
+        _defaultSendTimeoutMs = properties.getDefaultSendTimeoutMs();
 
         // 创建Channel工厂
         RabbitPooledProducerChannelFactory factory = new RabbitPooledProducerChannelFactory(connection);
@@ -53,17 +60,40 @@ public class RabbitProducer {
         }
     }
 
+    /**
+     * 发送消息(如果超过配置的默认超时时间(不配置为10秒)，抛出运行时异常)
+     * 如果想直接指定超时时间，请用 <b>send(String exchangeName, byte[] msg, Long timeoutMs)</b> 方法
+     * 
+     * @param exchangeName
+     *            Exchage的名称
+     * @param msg
+     *            要发送的消息
+     */
     public void send(String exchangeName, Object msg) {
-        send(exchangeName, ProtostuffUtils.serialize(msg));
+        send(exchangeName, ProtostuffUtils.serialize(msg), _defaultSendTimeoutMs);
     }
 
-    private void send(String exchangeName, byte[] msg) {
-        _log.info("生产者发送消息: {} - {}", exchangeName, new String(msg));
+    /**
+     * 发送消息(超时会抛出RuntimeException)
+     * 
+     * @param exchangeName
+     *            Exchage的名称
+     * @param msg
+     *            要发送的消息
+     * @param timeoutMs
+     *            判断超时的毫秒数(如果为0则永远不超时)
+     */
+    public void send(String exchangeName, Object msg, Long timeoutMs) {
+        send(exchangeName, ProtostuffUtils.serialize(msg), timeoutMs);
+    }
+
+    private void send(String exchangeName, byte[] msg, Long timeoutMs) {
+        _log.info("生产者发送消息: {} - {} - 超时: {}", exchangeName, new String(msg), timeoutMs);
         Channel channel = null;
         try {
             channel = _channelPool.borrowObject();
             channel.basicPublish(exchangeName, "", true, MessageProperties.PERSISTENT_BASIC, msg);
-            if (!channel.waitForConfirms(10000)) {
+            if (!channel.waitForConfirms(timeoutMs)) {
                 String errorMsg = ("生产者发送消息不成功");
                 _log.error("{}: {} - {}", errorMsg, exchangeName, new String(msg));
                 throw new RuntimeException(errorMsg);

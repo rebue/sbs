@@ -8,12 +8,12 @@ public class RabbitProperties {
     /**
      * RabbitMQ host.
      */
-    private String  host            = "localhost";
+    private String  host                 = "localhost";
 
     /**
      * RabbitMQ port.
      */
-    private int     port            = 5672;
+    private int     port                 = 5672;
 
     /**
      * Login user to authenticate to the broker.
@@ -28,12 +28,17 @@ public class RabbitProperties {
     /**
      * Virtual host to use when connecting to the broker.
      */
-    private String  virtualHost     = "/";
+    private String  virtualHost          = "/";
+
+    /**
+     * 默认发送消息超时判断的毫秒数(默认为10000毫秒)
+     */
+    private Long    defaultSendTimeoutMs = 10000L;
 
     /**
      * Channel池的最大的对象数量
      */
-    private Integer channelMaxTotal = Runtime.getRuntime().availableProcessors() * 100;
+    private Integer channelMaxTotal      = Runtime.getRuntime().availableProcessors() * 100;
 
     public String getHost() {
         return host;
@@ -75,6 +80,14 @@ public class RabbitProperties {
         this.virtualHost = virtualHost;
     }
 
+    public Long getDefaultSendTimeoutMs() {
+        return defaultSendTimeoutMs;
+    }
+
+    public void setDefaultSendTimeoutMs(Long defaultSendTimeoutMs) {
+        this.defaultSendTimeoutMs = defaultSendTimeoutMs;
+    }
+
     public Integer getChannelMaxTotal() {
         return channelMaxTotal;
     }
@@ -85,8 +98,8 @@ public class RabbitProperties {
 
     @Override
     public String toString() {
-        return "RabbitProperties [host=" + host + ", port=" + port + ", username=" + username + ", password=" + password
-                + ", virtualHost=" + virtualHost + ", channelMaxTotal=" + channelMaxTotal + "]";
+        return "RabbitProperties [host=" + host + ", port=" + port + ", username=" + username + ", password=" + password + ", virtualHost=" + virtualHost
+                + ", defaultSendTimeoutMs=" + defaultSendTimeoutMs + ", channelMaxTotal=" + channelMaxTotal + "]";
     }
 
 }
