@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 public class StringToLongConverter implements Converter<String, Long> {
-    private final static Logger _log = LoggerFactory.getLogger(StringToLongConfigurer.class);
+    private final static Logger _log = LoggerFactory.getLogger(StringToLongConfig.class);
 
     @Override
     public Long convert(String source) {

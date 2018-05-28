@@ -3,6 +3,9 @@ package rebue.sbs.smx;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.boot.json.JsonParser;
+import org.springframework.boot.json.JsonParserFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -24,7 +27,17 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
  *
  */
 @Configuration
-public class JacksonConfigurer implements WebMvcConfigurer {
+public class JacksonConfig implements WebMvcConfigurer {
+
+    @Bean
+    public JsonParser getJsonParser() {
+        return JsonParserFactory.getJsonParser();
+    }
+
+    @Bean
+    public ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
+    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

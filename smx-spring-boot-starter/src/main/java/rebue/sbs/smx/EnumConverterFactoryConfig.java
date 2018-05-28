@@ -14,8 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 @ConditionalOnWebApplication
-public class EnumConverterFactoryConfigigurerAdapter implements WebMvcConfigurer {
-//public class EnumConverterFactoryConfigigurerAdapter extends WebMvcConfigurerAdapter {
+public class EnumConverterFactoryConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {

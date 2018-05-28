@@ -10,7 +10,7 @@ import org.springframework.web.filter.CorsFilter;
  * Spring MVC 接收ajax跨域请求自动配置类
  */
 @Configuration
-public class CorsAutoConfig {
+public class CorsConfig {
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*");
