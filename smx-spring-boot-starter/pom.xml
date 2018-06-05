@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.github.rebue.sbs</groupId>
 		<artifactId>sbs</artifactId>
-		<version>1.0.7</version>
+		<version>1.0.8</version>
 	</parent>
 
 	<artifactId>smx-spring-boot-starter</artifactId>
