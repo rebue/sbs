@@ -8,6 +8,7 @@ import org.springframework.web.filter.CorsFilter;
 
 /**
  * Spring MVC 接收ajax跨域请求自动配置类
+ * @deprecated sping web已有CorsFilter类Ï
  */
 @Configuration
 public class CorsConfig {
