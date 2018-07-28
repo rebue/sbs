@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
  * 让所有服务器转向时使用GET方法
- * TODO 此方法将所有请求都转成GET请求，具坑，请不要使用
+ * 
+ * @deprecated 此方法将所有请求都转成GET请求，具坑，请不要使用
  * 
  * @author zbz
  *
  */
 //@WebFilter(urlPatterns = "/*")
+@Deprecated
 public class ForwardGetFilter implements Filter {
 
     @Override
@@ -27,8 +29,7 @@ public class ForwardGetFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         chain.doFilter(new HttpServletRequestWrapper((HttpServletRequest) request) {
             @Override
             public String getMethod() {
