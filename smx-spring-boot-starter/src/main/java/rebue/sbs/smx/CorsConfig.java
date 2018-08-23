@@ -8,23 +8,20 @@ import org.springframework.web.filter.CorsFilter;
 
 /**
  * Spring MVC 接收ajax跨域请求自动配置类
- * @deprecated sping web已有CorsFilter类Ï
  */
 @Configuration
 public class CorsConfig {
-    private CorsConfiguration buildConfig() {
+    @Bean
+    public CorsFilter getCorsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);    // 允许cookies跨域
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
-        return corsConfiguration;
-    }
 
-    @Bean
-    public CorsFilter getCorsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", buildConfig());
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
         return new CorsFilter(source);
     }
 }
