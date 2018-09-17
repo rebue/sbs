@@ -125,6 +125,14 @@ public interface RedisClient {
      * @return 如果找不到key，返回null
      */
     String get(String key);
+    
+    /**
+     * 获取long类型的key的值
+     * 
+     * @param key
+     * @return 如果找不到key，返回null
+     */
+    Long getLong(String key);
 
     /**
      * 获取key的值
@@ -141,6 +149,14 @@ public interface RedisClient {
      * @return 如果找不到key，返回null
      */
     String get(String key, int expireTime);
+    
+    /**
+     * 获取Long类型的key值，如果找到了，重新延长此key的缓存时间多少秒
+     * 
+     * @param key
+     * @return 如果找不到key，返回null
+     */
+    Long getLong(String key, int expireTime);
 
     /**
      * 获取key的值(反序列化为Object来获取)

@@ -137,6 +137,22 @@ public class JedisPoolClient implements RedisClient {
             throw e;
         }
     }
+    
+    @Override
+    public Long getLong(String key) {
+        try (Jedis jedis = getJedis()) {
+            String result = jedis.get(key);
+            if(result == "" || result == "nil") {
+            	return null;
+            }
+            result = result.replaceAll("\"", "");
+            Long longResult = Long.parseLong(result);
+            return longResult;
+        } catch (JedisConnectionException e) {
+            _logger.error("\n连接Redis服务器异常", e);
+            throw e;
+        }
+    }
 
     @Override
     public byte[] get(byte[] key) {
@@ -162,6 +178,23 @@ public class JedisPoolClient implements RedisClient {
             throw e;
         }
     }
+    
+    @Override
+    public Long getLong(String key, int expireTime) {
+        try (Jedis jedis = getJedis()) {
+            String result = jedis.get(key);
+            if(result == "" || result == "nil"||jedis.expire(key, expireTime) != 1) {
+            	return null;
+            }
+            result = result.replaceAll("\"", "");
+            Long longResult = Long.parseLong(result);
+            return longResult;
+        } catch (JedisConnectionException e) {
+            _logger.error("\n连接Redis服务器异常", e);
+            throw e;
+        }
+    }
+    
 
     @Override
     public String pop(String key) {
