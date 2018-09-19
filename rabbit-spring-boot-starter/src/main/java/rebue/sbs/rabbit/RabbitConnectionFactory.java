@@ -22,11 +22,6 @@ public class RabbitConnectionFactory {
         connectionFactory.setHost(properties.getHost());
         connectionFactory.setPort(properties.getPort());
 
-        // 设置网络断开自动恢复重连
-        connectionFactory.setAutomaticRecoveryEnabled(true);
-        // 设置不重新声明交换器，队列等信息。
-        connectionFactory.setTopologyRecoveryEnabled(false);
-
         // XXX : RabbitSpringBootStarter : 这里不指定消费者线程池大小，默认cpu核心*2，正常已经够用了
         return connectionFactory.newConnection();
     }
