@@ -131,7 +131,7 @@ public class JedisPoolClient implements RedisClient {
     public String get(String key) {
         try (Jedis jedis = getJedis()) {
             String result = jedis.get(key);
-            return result == "" || result == "nil" ? null : result;
+            return result == null || result == "" || result == "nil" ? null : result;
         } catch (JedisConnectionException e) {
             _logger.error("\n连接Redis服务器异常", e);
             throw e;
@@ -142,7 +142,7 @@ public class JedisPoolClient implements RedisClient {
     public Long getLong(String key) {
         try (Jedis jedis = getJedis()) {
             String result = jedis.get(key);
-            if(result == "" || result == "nil") {
+            if(result == null || result == "" || result == "nil") {
             	return null;
             }
             result = result.replaceAll("\"", "");
@@ -183,7 +183,7 @@ public class JedisPoolClient implements RedisClient {
     public Long getLong(String key, int expireTime) {
         try (Jedis jedis = getJedis()) {
             String result = jedis.get(key);
-            if(result == "" || result == "nil"||jedis.expire(key, expireTime) != 1) {
+            if(result == null || result == "" || result == "nil"||jedis.expire(key, expireTime) != 1) {
             	return null;
             }
             result = result.replaceAll("\"", "");

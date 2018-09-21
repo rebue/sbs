@@ -78,13 +78,13 @@ public class JedisClusterClient implements RedisClient {
 	@Override
 	public String get(String key) {
 		String result = _jedisCluster.get(key);
-		return result == "" || result == "nil" ? null : result;
+		return result == null || result == "" || result == "nil" ? null : result;
 	}
 
 	@Override
 	public Long getLong(String key) throws ClassCastException{
 		String result = _jedisCluster.get(key);
-		if(result == "" || result == "nil") {
+		if(result == null || result == "" || result == "nil") {
 			return null;
 		}
 		result = result.replaceAll("\"", "");
@@ -110,7 +110,7 @@ public class JedisClusterClient implements RedisClient {
 	@Override
 	public Long getLong(String key, int expireTime) {
 		String result = _jedisCluster.get(key);
-		if (result == "" || result == "nil" || _jedisCluster.expire(key, expireTime) != 1) {
+		if (result == null || result == "" || result == "nil" || _jedisCluster.expire(key, expireTime) != 1) {
 			return null;
 		}
 		result = result.replaceAll("\"", "");
@@ -122,7 +122,7 @@ public class JedisClusterClient implements RedisClient {
 	@Override
 	public String pop(String key) {
 		String result = _jedisCluster.get(key);
-		if (result == "" || result == "nil" || _jedisCluster.del(key) == 0) {
+		if (result == null || result == "" || result == "nil" || _jedisCluster.del(key) == 0) {
 			return null;
 		} else {
 			return result;
