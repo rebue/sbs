@@ -12,193 +12,193 @@ import redis.clients.jedis.JedisPubSub;
 
 public class JedisClusterClient implements RedisClient {
 
-	private JedisCluster _jedisCluster;
+    private JedisCluster _jedisCluster;
 
-	public JedisClusterClient(JedisCluster jedisCluster) {
-		_jedisCluster = jedisCluster;
-	}
+    public JedisClusterClient(JedisCluster jedisCluster) {
+        _jedisCluster = jedisCluster;
+    }
 
-	@Override
-	public Boolean expire(final String key, final int seconds) {
-		return _jedisCluster.expire(key, seconds) == 1 ? true : false;
-	}
+    @Override
+    public Boolean expire(final String key, final int seconds) {
+        return _jedisCluster.expire(key, seconds) == 1 ? true : false;
+    }
 
-	@Override
-	public Boolean exists(String key) {
-		return _jedisCluster.exists(key);
-	}
+    @Override
+    public Boolean exists(String key) {
+        return _jedisCluster.exists(key);
+    }
 
-	@Override
-	public Boolean exists(byte[] key) {
-		return _jedisCluster.exists(key);
-	}
+    @Override
+    public Boolean exists(byte[] key) {
+        return _jedisCluster.exists(key);
+    }
 
-	@Override
-	public Long incr(String key) {
-		return _jedisCluster.incr(key);
-	}
+    @Override
+    public Long incr(String key) {
+        return _jedisCluster.incr(key);
+    }
 
-	@Override
-	public Long incr(String key, int expireTime) throws RedisSetException {
-		Long result = _jedisCluster.incr(key);
-		if (result == 1)
-			if (_jedisCluster.expire(key, expireTime) != 1)
-				throw new RedisSetException();
-		return result;
-	}
+    @Override
+    public Long incr(String key, int expireTime) throws RedisSetException {
+        Long result = _jedisCluster.incr(key);
+        if (result == 1)
+            if (_jedisCluster.expire(key, expireTime) != 1)
+                throw new RedisSetException();
+        return result;
+    }
 
-	@Override
-	public void set(String key, String value) throws RedisSetException {
-		String result = _jedisCluster.set(key, value);
-		if (!result.equals("OK"))
-			throw new RedisSetException();
-	}
+    @Override
+    public void set(String key, String value) throws RedisSetException {
+        String result = _jedisCluster.set(key, value);
+        if (!result.equals("OK"))
+            throw new RedisSetException();
+    }
 
-	@Override
-	public void set(String key, String value, int expireTime) throws RedisSetException {
-		String result = _jedisCluster.setex(key, expireTime, value);
-		if (!result.equals("OK"))
-			throw new RedisSetException();
-	}
+    @Override
+    public void set(String key, String value, int expireTime) throws RedisSetException {
+        String result = _jedisCluster.setex(key, expireTime, value);
+        if (!result.equals("OK"))
+            throw new RedisSetException();
+    }
 
-	@Override
-	public void setObj(String key, Object value) throws RedisSetException {
-		String result = _jedisCluster.set(key.getBytes(), ProtostuffUtils.serialize(value));
-		if (!result.equals("OK"))
-			throw new RedisSetException();
-	}
+    @Override
+    public void setObj(String key, Object value) throws RedisSetException {
+        String result = _jedisCluster.set(key.getBytes(), ProtostuffUtils.serialize(value));
+        if (!result.equals("OK"))
+            throw new RedisSetException();
+    }
 
-	@Override
-	public void setObj(String key, Object value, int expireTime) throws RedisSetException {
-		String result = _jedisCluster.setex(key.getBytes(), expireTime, ProtostuffUtils.serialize(value));
-		if (!result.equals("OK"))
-			throw new RedisSetException();
-	}
+    @Override
+    public void setObj(String key, Object value, int expireTime) throws RedisSetException {
+        String result = _jedisCluster.setex(key.getBytes(), expireTime, ProtostuffUtils.serialize(value));
+        if (!result.equals("OK"))
+            throw new RedisSetException();
+    }
 
-	@Override
-	public String get(String key) {
-		String result = _jedisCluster.get(key);
-		return result == null || result == "" || result == "nil" ? null : result;
-	}
+    @Override
+    public String get(String key) {
+        String result = _jedisCluster.get(key);
+        return result == null || result == "" || result == "nil" ? null : result;
+    }
 
-	@Override
-	public Long getLong(String key) throws ClassCastException{
-		String result = _jedisCluster.get(key);
-		if(result == null || result == "" || result == "nil") {
-			return null;
-		}
-		result = result.replaceAll("\"", "");
-		Long longResult = Long.parseLong(result);
-		return longResult;
-	}
+    @Override
+    public Long getLong(String key) throws ClassCastException {
+        String result = _jedisCluster.get(key);
+        if (result == null || result == "" || result == "nil") {
+            return null;
+        }
+        result = result.replaceAll("\"", "");
+        Long longResult = Long.parseLong(result);
+        return longResult;
+    }
 
-	@Override
-	public byte[] get(byte[] key) {
-		return _jedisCluster.get(key);
-	}
+    @Override
+    public byte[] get(byte[] key) {
+        return _jedisCluster.get(key);
+    }
 
-	@Override
-	public String get(String key, int expireTime) {
-		String result = _jedisCluster.get(key);
-		if (result != "" || result != "nil" || _jedisCluster.expire(key, expireTime) == 1) {
-			return result;
-		} else {
-			return null;
-		}
-	}
+    @Override
+    public String get(String key, int expireTime) {
+        String result = _jedisCluster.get(key);
+        if (result != "" || result != "nil" || _jedisCluster.expire(key, expireTime) == 1) {
+            return result;
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public Long getLong(String key, int expireTime) {
-		String result = _jedisCluster.get(key);
-		if (result == null || result == "" || result == "nil" || _jedisCluster.expire(key, expireTime) != 1) {
-			return null;
-		}
-		result = result.replaceAll("\"", "");
-		Long longResult = Long.parseLong(result);
-		return longResult;
-		
-	}
+    @Override
+    public Long getLong(String key, int expireTime) {
+        String result = _jedisCluster.get(key);
+        if (result == null || result == "" || result == "nil" || _jedisCluster.expire(key, expireTime) != 1) {
+            return null;
+        }
+        result = result.replaceAll("\"", "");
+        Long longResult = Long.parseLong(result);
+        return longResult;
 
-	@Override
-	public String pop(String key) {
-		String result = _jedisCluster.get(key);
-		if (result == null || result == "" || result == "nil" || _jedisCluster.del(key) == 0) {
-			return null;
-		} else {
-			return result;
-		}
-	}
+    }
 
-	@Override
-	public <T> T popObj(String key, Class<T> clazz) {
-		byte[] result = _jedisCluster.get(key.getBytes());
-		if (result == null || _jedisCluster.del(key) == 0) {
-			return null;
-		} else {
-			return ProtostuffUtils.deserialize(result, clazz);
-		}
-	}
+    @Override
+    public String pop(String key) {
+        String result = _jedisCluster.get(key);
+        if (result == null || result == "" || result == "nil" || _jedisCluster.del(key) == 0) {
+            return null;
+        } else {
+            return result;
+        }
+    }
 
-	@Override
-	public Long del(String key) {
-		return _jedisCluster.del(key);
-	}
+    @Override
+    public <T> T popObj(String key, Class<T> clazz) {
+        byte[] result = _jedisCluster.get(key.getBytes());
+        if (result == null || _jedisCluster.del(key) == 0) {
+            return null;
+        } else {
+            return ProtostuffUtils.deserialize(result, clazz);
+        }
+    }
 
-	@Override
-	public void delByWildcard(String key) {
-		Map<String, JedisPool> jedises = _jedisCluster.getClusterNodes();
-		for (JedisPool jedisPool : jedises.values()) {
-			Jedis jedis = jedisPool.getResource();
-			Set<String> keys = jedis.keys(key);
-			jedis.del(keys.toArray(new String[keys.size()]));
-		}
-	}
+    @Override
+    public Long del(String key) {
+        return _jedisCluster.del(key);
+    }
 
-	@Override
-	public Long sadd(String key, String... members) {
-		return _jedisCluster.sadd(key, members);
-	}
+    @Override
+    public void delByWildcard(String key) {
+        Map<String, JedisPool> jedises = _jedisCluster.getClusterNodes();
+        for (JedisPool jedisPool : jedises.values()) {
+            Jedis jedis = jedisPool.getResource();
+            Set<String> keys = jedis.keys(key);
+            jedis.del(keys.toArray(new String[keys.size()]));
+        }
+    }
 
-	@Override
-	public String srandmember(String key) {
-		return _jedisCluster.srandmember(key);
-	}
+    @Override
+    public Long sadd(String key, String... members) {
+        return _jedisCluster.sadd(key, members);
+    }
 
-	@Override
-	public Long publish(final String channel, final String message) {
-		return _jedisCluster.publish(channel, message);
-	}
+    @Override
+    public String srandmember(String key) {
+        return _jedisCluster.srandmember(key);
+    }
 
-	@Override
-	public Long publish(final String channel, final Object message) {
-		return _jedisCluster.publish(channel.getBytes(), ProtostuffUtils.serialize(message));
-	}
+    @Override
+    public Long publish(final String channel, final String message) {
+        return _jedisCluster.publish(channel, message);
+    }
 
-	@Override
-	public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
-		_jedisCluster.subscribe(jedisPubSub, channels);
-	}
+    @Override
+    public Long publish(final String channel, final Object message) {
+        return _jedisCluster.publish(channel.getBytes(), ProtostuffUtils.serialize(message));
+    }
 
-	@Override
-	public void subscribe(final BinaryJedisPubSub jedisPubSub, final String... channels) {
-		byte[][] bytesArray = new byte[channels.length][];
-		for (int i = 0; i < bytesArray.length; i++) {
-			bytesArray[i] = channels[i].getBytes();
-		}
-		_jedisCluster.subscribe(jedisPubSub, bytesArray);
-	}
+    @Override
+    public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
+        _jedisCluster.subscribe(jedisPubSub, channels);
+    }
 
-	@Override
-	public void subscribeByPatterns(final JedisPubSub jedisPubSub, final String... patterns) {
-		_jedisCluster.psubscribe(jedisPubSub, patterns);
-	}
+    @Override
+    public void subscribe(final BinaryJedisPubSub jedisPubSub, final String... channels) {
+        byte[][] bytesArray = new byte[channels.length][];
+        for (int i = 0; i < bytesArray.length; i++) {
+            bytesArray[i] = channels[i].getBytes();
+        }
+        _jedisCluster.subscribe(jedisPubSub, bytesArray);
+    }
 
-	@Override
-	public void subscribeByPatterns(final BinaryJedisPubSub jedisPubSub, final String... patterns) {
-		byte[][] bytesArray = new byte[patterns.length][];
-		for (int i = 0; i < bytesArray.length; i++) {
-			bytesArray[i] = patterns[i].getBytes();
-		}
-		_jedisCluster.psubscribe(jedisPubSub, bytesArray);
-	}
+    @Override
+    public void subscribeByPatterns(final JedisPubSub jedisPubSub, final String... patterns) {
+        _jedisCluster.psubscribe(jedisPubSub, patterns);
+    }
+
+    @Override
+    public void subscribeByPatterns(final BinaryJedisPubSub jedisPubSub, final String... patterns) {
+        byte[][] bytesArray = new byte[patterns.length][];
+        for (int i = 0; i < bytesArray.length; i++) {
+            bytesArray[i] = patterns[i].getBytes();
+        }
+        _jedisCluster.psubscribe(jedisPubSub, bytesArray);
+    }
 }
