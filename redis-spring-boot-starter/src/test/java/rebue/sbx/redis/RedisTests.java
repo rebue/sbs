@@ -1,6 +1,8 @@
 package rebue.sbx.redis;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
@@ -22,7 +24,7 @@ public class RedisTests {
     @Resource
     private RedisClient redisClient;
 
-    @Test
+//    @Test
     public void test01() throws RedisSetException {
         Assert.assertFalse(redisClient.exists("123"));
         Assert.assertFalse(redisClient.exists("123".getBytes()));
@@ -61,7 +63,7 @@ public class RedisTests {
     /**
      * 测试超时
      */
-    @Test
+//    @Test
     public void test02() throws InterruptedException, RedisSetException {
         // String
         redisClient.set("123", "abc", 3);
@@ -95,7 +97,7 @@ public class RedisTests {
     /**
      * 测试pop
      */
-    @Test
+//    @Test
     public void test03() throws RedisSetException {
         // String
         Assert.assertNull(redisClient.get("123"));
@@ -115,6 +117,17 @@ public class RedisTests {
         Assert.assertEquals(student.getAge(), (short) 28);
         Assert.assertEquals(student.getBirthday(), now);
         Assert.assertNull(redisClient.getObj("123", Student.class));
+    }
+
+    // 测试模糊查询
+    @Test
+    public void test04() {
+        // String
+        Map<String, String> listByWildcard = redisClient.listByWildcard("rebue.suc.svc.user.buy_relation.*");
+        System.out.println("模糊查询");
+        for (Entry<String, String> item : listByWildcard.entrySet()) {
+            System.out.println(item.getKey() + ":" + item.getValue());
+        }
     }
 
 }

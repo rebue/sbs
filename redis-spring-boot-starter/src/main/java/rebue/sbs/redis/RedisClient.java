@@ -1,5 +1,7 @@
 package rebue.sbs.redis;
 
+import java.util.Map;
+
 import rebue.wheel.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.JedisPubSub;
@@ -125,7 +127,7 @@ public interface RedisClient {
      * @return 如果找不到key，返回null
      */
     String get(String key);
-    
+
     /**
      * 获取long类型的key的值
      * 
@@ -149,7 +151,7 @@ public interface RedisClient {
      * @return 如果找不到key，返回null
      */
     String get(String key, int expireTime);
-    
+
     /**
      * 获取Long类型的key值，如果找到了，重新延长此key的缓存时间多少秒
      * 
@@ -170,6 +172,15 @@ public interface RedisClient {
         byte[] result = get(key.getBytes());
         return result == null ? null : ProtostuffUtils.deserialize(result, clazz);
     }
+
+    /**
+     * 模糊查询
+     * 
+     * @param key
+     *            模糊查询，可以用*和?作通配符
+     * @return 如果找不到key，返回列表大小为0
+     */
+    Map<String, String> listByWildcard(String key);
 
     /**
      * 获取并删除key的值

@@ -1,5 +1,8 @@
 package rebue.sbs.redis;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -10,6 +13,8 @@ import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public class JedisPoolClient implements RedisClient {
@@ -189,6 +194,33 @@ public class JedisPoolClient implements RedisClient {
             result = result.replaceAll("\"", "");
             Long longResult = Long.parseLong(result);
             return longResult;
+        } catch (JedisConnectionException e) {
+            _logger.error("\n连接Redis服务器异常", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public Map<String, String> listByWildcard(String key) {
+        try (Jedis jedis = getJedis()) {
+            Map<String, String> result = new LinkedHashMap<>();
+            Long cursor = 0L;
+            ScanParams scanParams = new ScanParams();
+            scanParams.match(key);
+            while (true) {
+                ScanResult<String> scanResult = jedis.scan(cursor.toString(), scanParams);
+                String stringCursor = scanResult.getStringCursor();
+                _logger.trace("获取当前光标: {}", stringCursor);
+                cursor = Long.valueOf(stringCursor);
+                if (cursor == 0)
+                    break;
+                List<String> keys = scanResult.getResult();
+                // 遍历key
+                for (String item : keys) {
+                    result.put(item, get(item));
+                }
+            }
+            return result;
         } catch (JedisConnectionException e) {
             _logger.error("\n连接Redis服务器异常", e);
             throw e;

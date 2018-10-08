@@ -1,5 +1,7 @@
 package rebue.sbs.redis;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,6 +11,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
 public class JedisClusterClient implements RedisClient {
 
@@ -120,6 +124,31 @@ public class JedisClusterClient implements RedisClient {
     }
 
     @Override
+    public Map<String, String> listByWildcard(String key) {
+        Map<String, JedisPool> jedises = _jedisCluster.getClusterNodes();
+        Map<String, String> result = new LinkedHashMap<>();
+        for (JedisPool jedisPool : jedises.values()) {
+            Jedis jedis = jedisPool.getResource();
+            Long cursor = 0L;
+            ScanParams scanParams = new ScanParams();
+            scanParams.match(key);
+            while (true) {
+                ScanResult<String> scanResult = jedis.scan(cursor.toString(), scanParams);
+                String stringCursor = scanResult.getStringCursor();
+                cursor = Long.valueOf(stringCursor);
+                if (cursor == 0)
+                    break;
+                List<String> keys = scanResult.getResult();
+                // 遍历key
+                for (String item : keys) {
+                    result.put(item, get(item));
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
     public String pop(String key) {
         String result = _jedisCluster.get(key);
         if (result == null || result == "" || result == "nil" || _jedisCluster.del(key) == 0) {
@@ -201,4 +230,5 @@ public class JedisClusterClient implements RedisClient {
         }
         _jedisCluster.psubscribe(jedisPubSub, bytesArray);
     }
+
 }
