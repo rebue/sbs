@@ -1,6 +1,7 @@
 package rebue.sbx.redis;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -47,9 +48,9 @@ public class RedisTests {
 
         // Object
         Assert.assertNull(redisClient.getObj("123", Student.class));
-        Date now = new Date();
+        final Date now = new Date();
         redisClient.setObj("123", new Student(1L, "N001", "张三", (short) 28, now));
-        Student student = redisClient.getObj("123", Student.class);
+        final Student student = redisClient.getObj("123", Student.class);
         Assert.assertNotNull(student);
         Assert.assertEquals(1L, student.getId().longValue());
         Assert.assertEquals("N001", student.getNum());
@@ -72,7 +73,7 @@ public class RedisTests {
         Assert.assertNull(redisClient.get("123"));
 
         // Object
-        Date now = new Date();
+        final Date now = new Date();
         redisClient.setObj("123", new Student(1L, "N001", "张三", (short) 28, now), 3);
         Student student = redisClient.getObj("123", Student.class);
         Assert.assertNotNull(student);
@@ -107,9 +108,9 @@ public class RedisTests {
 
         // Object
         Assert.assertNull(redisClient.getObj("123", Student.class));
-        Date now = new Date();
+        final Date now = new Date();
         redisClient.setObj("123", new Student(1L, "N001", "张三", (short) 28, now));
-        Student student = redisClient.popObj("123", Student.class);
+        final Student student = redisClient.popObj("123", Student.class);
         Assert.assertNotNull(student);
         Assert.assertEquals(student.getId().longValue(), 1L);
         Assert.assertEquals(student.getNum(), "N001");
@@ -120,14 +121,29 @@ public class RedisTests {
     }
 
     // 测试模糊查询
-    @Test
+//    @Test
     public void test04() {
         // String
-        Map<String, String> listByWildcard = redisClient.listByWildcard("rebue.suc.svc.user.buy_relation.*");
+        final Map<String, String> listByWildcard = redisClient.listByWildcard("rebue.suc.svc.user.buy_relation.*");
         System.out.println("模糊查询");
-        for (Entry<String, String> item : listByWildcard.entrySet()) {
+        for (final Entry<String, String> item : listByWildcard.entrySet()) {
             System.out.println(item.getKey() + ":" + item.getValue());
         }
+    }
+
+    // 测试缓存Map类的对象
+    @Test
+    public void test05() throws RedisSetException {
+        final Date now = new Date();
+        final Map<String, Object> map1 = new LinkedHashMap<>();
+        map1.put("a", "a");
+        map1.put("b", 1);
+        map1.put("c", true);
+        map1.put("d", now);
+        redisClient.setObj("test", map1, 10);
+        @SuppressWarnings("unchecked")
+        final Map<String, Object> map2 = redisClient.getObj("test", Map.class);
+        Assert.assertEquals(map1, map2);
     }
 
 }

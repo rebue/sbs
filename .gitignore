@@ -6,3 +6,4 @@ logs
 pom.xml.versionsBackup
 .DS_Store
 .factorypath
+rebel.xml
