@@ -35,7 +35,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.dozermapper</groupId>
-			<artifactId>dozer-spring</artifactId>
+			<artifactId>dozer-spring4</artifactId>
 		</dependency>
 	</dependencies>
 </project>

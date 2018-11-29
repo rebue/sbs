@@ -1,6 +1,6 @@
 package rebue.sbs.dozer.converter;
 
-import org.dozer.CustomConverter;
+import com.github.dozermapper.core.CustomConverter;
 
 import rebue.wheel.idworker.IdWorker3Helper;
 
@@ -13,8 +13,7 @@ import rebue.wheel.idworker.IdWorker3Helper;
 public class IdGenConverter implements CustomConverter {
 
     @Override
-    public Object convert(Object existingDestinationFieldValue, Object sourceFieldValue, Class<?> destinationClass,
-            Class<?> sourceClass) {
+    public Object convert(final Object existingDestinationFieldValue, final Object sourceFieldValue, final Class<?> destinationClass, final Class<?> sourceClass) {
         return IdWorker3Helper.getId();
     }
 

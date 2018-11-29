@@ -1,5 +1,7 @@
 package rebue.sbs.dozer.conf;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +17,7 @@ public class DozerConfig {
 //    private Resource[] mappingFiles;
 
     @Bean
-    public DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean(
-            @Value("classpath*:conf/dozer/*.xml") Resource[] resources) {
+    public DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean(@Value("classpath*:conf/dozer/*.xml") final Resource[] resources) throws IOException {
         final DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean = new DozerBeanMapperFactoryBean();
         // Other configurations
         dozerBeanMapperFactoryBean.setMappingFiles(resources);
