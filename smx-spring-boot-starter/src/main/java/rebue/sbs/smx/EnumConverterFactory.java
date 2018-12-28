@@ -61,7 +61,7 @@ public class EnumConverterFactory implements ConverterFactory<String, EnumBase> 
             _log.info("将枚举类型的所有项放入map中：enumType={}", enumType.getName());
             final T[] enums = enumType.getEnumConstants();
             for (final T enu : enums) {
-                _log.info("{}:{}", enu.getCode(), enu.getClass().getName());
+                _log.info("{}:{}", enu.getCode(), enu.getName());
                 enumMap.put(enu.getCode() + "", enu);
             }
         }
