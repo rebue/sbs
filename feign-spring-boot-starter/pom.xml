@@ -12,6 +12,11 @@
 	<artifactId>feign-spring-boot-starter</artifactId>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-core</artifactId>
+		</dependency>
+		
 		<!-- 使用Apache HttpClient替换Feign原生httpclient -->
 		<!-- feign-httpclient内含Apache HttpClient -->
 		<dependency>
@@ -24,7 +29,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
