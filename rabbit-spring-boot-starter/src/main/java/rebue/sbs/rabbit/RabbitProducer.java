@@ -17,21 +17,21 @@ import com.rabbitmq.client.MessageProperties;
 import rebue.wheel.protostuff.ProtostuffUtils;
 
 public class RabbitProducer {
-    private final static Logger        _log = LoggerFactory.getLogger(ConnectionFactory.class);
+    private final static Logger              _log = LoggerFactory.getLogger(ConnectionFactory.class);
 
-    private GenericObjectPool<Channel> _channelPool;
+    private final GenericObjectPool<Channel> _channelPool;
 
     /**
      * 默认发送消息超时判断的毫秒数(默认为10000毫秒)
      */
-    private Long                       _defaultSendTimeoutMs;
+    private final Long                       _defaultSendTimeoutMs;
 
-    public RabbitProducer(RabbitProperties properties) throws IOException, TimeoutException {
+    public RabbitProducer(final RabbitProperties properties) throws IOException, TimeoutException {
         // 获取连接
-        Connection connection = RabbitConnectionFactory.newConnection(properties);
+        final Connection connection = RabbitConnectionFactory.newConnection(properties);
 
         // Channel池配置
-        GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+        final GenericObjectPoolConfig<Channel> config = new GenericObjectPoolConfig<>();
         // 配置Channel池保持最小空闲对象的数量
         config.setMinIdle(Runtime.getRuntime().availableProcessors());
         // 配置Channel池保持最大对象的数量
@@ -40,7 +40,7 @@ public class RabbitProducer {
         _defaultSendTimeoutMs = properties.getDefaultSendTimeoutMs();
 
         // 创建Channel工厂
-        RabbitPooledProducerChannelFactory factory = new RabbitPooledProducerChannelFactory(connection);
+        final RabbitPooledProducerChannelFactory factory = new RabbitPooledProducerChannelFactory(connection);
         _channelPool = new GenericObjectPool<>(factory, config);
 
     }
@@ -48,10 +48,10 @@ public class RabbitProducer {
     /**
      * 声明Exchange
      */
-    public void declareExchange(String exchangeName) throws Exception {
+    public void declareExchange(final String exchangeName) throws Exception {
         _log.info("RabbitMQ声明Exchange: {}", exchangeName);
         // 初始化exchange
-        Channel channel = _channelPool.borrowObject();
+        final Channel channel = _channelPool.borrowObject();
         try {
             // 声明Exchange
             channel.exchangeDeclare(exchangeName, BuiltinExchangeType.FANOUT, true);
@@ -69,7 +69,7 @@ public class RabbitProducer {
      * @param msg
      *            要发送的消息
      */
-    public void send(String exchangeName, Object msg) {
+    public void send(final String exchangeName, final Object msg) {
         send(exchangeName, ProtostuffUtils.serialize(msg), _defaultSendTimeoutMs);
     }
 
@@ -83,28 +83,29 @@ public class RabbitProducer {
      * @param timeoutMs
      *            判断超时的毫秒数(如果为0则永远不超时)
      */
-    public void send(String exchangeName, Object msg, Long timeoutMs) {
+    public void send(final String exchangeName, final Object msg, final Long timeoutMs) {
         send(exchangeName, ProtostuffUtils.serialize(msg), timeoutMs);
     }
 
-    private void send(String exchangeName, byte[] msg, Long timeoutMs) {
+    private void send(final String exchangeName, final byte[] msg, final Long timeoutMs) {
         _log.info("生产者发送消息: {} - {} - 超时: {}", exchangeName, new String(msg), timeoutMs);
         Channel channel = null;
         try {
             channel = _channelPool.borrowObject();
             channel.basicPublish(exchangeName, "", true, MessageProperties.PERSISTENT_BASIC, msg);
             if (!channel.waitForConfirms(timeoutMs)) {
-                String errorMsg = ("生产者发送消息不成功");
+                final String errorMsg = ("生产者发送消息不成功");
                 _log.error("{}: {} - {}", errorMsg, exchangeName, new String(msg));
                 throw new RuntimeException(errorMsg);
             }
             _log.info("生产者发送消息成功: {} - {}", exchangeName, new String(msg));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             _log.error("生产者发送消息出现异常", e);
             throw new RuntimeException(e);
         } finally {
-            if (channel != null)
+            if (channel != null) {
                 _channelPool.returnObject(channel);// 有借有还，再借不难
+            }
         }
     }
 
