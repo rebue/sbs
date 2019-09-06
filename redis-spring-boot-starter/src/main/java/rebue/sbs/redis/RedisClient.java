@@ -47,7 +47,7 @@ public interface RedisClient {
      * @return
      */
     default Boolean isOnce(final String key, final Integer seconds) {
-        Long count = incr(key);
+        final Long count = incr(key);
         if (count == 1) {
             expire(key, seconds);
             return true;
@@ -168,8 +168,8 @@ public interface RedisClient {
      *            指定要反序列的对象的类
      * @return 如果找不到key，返回null
      */
-    default <T> T getObj(String key, Class<T> clazz) {
-        byte[] result = get(key.getBytes());
+    default <T> T getObj(final String key, final Class<T> clazz) {
+        final byte[] result = get(key.getBytes());
         return result == null ? null : ProtostuffUtils.deserialize(result, clazz);
     }
 
@@ -178,9 +178,22 @@ public interface RedisClient {
      * 
      * @param key
      *            模糊查询，可以用*和?作通配符
+     * @param clazz
+     *            Value的类
      * @return 如果找不到key，返回列表大小为0
      */
-    Map<String, String> listByWildcard(String key);
+    <T> Map<String, T> listByWildcard(String key, Class<T> clazz);
+
+    /**
+     * 模糊查询
+     * 
+     * @param key
+     *            模糊查询，可以用*和?作通配符
+     * @return 如果找不到key，返回列表大小为0
+     */
+    default Map<String, String> listByWildcard(final String key) {
+        return listByWildcard(key, String.class);
+    }
 
     /**
      * 获取并删除key的值

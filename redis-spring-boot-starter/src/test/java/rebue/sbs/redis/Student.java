@@ -1,4 +1,4 @@
-package rebue.sbx.redis;
+package rebue.sbs.redis;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,28 +1,22 @@
 package rebue.sbs.redis;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
-import redis.clients.jedis.ScanParams;
-import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
+@Slf4j
 public class JedisPoolClient implements RedisClient {
-    private static Logger _logger = LoggerFactory.getLogger(JedisPoolClient.class);
+    private final JedisPool _jedisPool;
 
-    private JedisPool     _jedisPool;
-
-    public JedisPoolClient(JedisPool jedisPool) {
+    public JedisPoolClient(final JedisPool jedisPool) {
         _jedisPool = jedisPool;
     }
 
@@ -31,269 +25,264 @@ public class JedisPoolClient implements RedisClient {
     }
 
     @Override
-    public Boolean expire(String key, int seconds) {
+    public Boolean expire(final String key, final int seconds) {
         try (Jedis jedis = getJedis()) {
             return jedis.expire(key, seconds) == 1 ? true : false;
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Boolean exists(String key) {
+    public Boolean exists(final String key) {
         try (Jedis jedis = getJedis()) {
             return jedis.exists(key);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Boolean exists(byte[] key) {
+    public Boolean exists(final byte[] key) {
         try (Jedis jedis = getJedis()) {
             return jedis.exists(key);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Long incr(String key) {
+    public Long incr(final String key) {
         try (Jedis jedis = getJedis()) {
             return jedis.incr(key);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Long incr(String key, int expireTime) throws RedisSetException {
+    public Long incr(final String key, final int expireTime) {
         try (Jedis jedis = getJedis()) {
-            Long result = jedis.incr(key);
-            if (result == 1)
-                if (jedis.expire(key, expireTime) != 1)
+            final Long result = jedis.incr(key);
+            if (result == 1) {
+                if (jedis.expire(key, expireTime) != 1) {
                     throw new RedisSetException();
+                }
+            }
             return result;
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public void set(String key, String value) throws RedisSetException {
+    public void set(final String key, final String value) {
         try (Jedis jedis = getJedis()) {
-            String result = jedis.set(key, value);
-            if (!result.equals("OK"))
+            final String result = jedis.set(key, value);
+            if (!result.equals("OK")) {
                 throw new RedisSetException();
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+            }
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public void set(String key, String value, int expireTime) throws RedisSetException {
+    public void set(final String key, final String value, final int expireTime) {
         try (Jedis jedis = getJedis()) {
-            String result = jedis.setex(key, expireTime, value);
-            if (!result.equals("OK"))
+            final String result = jedis.setex(key, expireTime, value);
+            if (!result.equals("OK")) {
                 throw new RedisSetException();
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+            }
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public void setObj(String key, Object value) throws RedisSetException {
+    public void setObj(final String key, final Object value) {
         try (Jedis jedis = getJedis()) {
-            String result = jedis.set(key.getBytes(), ProtostuffUtils.serialize(value));
-            if (!result.equals("OK"))
+            final String result = jedis.set(key.getBytes(), ProtostuffUtils.serialize(value));
+            if (!result.equals("OK")) {
                 throw new RedisSetException();
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+            }
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public void setObj(String key, Object value, int expireTime) throws RedisSetException {
+    public void setObj(final String key, final Object value, final int expireTime) {
         try (Jedis jedis = getJedis()) {
-            String result = jedis.setex(key.getBytes(), expireTime, ProtostuffUtils.serialize(value));
-            if (!result.equals("OK"))
+            final String result = jedis.setex(key.getBytes(), expireTime, ProtostuffUtils.serialize(value));
+            if (!result.equals("OK")) {
                 throw new RedisSetException();
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+            }
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public String get(String key) {
+    public String get(final String key) {
         try (Jedis jedis = getJedis()) {
-            String result = jedis.get(key);
+            final String result = jedis.get(key);
             return result == null || result == "" || result == "nil" ? null : result;
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Long getLong(String key) {
+    public Long getLong(final String key) {
         try (Jedis jedis = getJedis()) {
             String result = jedis.get(key);
             if (result == null || result == "" || result == "nil") {
                 return null;
             }
             result = result.replaceAll("\"", "");
-            Long longResult = Long.parseLong(result);
+            final Long longResult = Long.parseLong(result);
             return longResult;
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public byte[] get(byte[] key) {
+    public byte[] get(final byte[] key) {
         try (Jedis jedis = getJedis()) {
             return jedis.get(key);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public String get(String key, int expireTime) {
+    public String get(final String key, final int expireTime) {
         try (Jedis jedis = getJedis()) {
-            String result = jedis.get(key);
+            final String result = jedis.get(key);
             if (result != "nil" && jedis.expire(key, expireTime) == 1) {
                 return result;
             } else {
                 return null;
             }
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Long getLong(String key, int expireTime) {
+    public Long getLong(final String key, final int expireTime) {
         try (Jedis jedis = getJedis()) {
             String result = jedis.get(key);
             if (result == null || result == "" || result == "nil" || jedis.expire(key, expireTime) != 1) {
                 return null;
             }
             result = result.replaceAll("\"", "");
-            Long longResult = Long.parseLong(result);
+            final Long longResult = Long.parseLong(result);
             return longResult;
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, String> listByWildcard(String key) {
+    public <T> Map<String, T> listByWildcard(final String key, final Class<T> clazz) {
+        final Map<String, T> result = new LinkedHashMap<>();
         try (Jedis jedis = getJedis()) {
-            Map<String, String> result = new LinkedHashMap<>();
-            Long cursor = 0L;
-            ScanParams scanParams = new ScanParams();
-            scanParams.match(key);
-            while (true) {
-                ScanResult<String> scanResult = jedis.scan(cursor.toString(), scanParams);
-                String stringCursor = scanResult.getStringCursor();
-                _logger.trace("获取当前光标: {}", stringCursor);
-                cursor = Long.valueOf(stringCursor);
-                if (cursor == 0)
-                    break;
-                List<String> keys = scanResult.getResult();
-                // 遍历key
-                for (String item : keys) {
-                    result.put(item, get(item));
+            for (final String item : jedis.keys(key)) {
+                if ("java.lang.String".equals(clazz.getName())) {
+                    result.put(item, (T) get(item));
+                } else {
+                    result.put(item, getObj(item, clazz));
                 }
             }
             return result;
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
-            throw e;
         }
     }
 
     @Override
-    public String pop(String key) {
+    public String pop(final String key) {
         try (Jedis jedis = getJedis()) {
-            String result = jedis.get(key);
+            final String result = jedis.get(key);
             if (result == null || jedis.del(key) == 0) {
                 return null;
             } else {
                 return result;
             }
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public <T> T popObj(String key, Class<T> clazz) {
+    public <T> T popObj(final String key, final Class<T> clazz) {
         try (Jedis jedis = getJedis()) {
-            byte[] result = jedis.get(key.getBytes());
+            final byte[] result = jedis.get(key.getBytes());
             if (result == null || jedis.del(key) == 0) {
                 return null;
             } else {
                 return ProtostuffUtils.deserialize(result, clazz);
             }
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Long del(String key) {
+    public Long del(final String key) {
         try (Jedis jedis = getJedis()) {
             return jedis.del(key);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public void delByWildcard(String key) {
+    public void delByWildcard(final String key) {
         try (Jedis jedis = getJedis()) {
-            Set<String> keys = jedis.keys(key);
+            final Set<String> keys = jedis.keys(key);
             jedis.del(keys.toArray(new String[keys.size()]));
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Long sadd(String key, String... members) {
+    public Long sadd(final String key, final String... members) {
         try (Jedis jedis = getJedis()) {
             return jedis.sadd(key, members);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public String srandmember(String key) {
+    public String srandmember(final String key) {
         try (Jedis jedis = getJedis()) {
             return jedis.srandmember(key);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
@@ -302,18 +291,18 @@ public class JedisPoolClient implements RedisClient {
     public Long publish(final String channel, final String message) {
         try (Jedis jedis = getJedis()) {
             return jedis.publish(channel, message);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
-    public Long publish(String channel, Object message) {
+    public Long publish(final String channel, final Object message) {
         try (Jedis jedis = getJedis()) {
             return jedis.publish(channel.getBytes(), ProtostuffUtils.serialize(message));
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
@@ -322,23 +311,23 @@ public class JedisPoolClient implements RedisClient {
     public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
         try (Jedis jedis = getJedis()) {
             jedis.subscribe(jedisPubSub, channels);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
     public void subscribe(final BinaryJedisPubSub jedisPubSub, final String... channels) {
-        byte[][] bytesArray = new byte[channels.length][];
+        final byte[][] bytesArray = new byte[channels.length][];
         for (int i = 0; i < bytesArray.length; i++) {
             bytesArray[i] = channels[i].getBytes();
         }
 
         try (Jedis jedis = getJedis()) {
             jedis.subscribe(jedisPubSub, bytesArray);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
@@ -347,23 +336,23 @@ public class JedisPoolClient implements RedisClient {
     public void subscribeByPatterns(final JedisPubSub jedisPubSub, final String... patterns) {
         try (Jedis jedis = getJedis()) {
             jedis.psubscribe(jedisPubSub, patterns);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
 
     @Override
     public void subscribeByPatterns(final BinaryJedisPubSub jedisPubSub, final String... patterns) {
-        byte[][] bytesArray = new byte[patterns.length][];
+        final byte[][] bytesArray = new byte[patterns.length][];
         for (int i = 0; i < bytesArray.length; i++) {
             bytesArray[i] = patterns[i].getBytes();
         }
 
         try (Jedis jedis = getJedis()) {
             jedis.psubscribe(jedisPubSub, bytesArray);
-        } catch (JedisConnectionException e) {
-            _logger.error("\n连接Redis服务器异常", e);
+        } catch (final JedisConnectionException e) {
+            log.error("\n连接Redis服务器异常", e);
             throw e;
         }
     }
