@@ -9,26 +9,26 @@ spring:
     # (创建实例时)是否验证
     test-on-borrow: false
     # 集群类型 (Single,RedisCluster)
-#    cluster-type: Single
-#    # Single类型需要配置连接Redis的host和port
-#    host: 127.0.0.1
-#    port: 6379
-    # 集群类型 (Single,RedisCluster)
-    cluster-type: RedisCluster
-    # 集群类型需要配置服务器的节点
-    cluster-nodes: 
-      - 192.168.1.201:7000
-      - 192.168.1.201:7001
-      - 192.168.1.201:7002
-      - 192.168.1.201:7003
-      - 192.168.1.201:7004
-      - 192.168.1.201:7005
-    # 集群类型需要配置连接超时
-    connection-timeout: 5000
-    # 集群类型需要配置返回值的超时时间
-    soTimeout: 5000
-    # 集群类型需要配置出现异常最大重试次数
-    max-attempts: 5
+    cluster-type: Single
+    # Single类型需要配置连接Redis的host和port
+    host: 127.0.0.1
+    port: 6379
+#    # 集群类型 (Single,RedisCluster)
+#    cluster-type: RedisCluster
+#    # 集群类型需要配置服务器的节点
+#    cluster-nodes: 
+#      - 192.168.1.201:7000
+#      - 192.168.1.201:7001
+#      - 192.168.1.201:7002
+#      - 192.168.1.201:7003
+#      - 192.168.1.201:7004
+#      - 192.168.1.201:7005
+#    # 集群类型需要配置连接超时
+#    connection-timeout: 5000
+#    # 集群类型需要配置返回值的超时时间
+#    soTimeout: 5000
+#    # 集群类型需要配置出现异常最大重试次数
+#    max-attempts: 5
 
 logging:
   level:

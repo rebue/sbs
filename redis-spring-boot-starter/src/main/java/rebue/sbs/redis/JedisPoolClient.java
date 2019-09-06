@@ -1,7 +1,7 @@
 package rebue.sbs.redis;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
@@ -202,14 +202,14 @@ public class JedisPoolClient implements RedisClient {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> Map<String, T> listByWildcard(final String key, final Class<T> clazz) {
-        final Map<String, T> result = new LinkedHashMap<>();
+    public <T> List<T> listByWildcard(final String key, final Class<T> clazz) {
+        final List<T> result = new LinkedList<>();
         try (Jedis jedis = getJedis()) {
             for (final String item : jedis.keys(key)) {
                 if ("java.lang.String".equals(clazz.getName())) {
-                    result.put(item, (T) get(item));
+                    result.add((T) get(item));
                 } else {
-                    result.put(item, getObj(item, clazz));
+                    result.add(getObj(item, clazz));
                 }
             }
             return result;

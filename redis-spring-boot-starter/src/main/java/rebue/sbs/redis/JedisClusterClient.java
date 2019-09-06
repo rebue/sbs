@@ -1,6 +1,7 @@
 package rebue.sbs.redis;
 
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -128,16 +129,16 @@ public class JedisClusterClient implements RedisClient {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> Map<String, T> listByWildcard(final String key, final Class<T> clazz) {
-        final Map<String, T> result = new LinkedHashMap<>();
+    public <T> List<T> listByWildcard(final String key, final Class<T> clazz) {
+        final List<T> result = new LinkedList<>();
         final Map<String, JedisPool> jedises = _jedisCluster.getClusterNodes();
         for (final JedisPool jedisPool : jedises.values()) {
             final Jedis jedis = jedisPool.getResource();
             for (final String item : jedis.keys(key)) {
                 if ("java.lang.String".equals(clazz.getName())) {
-                    result.put(item, (T) get(item));
+                    result.add((T) get(item));
                 } else {
-                    result.put(item, getObj(item, clazz));
+                    result.add(getObj(item, clazz));
                 }
             }
         }

@@ -1,6 +1,6 @@
 package rebue.sbs.redis;
 
-import java.util.Map;
+import java.util.List;
 
 import rebue.wheel.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
@@ -182,7 +182,7 @@ public interface RedisClient {
      *            Value的类
      * @return 如果找不到key，返回列表大小为0
      */
-    <T> Map<String, T> listByWildcard(String key, Class<T> clazz);
+    <T> List<T> listByWildcard(String key, Class<T> clazz);
 
     /**
      * 模糊查询
@@ -191,7 +191,7 @@ public interface RedisClient {
      *            模糊查询，可以用*和?作通配符
      * @return 如果找不到key，返回列表大小为0
      */
-    default Map<String, String> listByWildcard(final String key) {
+    default List<String> listByWildcard(final String key) {
         return listByWildcard(key, String.class);
     }
 

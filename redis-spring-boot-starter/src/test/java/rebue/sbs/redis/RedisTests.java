@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
@@ -143,9 +143,9 @@ public class RedisTests {
         redisClient.setObj(REDIS_KEY_TEST_PREFIX + "128", new Student(6L, "N006", "孙八", (short) 24, new Date()), 3);
 
         // String
-        final Map<String, Student> listByWildcard = redisClient.listByWildcard(REDIS_KEY_TEST_PREFIX + "*", Student.class);
-        for (final Entry<String, Student> item : listByWildcard.entrySet()) {
-            log.info(item.getKey() + ":" + item.getValue());
+        final List<Student> listByWildcard = redisClient.listByWildcard(REDIS_KEY_TEST_PREFIX + "*", Student.class);
+        for (final Student student : listByWildcard) {
+            log.info(student.toString());
         }
     }
 
