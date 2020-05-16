@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.github.rebue.sbs</groupId>
 		<artifactId>sbs</artifactId>
-		<version>1.1.0</version>
+		<version>1.2.0</version>
 	</parent>
 
 	<artifactId>dozer-spring-boot-starter</artifactId>

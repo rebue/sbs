@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.rebue.common-pom</groupId>
 		<artifactId>sb-dependencies</artifactId>
-		<version>1.1.0</version>
+		<version>1.2.0</version>
 	</parent>
 
 	<groupId>com.github.rebue.sbs</groupId>
@@ -27,35 +27,35 @@
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>feign-spring-boot-starter</artifactId>
-				<version>1.1.0</version>
+				<version>1.2.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>redis-spring-boot-starter</artifactId>
-				<version>1.1.0</version>
+				<version>1.2.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>dozer-spring-boot-starter</artifactId>
-				<version>1.1.0</version>
+				<version>1.2.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>rabbit-spring-boot-starter</artifactId>
-				<version>1.1.0</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>smx-spring-boot-starter</artifactId>
-				<version>1.1.0</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>es-spring-boot-starter</artifactId>
-				<version>1.1.0</version>
+				<version>1.2.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
