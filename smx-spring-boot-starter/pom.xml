@@ -54,5 +54,15 @@
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
 		</dependency>
 
+		<!-- 如果不加入此项，springboot启动会报错 -->
+		<!-- The Bean Validation API is on the classpath but no implementation could be found -->
+		<!-- Action: -->
+		<!-- Add an implementation, such as Hibernate Validator, to the classpath -->
+		<!-- main org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter(LoggingFailureAnalysisReporter.java:40) -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
 	</dependencies>
 </project>
