@@ -1,23 +1,18 @@
 package rebue.sbs.smx;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.TimeZone;
 
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -33,44 +28,42 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class JacksonConfig implements WebMvcConfigurer {
 
+    /**
+     * Parser that can read JSON formatted strings into Maps or Lists.
+     * 可以用来读取JSON字符串并解析到Map或List
+     */
     @Bean
     public JsonParser getJsonParser() {
         return JsonParserFactory.getJsonParser();
     }
 
+    /**
+     * 可以用来对JSON字符串与POJO对象进行相互转换
+     */
     @Bean
     public ObjectMapper getObjectMapper() {
-        return Jackson2ObjectMapperBuilder.json().serializationInclusion(JsonInclude.Include.NON_NULL).featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        return Jackson2ObjectMapperBuilder.json().serializationInclusion(JsonInclude.Include.NON_NULL)
+                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .timeZone(TimeZone.getTimeZone("Asia/Shanghai")).modules(new JavaTimeModule()).build();
     }
 
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter httpMessageConverter = new MappingJackson2HttpMessageConverter();
-        // 让spring mvc支持text/json/xml几种格式，并且统一编码为utf-8
-        httpMessageConverter.setSupportedMediaTypes(Arrays.asList(//
-                // new MediaType(MediaType.TEXT_HTML, Charset.forName("utf-8")),//
-                // new MediaType(MediaType.TEXT_PLAIN, Charset.forName("utf-8")),//
-                MediaType.APPLICATION_JSON//
-//                MediaType.APPLICATION_JSON_UTF8//
-//                new MediaType(MediaType.APPLICATION_XML, Charset.forName("utf-8")),//
-//                new MediaType(MediaType.MULTIPART_FORM_DATA, Charset.forName("utf-8")),//
-//                new MediaType(MediaType.APPLICATION_FORM_URLENCODED, Charset.forName("utf-8"))//
-        ));
-
-        ObjectMapper objectMapper = httpMessageConverter.getObjectMapper();
-        // 不显示为null的字段
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-        // Long to String
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-        objectMapper.registerModule(simpleModule);
-
-        httpMessageConverter.setObjectMapper(objectMapper);
-        // 加到第一个位置
-        converters.add(0, httpMessageConverter);
+    /**
+     * 自定义Jackson序列化时
+     * 
+     * @return Jackson2ObjectMapperBuilderCustomizer 注入的对象
+     */
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder
+                // 不转换值为null的项
+                .serializationInclusion(JsonInclude.Include.NON_NULL)
+                // 全局转化long类型为String，避免js用number接收long类型时丢失精度问题
+                // TODO 未检验改成字符串后，Feign用Long接收会不会出问题
+                .serializerByType(Long.TYPE, ToStringSerializer.instance)
+                .serializerByType(Long.class, ToStringSerializer.instance)
+//                // 将前端传过来的String反序列化Long时，如果有引号则去除(记不起应用场景，暂时去除)
+//                .deserializerByType(Long.class, ToLongDeserializer.instance)
+        ;
     }
 
 }
