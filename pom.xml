@@ -20,6 +20,7 @@
 		<module>smx-spring-boot-starter</module>
 		<module>rabbit-spring-boot-starter</module>
 		<module>es-spring-boot-starter</module>
+		<module>scx-spring-boot-starter</module>
 	</modules>
 
 	<dependencyManagement>
@@ -50,6 +51,11 @@
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>smx-spring-boot-starter</artifactId>
+				<version>1.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.sbs</groupId>
+				<artifactId>scx-spring-boot-starter</artifactId>
 				<version>1.2.0</version>
 			</dependency>
 			<dependency>

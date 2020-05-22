@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>smx-spring-boot-starter</artifactId>
-	<description>Spring Mvc Extends</description>
+	<description>Spring Boot 使用MVC框架的启动器</description>
 
 	<dependencies>
 		<dependency>
@@ -46,6 +46,12 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
+		</dependency>
+
+		<!-- 配置中心 -->
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
 		</dependency>
 
 	</dependencies>
