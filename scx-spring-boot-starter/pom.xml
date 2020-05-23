@@ -21,12 +21,6 @@
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
 
-		<!-- 流量哨兵 -->
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-		</dependency>
-
 		<!-- 服务链路跟踪 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
