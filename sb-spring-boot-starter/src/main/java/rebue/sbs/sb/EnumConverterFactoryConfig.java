@@ -1,4 +1,4 @@
-package rebue.sbs.smx;
+package rebue.sbs.sb;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Configuration;

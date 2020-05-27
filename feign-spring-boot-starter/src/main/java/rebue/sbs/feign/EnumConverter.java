@@ -2,7 +2,7 @@ package rebue.sbs.feign;
 
 import org.springframework.core.convert.converter.Converter;
 
-import rebue.wheel.baseintf.EnumBase;
+import rebue.robotech.dic.EnumBase;
 
 public class EnumConverter implements Converter<EnumBase, String> {
 

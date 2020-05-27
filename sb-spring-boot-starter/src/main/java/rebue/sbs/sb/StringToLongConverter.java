@@ -1,4 +1,4 @@
-package rebue.sbs.smx;
+package rebue.sbs.sb;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

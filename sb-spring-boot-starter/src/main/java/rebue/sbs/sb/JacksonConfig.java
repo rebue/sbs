@@ -1,4 +1,4 @@
-package rebue.sbs.smx;
+package rebue.sbs.sb;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

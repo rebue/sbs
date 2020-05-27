@@ -1,4 +1,4 @@
-package rebue.sbs.smx;
+package rebue.sbs.sb;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -24,16 +24,18 @@ public class SslConfig {
 
     @Bean
     public UndertowServletWebServerFactory undertowServletWebServerFactory() {
-        UndertowServletWebServerFactory undertowFactory = new UndertowServletWebServerFactory();
+        final UndertowServletWebServerFactory undertowFactory = new UndertowServletWebServerFactory();
         // 监听80端口
-        undertowFactory.addBuilderCustomizers((builder) -> {
+        undertowFactory.addBuilderCustomizers(builder -> {
             builder.addHttpListener(port, "0.0.0.0");
         });
         // 将http的80端口重定向到https的443端口上
         undertowFactory.addDeploymentInfoCustomizers(deploymentInfo -> {
             deploymentInfo
-                    .addSecurityConstraint(new SecurityConstraint().addWebResourceCollection(new WebResourceCollection().addUrlPattern("/**"))
-                            .setTransportGuaranteeType(TransportGuaranteeType.CONFIDENTIAL).setEmptyRoleSemantic(SecurityInfo.EmptyRoleSemantic.PERMIT))
+                    .addSecurityConstraint(new SecurityConstraint()
+                            .addWebResourceCollection(new WebResourceCollection().addUrlPattern("/**"))
+                            .setTransportGuaranteeType(TransportGuaranteeType.CONFIDENTIAL)
+                            .setEmptyRoleSemantic(SecurityInfo.EmptyRoleSemantic.PERMIT))
                     .setConfidentialPortManager(exchange -> 443);
         });
 

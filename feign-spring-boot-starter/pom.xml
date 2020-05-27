@@ -12,10 +12,11 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-core</artifactId>
+			<groupId>com.github.rebue.robotech</groupId>
+			<artifactId>robotech-api</artifactId>
 		</dependency>
-		
+
+
 		<!-- 使用Apache HttpClient替换Feign原生httpclient -->
 		<!-- feign-httpclient内含Apache HttpClient -->
 		<dependency>

@@ -29,13 +29,17 @@
 		</dependency>
 
 		<!-- 可以在JavaBean到JavaBean之间进行递归数据复制 -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.dozermapper</groupId> -->
+		<!-- <artifactId>dozer-core</artifactId> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.dozermapper</groupId> -->
+		<!-- <artifactId>dozer-spring4</artifactId> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>com.github.dozermapper</groupId>
-			<artifactId>dozer-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.dozermapper</groupId>
-			<artifactId>dozer-spring4</artifactId>
+			<artifactId>dozer-spring-boot-starter</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package rebue.sbs.smx.filter;
+package rebue.sbs.sb.filter;
 
 import java.io.IOException;
 import java.io.InputStream;

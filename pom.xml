@@ -14,54 +14,55 @@
 	<description>Spring Boot Starter类项目</description>
 
 	<modules>
+		<module>sb-spring-boot-starter</module>
+		<module>sc-spring-boot-starter</module>
 		<module>dozer-spring-boot-starter</module>
 		<module>feign-spring-boot-starter</module>
 		<module>redis-spring-boot-starter</module>
-		<module>smx-spring-boot-starter</module>
 		<module>rabbit-spring-boot-starter</module>
 		<module>es-spring-boot-starter</module>
-		<module>scx-spring-boot-starter</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
+				<artifactId>sb-spring-boot-starter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.sbs</groupId>
+				<artifactId>sc-spring-boot-starter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>feign-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>redis-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>dozer-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>rabbit-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.rebue.sbs</groupId>
-				<artifactId>smx-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.rebue.sbs</groupId>
-				<artifactId>scx-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>es-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

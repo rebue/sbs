@@ -1,4 +1,4 @@
-package rebue.sbs.smx;
+package rebue.sbs.sb;
 
 import java.io.IOException;
 
