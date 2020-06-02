@@ -17,6 +17,11 @@
 			<artifactId>robotech-api</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
 		<!-- Web服务器换用undertow -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,6 +64,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-		</dependency>	
+		</dependency>
 	</dependencies>
 </project>
