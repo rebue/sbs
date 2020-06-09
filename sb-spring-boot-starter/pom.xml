@@ -18,6 +18,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>aop-spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
@@ -55,6 +60,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
+
 
 		<!-- 如果不加入此项，springboot启动会报错 -->
 		<!-- The Bean Validation API is on the classpath but no implementation could be found -->
