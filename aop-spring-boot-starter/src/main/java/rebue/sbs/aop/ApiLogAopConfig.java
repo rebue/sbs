@@ -12,28 +12,28 @@ import org.springframework.context.annotation.Configuration;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 服务层日志拦截
+ * API层日志拦截
  */
 @Slf4j
 @Aspect
 @Configuration
-@ConditionalOnExpression("${rebue.sbs.aop.log-aop.svc.enabled:true}")
-public class SvcLogAopConfig {
+@ConditionalOnExpression("${rebue.sbs.aop.log-aop.api.enabled:true}")
+public class ApiLogAopConfig {
 
-    @Around("execution(public * *..svc.*Svc.*(..))")
-    public Object logSvc(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("execution(public * *..api.*Api.*(..))")
+    public Object log(final ProceedingJoinPoint joinPoint) throws Throwable {
 
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         try {
-            final String          clazzName       = joinPoint.getTarget().getClass().getSimpleName();
-            final String          methodName      = joinPoint.getSignature().getName();
+            final String clazzName = joinPoint.getTarget().getClass().getSimpleName();
+            final String methodName = joinPoint.getSignature().getName();
             final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-            final String[]        parameterNames  = methodSignature.getParameterNames();
-            final Object[]        parameterValues = joinPoint.getArgs();
+            final String[] parameterNames = methodSignature.getParameterNames();
+            final Object[] parameterValues = joinPoint.getArgs();
 
             StringBuilder sb = new StringBuilder();
-            sb.append("\r\n----------------------- 服务层方法准备被调用 -----------------------\r\n");
+            sb.append("\r\n----------------------- API方法准备被调用 -----------------------\r\n");
             sb.append("* 方法: \r\n*     ");
             sb.append(clazzName);
             sb.append(".");
@@ -58,7 +58,7 @@ public class SvcLogAopConfig {
             stopWatch.stop();
 
             sb = new StringBuilder();
-            sb.append("方法调用结束!!!\r\n======================= 服务层方法被调用详情 =======================\r\n");
+            sb.append("方法调用结束!!!\r\n======================= API方法被调用详情 =======================\r\n");
             sb.append("* 方法: \r\n*     ");
             sb.append(clazzName);
             sb.append(".");

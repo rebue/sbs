@@ -1,4 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 rebue.sbs.aop.CtrlLogAopConfig,\
-rebue.sbs.aop.SvcLogAopConfig
+rebue.sbs.aop.ApiLogAopConfig
