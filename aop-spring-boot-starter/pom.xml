@@ -12,6 +12,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.github.rebue.robotech</groupId>
+			<artifactId>robotech-api</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
