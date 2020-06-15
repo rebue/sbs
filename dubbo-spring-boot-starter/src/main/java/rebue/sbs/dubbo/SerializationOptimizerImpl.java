@@ -29,20 +29,20 @@ public class SerializationOptimizerImpl implements SerializationOptimizer {
         _classes = new LinkedList<>();
         _classes.add(Ro.class);
 
-        scanThenAddClasses("**/mo/*Mo.class");
-        scanThenAddClasses("**/jo/*Jo.class");
-        scanThenAddClasses("**/ra/*Ra.class");
-        scanThenAddClasses("**/to/*To.class");
+        addClasses("**/mo/*Mo.class");
+        addClasses("**/jo/*Jo.class");
+        addClasses("**/ra/*Ra.class");
+        addClasses("**/to/*To.class");
 
         return _classes;
     }
 
     /**
-     * 扫描符合条件的类，然后添加到_classes中
+     * 添加符合条件的类到_classes中
      * 
      * @param condition 搜索类的条件
      */
-    private void scanThenAddClasses(final String condition) {
+    private void addClasses(final String condition) {
         try {
             final Resource[] resources = _resolver
                     .getResources(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + condition);
