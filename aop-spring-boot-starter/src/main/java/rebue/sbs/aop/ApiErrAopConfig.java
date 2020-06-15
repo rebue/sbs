@@ -27,9 +27,9 @@ public class ApiErrAopConfig {
         } catch (final DuplicateKeyException e) {
             return new Ro<>(ResultDic.FAIL, "操作数据库失败，唯一键重复：" + e.getCause().getMessage(), "500", null);
         } catch (final IllegalArgumentException e) {
-            return new Ro<>(ResultDic.WARN, "参数不能为空");
+            return new Ro<>(ResultDic.PARAM_ERROR, "参数不能为空");
         } catch (final ConstraintViolationException e) {
-            return new Ro<>(ResultDic.WARN, e.getMessage().split(":")[1].trim());
+            return new Ro<>(ResultDic.PARAM_ERROR, e.getMessage().split(":")[1].trim());
         } catch (final Throwable e) {
             return new Ro<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", "500", null);
         }
