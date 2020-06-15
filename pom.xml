@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>aop-spring-boot-starter</module>
+		<module>dubbo-spring-boot-starter</module>
 		<module>sb-spring-boot-starter</module>
 		<module>sc-spring-boot-starter</module>
 		<module>dozer-spring-boot-starter</module>
@@ -29,6 +30,11 @@
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>aop-spring-boot-starter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.sbs</groupId>
+				<artifactId>dubbo-spring-boot-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
