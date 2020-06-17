@@ -1,12 +1,14 @@
-{"properties": [
-  {
-    "name": "rebue.sbs.aop.log-aop.ctrl.enabled",
-    "type": "boolean",
-    "description": "启用控制器层日志拦截"
-  },
-  {
-    "name": "rebue.sbs.aop.log-aop.svc.enabled",
-    "type": "boolean",
-    "description": "启用服务层日志拦截"
-  }
-]}
+{
+	"properties": [
+		{
+			"name": "rebue.sbs.aop.log-aop.ctrl.enabled",
+			"type": "boolean",
+			"description": "启用控制器层日志拦截"
+		},
+		{
+			"name": "rebue.sbs.aop.log-aop.svc.enabled",
+			"type": "boolean",
+			"description": "启用服务层日志拦截"
+		}
+	]
+}

@@ -23,6 +23,7 @@
 		<module>redis-spring-boot-starter</module>
 		<module>rabbit-spring-boot-starter</module>
 		<module>es-spring-boot-starter</module>
+		<module>cfg-spring-boot-starter</module>
 	</modules>
 
 	<dependencyManagement>
@@ -30,6 +31,11 @@
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>aop-spring-boot-starter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.sbs</groupId>
+				<artifactId>cfg-spring-boot-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
