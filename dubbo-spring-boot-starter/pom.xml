@@ -1,25 +1,36 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.github.rebue.sbs</groupId>
-		<artifactId>sbs</artifactId>
-		<version>1.2.0</version>
-	</parent>
-	<artifactId>dubbo-spring-boot-starter</artifactId>
-	<name>dubbo-spring-boot-starter</name>
-	<description>Dubbo的SpringBoot启动器</description>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.rebue.sbs</groupId>
+        <artifactId>sbs</artifactId>
+        <version>1.2.0</version>
+    </parent>
+    <artifactId>dubbo-spring-boot-starter</artifactId>
+    <name>dubbo-spring-boot-starter</name>
+    <description>Dubbo的SpringBoot启动器</description>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-dubbo</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.rebue.robotech</groupId>
+            <artifactId>robotech-api</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.github.rebue.robotech</groupId>
-			<artifactId>robotech-api</artifactId>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-dubbo</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-serialization-kryo</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>dubbo-common</artifactId>
+                    <groupId>org.apache.dubbo</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
 
 </project>
