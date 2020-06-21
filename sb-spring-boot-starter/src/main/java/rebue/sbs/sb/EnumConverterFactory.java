@@ -10,7 +10,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 
 import rebue.robotech.dic.EnumBase;
-import rebue.wheel.StrUtils;
 
 /**
  * <pre>
@@ -22,7 +21,7 @@ import rebue.wheel.StrUtils;
  * </pre>
  */
 public class EnumConverterFactory implements ConverterFactory<String, EnumBase> {
-    private final static Logger _log = LoggerFactory.getLogger(EnumConverterFactory.class);
+    private final static Logger                              _log         = LoggerFactory.getLogger(EnumConverterFactory.class);
 
     private final static Map<Class<?>, Converter<String, ?>> converterMap = new WeakHashMap<>();
 
@@ -30,7 +29,7 @@ public class EnumConverterFactory implements ConverterFactory<String, EnumBase> 
      * 得到指定类的转换器
      * 
      * @param targetType
-     *                   实现了BaseEnum接口的类
+     *            实现了BaseEnum接口的类
      */
     @Override
     public <T extends EnumBase> Converter<String, T> getConverter(final Class<T> targetType) {
@@ -71,12 +70,13 @@ public class EnumConverterFactory implements ConverterFactory<String, EnumBase> 
             _log.info("将{}转成枚举类型", source);
             final T result = enumMap.get(source);
             if (result == null) {
-                final String msg   = "枚举类型中没有对应" + source + "的项";
-                String       sTemp = "";
+                final String msg = "枚举类型中没有对应" + source + "的项";
+                String sTemp = "";
                 for (final String key : enumMap.keySet()) {
                     sTemp += key + ",";
                 }
-                sTemp = StrUtils.delRight(sTemp, 1);
+                // 去掉最后的那个逗号
+                sTemp = sTemp.substring(0, sTemp.length() - 1);
                 _log.error(msg + ": 枚举类型有{}", sTemp);
                 throw new IllegalArgumentException(msg);
             }
