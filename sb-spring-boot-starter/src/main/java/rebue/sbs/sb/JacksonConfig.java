@@ -1,17 +1,7 @@
 package rebue.sbs.sb;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import java.util.TimeZone;
+
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
@@ -20,11 +10,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 /**
  * 初始化Jackson的转换器
@@ -63,7 +54,8 @@ public class JacksonConfig implements WebMvcConfigurer {
         return jackson2ObjectMapperBuilder -> setJackson2ObjectMapperBuilder(jackson2ObjectMapperBuilder);
     }
 
-    private Jackson2ObjectMapperBuilder setJackson2ObjectMapperBuilder(final Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
+    private Jackson2ObjectMapperBuilder setJackson2ObjectMapperBuilder(
+            final Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
         // TODO 下面注释起来的地方是暂时没有条件测试的，等出现了情况或有了需求再打开注释进行测试
         return jackson2ObjectMapperBuilder//
 //              // 序列化BigDecimal时不使用科学计数法输出
@@ -89,7 +81,7 @@ public class JacksonConfig implements WebMvcConfigurer {
                 .modules(new ParameterNamesModule())  //
                 .modules(new Jdk8Module())  //
                 .modules(new JavaTimeModule())   //
-                ;
+        ;
     }
 
 }
