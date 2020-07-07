@@ -29,7 +29,12 @@ public class ApiErrAopConfig {
         } catch (final IllegalArgumentException e) {
             return new Ro<>(ResultDic.PARAM_ERROR, "参数不能为空");
         } catch (final ConstraintViolationException e) {
-            return new Ro<>(ResultDic.PARAM_ERROR, e.getMessage().split(":")[1].trim());
+            final String[]      errs = e.getMessage().split(",");
+            final StringBuilder sb   = new StringBuilder();
+            for (final String err : errs) {
+                sb.append(err.split(":")[1].trim() + ",");
+            }
+            return new Ro<>(ResultDic.PARAM_ERROR, sb.deleteCharAt(sb.length() - 1).toString());
         } catch (final Throwable e) {
             return new Ro<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", "500", null);
         }
