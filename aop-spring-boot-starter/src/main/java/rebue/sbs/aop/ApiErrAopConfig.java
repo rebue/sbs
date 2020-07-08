@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.yaml.snakeyaml.constructor.DuplicateKeyException;
+import org.springframework.dao.DuplicateKeyException;
 
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -25,12 +25,13 @@ public class ApiErrAopConfig {
         try {
             return joinPoint.proceed();
         } catch (final DuplicateKeyException e) {
-            return new Ro<>(ResultDic.FAIL, "操作数据库失败，唯一键重复：" + e.getCause().getMessage(), "500", null);
+            System.out.println(e);
+            return new Ro<>(ResultDic.FAIL, e.getCause().getMessage().substring(16, 22) + "已存在");
         } catch (final IllegalArgumentException e) {
             return new Ro<>(ResultDic.PARAM_ERROR, "参数不能为空");
         } catch (final ConstraintViolationException e) {
-            final String[]      errs = e.getMessage().split(",");
-            final StringBuilder sb   = new StringBuilder();
+            final String[] errs = e.getMessage().split(",");
+            final StringBuilder sb = new StringBuilder();
             for (final String err : errs) {
                 sb.append(err.split(":")[1].trim() + ",");
             }
