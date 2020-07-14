@@ -13,10 +13,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-test</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
 			<artifactId>wheel-protostuff</artifactId>
 		</dependency>
 
