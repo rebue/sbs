@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DuplicateKeyException;
 
+import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 
@@ -18,6 +19,7 @@ import rebue.robotech.ro.Ro;
 @Aspect
 @Configuration
 @Order
+@Slf4j
 public class ApiErrAopConfig {
 
     @Around("execution(public * *..api.*Api.*(..))")
@@ -26,12 +28,16 @@ public class ApiErrAopConfig {
             return joinPoint.proceed();
         } catch (final DuplicateKeyException e) {
             System.out.println(e);
-            return new Ro<>(ResultDic.FAIL, e.getCause().getMessage().substring(16, 22) + "已存在");
+            log.error("AP拦截关键字重复的异常", e);
+            final String message = e.getCause().getMessage();
+            final int    start   = message.indexOf("'");
+            final int    end     = message.indexOf("'", start + 1) + 1;
+            return new Ro<>(ResultDic.FAIL, message.substring(start, end) + "已存在");
         } catch (final IllegalArgumentException e) {
             return new Ro<>(ResultDic.PARAM_ERROR, "参数不能为空");
         } catch (final ConstraintViolationException e) {
-            final String[] errs = e.getMessage().split(",");
-            final StringBuilder sb = new StringBuilder();
+            final String[]      errs = e.getMessage().split(",");
+            final StringBuilder sb   = new StringBuilder();
             for (final String err : errs) {
                 sb.append(err.split(":")[1].trim() + ",");
             }
