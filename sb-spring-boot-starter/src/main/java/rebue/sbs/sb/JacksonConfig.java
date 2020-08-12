@@ -11,6 +11,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -54,10 +55,11 @@ public class JacksonConfig implements WebMvcConfigurer {
         return jackson2ObjectMapperBuilder -> setJackson2ObjectMapperBuilder(jackson2ObjectMapperBuilder);
     }
 
-    private Jackson2ObjectMapperBuilder setJackson2ObjectMapperBuilder(
-            final Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
+    private Jackson2ObjectMapperBuilder setJackson2ObjectMapperBuilder(final Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
         // TODO 下面注释起来的地方是暂时没有条件测试的，等出现了情况或有了需求再打开注释进行测试
         return jackson2ObjectMapperBuilder//
+                // 反序列化时忽略大小写
+                .featuresToEnable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
 //              // 序列化BigDecimal时不使用科学计数法输出
 //              .featuresToEnable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN)
 //                .featuresToDisable(
