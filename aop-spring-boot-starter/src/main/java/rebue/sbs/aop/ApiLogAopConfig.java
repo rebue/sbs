@@ -26,14 +26,14 @@ public class ApiLogAopConfig {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         try {
-            final String clazzName = joinPoint.getTarget().getClass().getSimpleName();
-            final String methodName = joinPoint.getSignature().getName();
+            final String          clazzName       = joinPoint.getTarget().getClass().getSimpleName();
+            final String          methodName      = joinPoint.getSignature().getName();
             final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-            final String[] parameterNames = methodSignature.getParameterNames();
-            final Object[] parameterValues = joinPoint.getArgs();
+            final String[]        parameterNames  = methodSignature.getParameterNames();
+            final Object[]        parameterValues = joinPoint.getArgs();
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("\r\n----------------------- API方法准备被调用 -----------------------\r\n");
+            StringBuilder         sb              = new StringBuilder();
+            sb.append("\r\n----------------------- API层方法准备被调用 -----------------------\r\n");
             sb.append("* 方法: \r\n*     ");
             sb.append(clazzName);
             sb.append(".");
@@ -49,7 +49,7 @@ public class ApiLogAopConfig {
             sb.append(StringUtils.rightPad("-----------------------------------------------------------------", 100));
             log.info(sb.toString());
 
-            log.info(StringUtils.rightPad("方法调用开始....", 76));
+            log.info(StringUtils.rightPad("开始调用API层方法....", 76));
 
             // 调用
             final Object result = joinPoint.proceed();
@@ -58,7 +58,7 @@ public class ApiLogAopConfig {
             stopWatch.stop();
 
             sb = new StringBuilder();
-            sb.append("方法调用结束!!!\r\n======================= API方法被调用详情 =======================\r\n");
+            sb.append("结束调用API层方法!!!\r\n======================= API层方法被调用详情 =======================\r\n");
             sb.append("* 方法: \r\n*     ");
             sb.append(clazzName);
             sb.append(".");

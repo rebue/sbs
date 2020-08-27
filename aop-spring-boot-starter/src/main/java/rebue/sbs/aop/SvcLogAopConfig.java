@@ -30,7 +30,7 @@ public class SvcLogAopConfig {
         final StringBuilder   sb              = new StringBuilder();
         sb.append("调用服务层");
         sb.append(clazzName);
-        sb.append("的方法");
+        sb.append(".");
         sb.append(methodName);
         sb.append(": ");
         for (int i = 0; i < parameterNames.length; i++) {
