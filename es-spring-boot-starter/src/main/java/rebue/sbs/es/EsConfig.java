@@ -22,8 +22,7 @@ public class EsConfig {
     private static final String HTTP_SCHEME    = "http";
 
     /**
-     * 使用实际ES的地址
-     * 使用冒号隔开ip和端口1
+     * 使用实际ES的地址 使用冒号隔开ip和端口1
      */
     @Value("${elasticsearch.host}")
     String[]                    hosts;
@@ -42,11 +41,11 @@ public class EsConfig {
     }
 
     private HttpHost makeHttpHost(final String s) {
-        assert StringUtils.isNotEmpty(s);
+        assert StringUtils.isNotBlank(s);
         final String[] address = s.split(":");
         if (address.length == ADDRESS_LENGTH) {
-            final String ip = address[0];
-            final int port = Integer.parseInt(address[1]);
+            final String ip   = address[0];
+            final int    port = Integer.parseInt(address[1]);
             return new HttpHost(ip, port, HTTP_SCHEME);
         } else {
             return null;
