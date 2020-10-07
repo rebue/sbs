@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.rebue.common-pom</groupId>
 		<artifactId>sb-dependencies</artifactId>
-		<version>1.2.0</version>
+		<version>1.2.1</version>
 	</parent>
 
 	<groupId>com.github.rebue.sbs</groupId>
@@ -31,56 +31,56 @@
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>aop-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>cfg-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>dubbo-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>sb-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>sc-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>feign-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>redis-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>dozer-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>rabbit-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>es-spring-boot-starter</artifactId>
-				<version>1.2.0</version>
+				<version>1.2.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
