@@ -32,7 +32,7 @@ public class ApiErrAopConfig {
             final String message = e.getCause().getMessage();
             final int    start   = message.indexOf("'");
             final int    end     = message.indexOf("'", start + 1) + 1;
-            return new Ro<>(ResultDic.FAIL, message.substring(start, end) + "已存在");
+            return new Ro<>(ResultDic.WARN, message.substring(start, end) + "已存在");
         } catch (final IllegalArgumentException e) {
             return new Ro<>(ResultDic.PARAM_ERROR, "参数不能为空");
         } catch (final ConstraintViolationException e) {
