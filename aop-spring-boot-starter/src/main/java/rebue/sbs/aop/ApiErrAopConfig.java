@@ -28,13 +28,13 @@ public class ApiErrAopConfig {
             return joinPoint.proceed();
         } catch (final DuplicateKeyException e) {
             System.out.println(e);
-            log.error("AP拦截关键字重复的异常", e);
+            log.error("AOP拦截关键字重复的异常", e);
             final String message = e.getCause().getMessage();
             final int    start   = message.indexOf("'");
             final int    end     = message.indexOf("'", start + 1) + 1;
             return new Ro<>(ResultDic.WARN, message.substring(start, end) + "已存在");
         } catch (final IllegalArgumentException e) {
-            return new Ro<>(ResultDic.PARAM_ERROR, "参数不能为空");
+            return new Ro<>(ResultDic.PARAM_ERROR, "参数错误");
         } catch (final ConstraintViolationException e) {
             final String[]      errs = e.getMessage().split(",");
             final StringBuilder sb   = new StringBuilder();
