@@ -28,10 +28,10 @@ public class CtrlLogAopConfig {
     public void log(final JoinPoint joinPoint) throws Throwable {
         // 获取请求信息
         final ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        final HttpServletRequest request = servletRequestAttributes.getRequest();
+        final HttpServletRequest       request                  = servletRequestAttributes.getRequest();
 
-        final String requestMethod = request.getMethod();
-        final String requestURI = request.getRequestURI();
+        final String                   requestMethod            = request.getMethod();
+        final String                   requestURI               = request.getRequestURI();
 
         log.info(StringUtils.rightPad("控制器层接收到请求:" + requestMethod + " " + requestURI, 73));
     }

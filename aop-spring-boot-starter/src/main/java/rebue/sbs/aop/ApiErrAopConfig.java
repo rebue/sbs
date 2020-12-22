@@ -30,14 +30,14 @@ public class ApiErrAopConfig {
             System.out.println(e);
             log.error("AOP拦截关键字重复的异常", e);
             final String message = e.getCause().getMessage();
-            final int    start   = message.indexOf("'");
-            final int    end     = message.indexOf("'", start + 1) + 1;
+            final int start = message.indexOf("'");
+            final int end = message.indexOf("'", start + 1) + 1;
             return new Ro<>(ResultDic.WARN, message.substring(start, end) + "已存在");
         } catch (final IllegalArgumentException e) {
             return new Ro<>(ResultDic.PARAM_ERROR, "参数错误");
         } catch (final ConstraintViolationException e) {
-            final String[]      errs = e.getMessage().split(",");
-            final StringBuilder sb   = new StringBuilder();
+            final String[] errs = e.getMessage().split(",");
+            final StringBuilder sb = new StringBuilder();
             for (final String err : errs) {
                 sb.append(err.split(":")[1].trim() + ",");
             }
@@ -45,7 +45,7 @@ public class ApiErrAopConfig {
         } catch (final RuntimeException e) {
             return new Ro<>(ResultDic.FAIL, e.getMessage());
         } catch (final Throwable e) {
-            return new Ro<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", "500", null);
+            return new Ro<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", null, "500", null);
         }
     }
 
