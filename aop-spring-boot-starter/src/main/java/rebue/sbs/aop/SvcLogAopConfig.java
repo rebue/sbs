@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnExpression("${rebue.sbs.aop.log-aop.svc.enabled:true}")
 public class SvcLogAopConfig {
 
-    @Before("execution(public * *..svc.*Svc.*(..))")
+    @Before("execution(public * *..svc..*Svc.*(..))")
     public void log(final JoinPoint joinPoint) throws Throwable {
         final String          clazzName       = joinPoint.getTarget().getClass().getSimpleName();
         final String          methodName      = joinPoint.getSignature().getName();

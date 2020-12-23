@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnExpression("${rebue.sbs.aop.log-aop.ctrl.enabled:true}")
 public class CtrlLogAopConfig {
 
-    @Before("execution(public * *..ctrl.*Ctrl.*(..))")
+    @Before("execution(public * *..ctrl..*Ctrl.*(..))")
     public void log(final JoinPoint joinPoint) throws Throwable {
         // 获取请求信息
         final ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

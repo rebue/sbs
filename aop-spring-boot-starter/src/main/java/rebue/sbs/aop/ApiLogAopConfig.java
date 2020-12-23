@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnExpression("${rebue.sbs.aop.log-aop.api.enabled:true}")
 public class ApiLogAopConfig {
 
-    @Around("execution(public * *..api.*Api.*(..))")
+    @Around("execution(public * *..api..*Api.*(..))")
     public Object log(final ProceedingJoinPoint joinPoint) throws Throwable {
 
         final StopWatch stopWatch = new StopWatch();
