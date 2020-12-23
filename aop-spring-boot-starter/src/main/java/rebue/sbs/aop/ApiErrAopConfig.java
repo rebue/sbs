@@ -42,8 +42,20 @@ public class ApiErrAopConfig {
                 sb.append(err.split(":")[1].trim() + ",");
             }
             return new Ro<>(ResultDic.PARAM_ERROR, sb.deleteCharAt(sb.length() - 1).toString());
+        } catch (final NullPointerException e) {
+            if (e.getMessage() == null) {
+                return new Ro<>(ResultDic.FAIL, "空指针异常", null, "500", null);
+            }
+            else {
+                return new Ro<>(ResultDic.FAIL, e.getMessage(), null, "500", null);
+            }
         } catch (final RuntimeException e) {
-            return new Ro<>(ResultDic.FAIL, e.getMessage());
+            if (e.getMessage() == null) {
+                return new Ro<>(ResultDic.FAIL, "运行时异常", null, "500", null);
+            }
+            else {
+                return new Ro<>(ResultDic.FAIL, e.getMessage(), null, "500", null);
+            }
         } catch (final Throwable e) {
             return new Ro<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", null, "500", null);
         }
