@@ -45,8 +45,7 @@ public class ApiLogAopConfig {
                 sb.append("=");
                 sb.append(parameterValues[i] == null ? "" : parameterValues[i].toString());
             }
-            sb.append("\r\n");
-            sb.append(StringUtils.rightPad("-----------------------------------------------------------------", 100));
+            sb.append(StringUtils.rightPad("\r\n-----------------------------------------------------------------", 100));
             log.info(sb.toString());
 
             log.info(StringUtils.rightPad("开始调用API层方法....", 76));
