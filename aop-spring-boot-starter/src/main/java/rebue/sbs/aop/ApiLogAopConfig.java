@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Configuration
 @ConditionalOnExpression("${rebue.sbs.aop.log-aop.api.enabled:true}")
+@Order(2)
 public class ApiLogAopConfig {
 
     @Around("execution(public * *..api..*Api.*(..))")

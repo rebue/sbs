@@ -16,10 +16,10 @@ import rebue.robotech.ro.Ro;
 /**
  * API层异常拦截
  */
+@Slf4j
 @Aspect
 @Configuration
-@Order
-@Slf4j
+@Order(4)
 public class ApiErrAopConfig {
 
     @Around("execution(public * *..api..*Api.*(..))")
