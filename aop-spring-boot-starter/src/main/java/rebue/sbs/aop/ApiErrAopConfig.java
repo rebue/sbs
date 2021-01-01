@@ -2,6 +2,7 @@ package rebue.sbs.aop;
 
 import javax.validation.ConstraintViolationException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -27,14 +28,18 @@ public class ApiErrAopConfig {
         try {
             return joinPoint.proceed();
         } catch (final DuplicateKeyException e) {
-            System.out.println(e);
             log.error("AOP拦截关键字重复的异常", e);
             final String message = e.getCause().getMessage();
             final int    start   = message.indexOf("'");
             final int    end     = message.indexOf("'", start + 1) + 1;
             return new Ro<>(ResultDic.WARN, message.substring(start, end) + "已存在");
         } catch (final IllegalArgumentException e) {
-            return new Ro<>(ResultDic.PARAM_ERROR, "参数错误");
+            if (StringUtils.isBlank(e.getMessage())) {
+                return new Ro<>(ResultDic.PARAM_ERROR, "参数错误: ");
+            }
+            else {
+                return new Ro<>(ResultDic.PARAM_ERROR, "参数错误: " + e.getMessage());
+            }
         } catch (final ConstraintViolationException e) {
             final String[]      errs = e.getMessage().split(",");
             final StringBuilder sb   = new StringBuilder();
@@ -43,21 +48,21 @@ public class ApiErrAopConfig {
             }
             return new Ro<>(ResultDic.PARAM_ERROR, sb.deleteCharAt(sb.length() - 1).toString());
         } catch (final NullPointerException e) {
-            if (e.getMessage() == null) {
+            if (StringUtils.isBlank(e.getMessage())) {
                 return new Ro<>(ResultDic.FAIL, "空指针异常", null, "500", null);
             }
             else {
                 return new Ro<>(ResultDic.FAIL, e.getMessage(), null, "500", null);
             }
         } catch (final RuntimeException e) {
-            if (e.getMessage() == null) {
+            if (StringUtils.isBlank(e.getMessage())) {
                 return new Ro<>(ResultDic.FAIL, "运行时异常", null, "500", null);
             }
             else {
                 return new Ro<>(ResultDic.FAIL, e.getMessage(), null, "500", null);
             }
         } catch (final Throwable e) {
-            return new Ro<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", null, "500", null);
+            return new Ro<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", e.getMessage(), "500", null);
         }
     }
 
