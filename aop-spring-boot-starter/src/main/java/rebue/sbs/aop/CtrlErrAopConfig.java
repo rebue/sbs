@@ -7,7 +7,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -15,7 +14,6 @@ import rebue.robotech.ro.Ro;
 /**
  * API层异常拦截
  */
-@Slf4j
 @Aspect
 @Configuration
 @Order(2)
