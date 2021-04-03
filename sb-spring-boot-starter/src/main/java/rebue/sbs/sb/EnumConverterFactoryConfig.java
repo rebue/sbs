@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 自定义枚举转换工厂的配置适配器<br>
- * 主要让Spring MVC支持将枚举类型与整形进行互相转换(枚举类型要求必须实现EnumBase接口)
+ * 主要让Spring MVC支持将枚举类型与整形进行互相转换(枚举类型要求必须实现Dic接口)
  * 
  * @author zbz
  *

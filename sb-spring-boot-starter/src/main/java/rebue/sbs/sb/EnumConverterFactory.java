@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 
-import rebue.robotech.dic.EnumBase;
+import rebue.robotech.dic.Dic;
 
 /**
  * <pre>
@@ -20,7 +20,7 @@ import rebue.robotech.dic.EnumBase;
  *   onverterFactory可以将原类型转换为实现了一个相同接口的一组类，而Converter只能转换一种具体的类
  * </pre>
  */
-public class EnumConverterFactory implements ConverterFactory<String, EnumBase> {
+public class EnumConverterFactory implements ConverterFactory<String, Dic> {
     private final static Logger                              _log         = LoggerFactory.getLogger(EnumConverterFactory.class);
 
     private final static Map<Class<?>, Converter<String, ?>> converterMap = new WeakHashMap<>();
@@ -32,7 +32,7 @@ public class EnumConverterFactory implements ConverterFactory<String, EnumBase> 
      *            实现了BaseEnum接口的类
      */
     @Override
-    public <T extends EnumBase> Converter<String, T> getConverter(final Class<T> targetType) {
+    public <T extends Dic> Converter<String, T> getConverter(final Class<T> targetType) {
         _log.info("获取IntegerStr转枚举类型的转换器：targetType={}", targetType.getName());
         @SuppressWarnings("unchecked")
         Converter<String, T> result = (Converter<String, T>) converterMap.get(targetType);
@@ -48,7 +48,7 @@ public class EnumConverterFactory implements ConverterFactory<String, EnumBase> 
      * 
      * @param <T>
      */
-    private class IntegerStrToEnumConverter<T extends EnumBase> implements Converter<String, T> {
+    private class IntegerStrToEnumConverter<T extends Dic> implements Converter<String, T> {
         private final Map<String, T> enumMap = new HashMap<>();
 
         /**
