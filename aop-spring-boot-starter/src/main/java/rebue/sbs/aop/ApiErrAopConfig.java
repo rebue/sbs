@@ -37,6 +37,9 @@ public class ApiErrAopConfig {
             final int    start   = message.indexOf("'");
             final int    end     = message.indexOf("'", start + 1) + 1;
             return new Ro<>(ResultDic.WARN, message.substring(start, end) + "已存在");
+        } catch (final NumberFormatException e) {
+            final String[] errs = e.getMessage().split("\"");
+            return new Ro<>(ResultDic.PARAM_ERROR, "参数错误: \"" + errs[1] + "\"不是数值类型");
         } catch (final IllegalArgumentException e) {
             if (StringUtils.isBlank(e.getMessage())) {
                 return new Ro<>(ResultDic.PARAM_ERROR, "参数错误");
