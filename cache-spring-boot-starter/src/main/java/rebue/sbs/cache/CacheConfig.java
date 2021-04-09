@@ -1,5 +1,7 @@
 package rebue.sbs.cache;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,8 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+
+import com.github.benmanes.caffeine.cache.Caffeine;
 
 /**
  * 多缓存配置
@@ -30,7 +34,11 @@ public class CacheConfig {
 
     @Bean(CacheManagerName.CAFFEINE_CACHE_MANAGER)
     public CaffeineCacheManager caffeineCacheManager() {
+        // final MultiCaffeineCacheManager caffeineCacheManager = new MultiCaffeineCacheManager();
         final CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
+        caffeineCacheManager.setCaffeine(Caffeine.newBuilder()
+            .expireAfterAccess(1, TimeUnit.SECONDS)
+            .maximumSize(1024));
         return caffeineCacheManager;
     }
 }
