@@ -1,10 +1,11 @@
 package rebue.sbs.cache;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,20 +24,21 @@ import com.github.benmanes.caffeine.cache.CaffeineSpec;
 
 /**
  * 多缓存配置
- * 
+ *
  * @author zbz
  *
  */
 @Configuration
+@EnableConfigurationProperties(CachePropertiesEx.class)
 public class CacheConfig {
     @Bean(CacheManagerName.REDIS_CACHE_MANAGER)
     @Primary
     public RedisCacheManager cacheManager(final RedisConnectionFactory connectionFactory) {
         // return RedisCacheManager.create(connectionFactory);
         return RedisCacheManager.builder(connectionFactory)
-                .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
-                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())))
-                .build();
+            .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())))
+            .build();
     }
 
     /**
@@ -53,9 +55,9 @@ public class CacheConfig {
     // .maximumSize(1024));
     // return caffeineCacheManager;
     // }
-    public CaffeineCacheManager cacheManager(final CacheProperties cacheProperties, final CacheManagerCustomizers customizers,
-            final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
-            final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
+    public CaffeineCacheManager cacheManager(final CachePropertiesEx cacheProperties, final CacheManagerCustomizers customizers,
+                                             final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
+                                             final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
         final CaffeineCacheManager cacheManager = createCaffeineCacheManager(cacheProperties, caffeine, caffeineSpec, cacheLoader);
         final List<String>         cacheNames   = cacheProperties.getCacheNames();
         if (!CollectionUtils.isEmpty(cacheNames)) {
@@ -64,17 +66,17 @@ public class CacheConfig {
         return customizers.customize(cacheManager);
     }
 
-    private CaffeineCacheManager createCaffeineCacheManager(final CacheProperties cacheProperties,
-            final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
-            final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
-        final CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+    private CaffeineCacheManager createCaffeineCacheManager(final CachePropertiesEx cacheProperties,
+                                                            final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
+                                                            final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
+        final CaffeineCacheManager cacheManager = new FlexibleCaffeineCacheManager();
         setCacheBuilder(cacheProperties, caffeineSpec.getIfAvailable(), caffeine.getIfAvailable(), cacheManager);
         cacheLoader.ifAvailable(cacheManager::setCacheLoader);
         return cacheManager;
     }
 
-    private void setCacheBuilder(final CacheProperties cacheProperties, final CaffeineSpec caffeineSpec,
-            final Caffeine<Object, Object> caffeine, final CaffeineCacheManager cacheManager) {
+    private void setCacheBuilder(final CachePropertiesEx cacheProperties, final CaffeineSpec caffeineSpec,
+                                 final Caffeine<Object, Object> caffeine, final CaffeineCacheManager cacheManager) {
         final String specification = cacheProperties.getCaffeine().getSpec();
         if (StringUtils.hasText(specification)) {
             cacheManager.setCacheSpecification(specification);
@@ -84,6 +86,12 @@ public class CacheConfig {
         }
         else if (caffeine != null) {
             cacheManager.setCaffeine(caffeine);
+        }
+
+        // XXX 读取specs配置并设置到缓存管理器中
+        final Map<String, String> specs = cacheProperties.getCaffeine().getSpecs();
+        if (specs != null && !specs.isEmpty()) {
+            ((FlexibleCaffeineCacheManager) cacheManager).setCacheSpecs(specs);
         }
     }
 }
