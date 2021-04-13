@@ -39,7 +39,7 @@ public class SvcLogAopConfig {
         sb.append("，参数: ");
         final StringJoiner sj = new StringJoiner(", ");
         for (int i = 0; i < parameterNames.length; i++) {
-            sj.add(parameterNames[i] + "=" + parameterValues[i] == null ? "" : parameterValues[i].toString());
+            sj.add(parameterNames[i] + "=" + (parameterValues[i] == null ? "" : parameterValues[i].toString()));
         }
 
         log.info(StringUtils.rightPad(sb.toString() + sj.toString(), 73));
