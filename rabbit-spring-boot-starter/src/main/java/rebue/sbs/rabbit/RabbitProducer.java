@@ -46,9 +46,16 @@ public class RabbitProducer {
     }
 
     /**
-     * 声明Exchange
+     * 声明Exchange(默认使用Fanout模式)
      */
     public void declareExchange(final String exchangeName) throws Exception {
+        declareExchange(exchangeName, BuiltinExchangeType.FANOUT);
+    }
+
+    /**
+     * 声明Exchange
+     */
+    public void declareExchange(final String exchangeName, final BuiltinExchangeType builtinExchangeType) throws Exception {
         _log.info("RabbitMQ声明Exchange: {}", exchangeName);
         // 初始化exchange
         final Channel channel = _channelPool.borrowObject();
@@ -63,11 +70,11 @@ public class RabbitProducer {
     /**
      * 发送消息(如果超过配置的默认超时时间(不配置为10秒)，抛出运行时异常)
      * 如果想直接指定超时时间，请用 <b>send(String exchangeName, byte[] msg, Long timeoutMs)</b> 方法
-     * 
+     *
      * @param exchangeName
-     *            Exchage的名称
+     *                     Exchage的名称
      * @param msg
-     *            要发送的消息
+     *                     要发送的消息
      */
     public void send(final String exchangeName, final Object msg) {
         send(exchangeName, ProtostuffUtils.serialize(msg), _defaultSendTimeoutMs);
@@ -75,13 +82,13 @@ public class RabbitProducer {
 
     /**
      * 发送消息(超时会抛出RuntimeException)
-     * 
+     *
      * @param exchangeName
-     *            Exchage的名称
+     *                     Exchage的名称
      * @param msg
-     *            要发送的消息
+     *                     要发送的消息
      * @param timeoutMs
-     *            判断超时的毫秒数(如果为0则永远不超时)
+     *                     判断超时的毫秒数(如果为0则永远不超时)
      */
     public void send(final String exchangeName, final Object msg, final Long timeoutMs) {
         send(exchangeName, ProtostuffUtils.serialize(msg), timeoutMs);
@@ -94,7 +101,7 @@ public class RabbitProducer {
             channel = _channelPool.borrowObject();
             channel.basicPublish(exchangeName, "", true, MessageProperties.PERSISTENT_BASIC, msg);
             if (!channel.waitForConfirms(timeoutMs)) {
-                final String errorMsg = ("生产者发送消息不成功");
+                final String errorMsg = "生产者发送消息不成功";
                 _log.error("{}: {} - {}", errorMsg, exchangeName, new String(msg));
                 throw new RuntimeException(errorMsg);
             }
