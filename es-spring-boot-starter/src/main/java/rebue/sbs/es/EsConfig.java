@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class EsConfig {
     private static final int    ADDRESS_LENGTH = 2;
     private static final String HTTP_SCHEME    = "http";

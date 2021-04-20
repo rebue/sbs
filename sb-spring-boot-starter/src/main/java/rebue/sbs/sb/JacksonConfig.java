@@ -24,7 +24,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
  *
  * @author zbz
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class JacksonConfig implements WebMvcConfigurer {
     /**
      * Parser that can read JSON formatted strings into Maps or Lists. 可以用来读取JSON字符串并解析到Map或List

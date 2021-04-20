@@ -11,7 +11,7 @@ import io.undertow.servlet.api.SecurityInfo;
 import io.undertow.servlet.api.TransportGuaranteeType;
 import io.undertow.servlet.api.WebResourceCollection;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 //@ConditionalOnExpression("${server.ssl.enabled:true}")
 @ConditionalOnProperty(name = "server.ssl.enabled", havingValue = "true")
 public class SslConfig {

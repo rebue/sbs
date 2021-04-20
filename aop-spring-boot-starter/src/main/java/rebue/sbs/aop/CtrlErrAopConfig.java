@@ -17,7 +17,7 @@ import rebue.wheel.exception.RuntimeExceptionX;
  * API层异常拦截
  */
 @Aspect
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @Order(2)
 @Slf4j
 public class CtrlErrAopConfig {

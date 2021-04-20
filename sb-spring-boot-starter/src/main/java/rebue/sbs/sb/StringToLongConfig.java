@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * @deprecated 暂时去掉，目前只在json环境下，没有用到这个转换器，没法测试
  */
 @Deprecated
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class StringToLongConfig {// extends WebMvcConfigurationSupport {
 
     /**

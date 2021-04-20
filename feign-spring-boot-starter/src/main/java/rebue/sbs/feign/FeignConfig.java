@@ -20,7 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import feign.Contract;
 import feign.RequestInterceptor;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class FeignConfig {
     private final static Logger _log = LoggerFactory.getLogger(FeignConfig.class);
 

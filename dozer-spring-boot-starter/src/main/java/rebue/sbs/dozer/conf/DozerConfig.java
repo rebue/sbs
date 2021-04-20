@@ -10,7 +10,7 @@ import org.springframework.core.io.Resource;
 
 import com.github.dozermapper.spring.DozerBeanMapperFactoryBean;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(DozerConfig.class)
 public class DozerConfig {
     // @Value("${sbs.dozer.mappingFiles:classpath*:conf/dozer/*.xml}")

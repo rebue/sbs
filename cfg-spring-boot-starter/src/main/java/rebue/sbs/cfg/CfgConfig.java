@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class CfgConfig {
 
     @Bean

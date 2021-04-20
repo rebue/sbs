@@ -16,7 +16,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
  * @author zbz
  *
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class ValidatorConfig {
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {

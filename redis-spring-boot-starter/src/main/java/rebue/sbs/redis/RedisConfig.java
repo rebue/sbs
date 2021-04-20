@@ -14,7 +14,7 @@ import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(RedisConfigProperties.class)
 public class RedisConfig {
     private final static Logger _log = LoggerFactory.getLogger(RedisConfig.class);

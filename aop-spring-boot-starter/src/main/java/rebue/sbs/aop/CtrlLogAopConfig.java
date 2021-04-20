@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Aspect
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication
 @ConditionalOnExpression("${rebue.sbs.aop.log-aop.ctrl.enabled:true}")
 @Order(1)

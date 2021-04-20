@@ -24,7 +24,7 @@ import rebue.wheel.exception.RuntimeExceptionX;
  */
 @Slf4j
 @Aspect
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @Order(4)
 public class ApiErrAopConfig {
 
