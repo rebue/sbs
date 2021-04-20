@@ -26,6 +26,7 @@
 		<module>redis-spring-boot-starter</module>
 		<module>rabbit-spring-boot-starter</module>
 		<module>es-spring-boot-starter</module>
+		<module>amqp-spring-boot-starter</module>
 	</modules>
 
 	<dependencyManagement>

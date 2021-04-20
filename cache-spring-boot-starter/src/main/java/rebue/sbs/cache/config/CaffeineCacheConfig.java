@@ -1,25 +1,25 @@
-package rebue.sbs.cache;
+package rebue.sbs.cache.config;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.CaffeineSpec;
+
+import rebue.sbs.cache.CacheManagerName;
+import rebue.sbs.cache.CachePropertiesEx;
+import rebue.sbs.cache.FlexibleCaffeineCacheManager;
 
 /**
  * 多缓存配置
@@ -28,33 +28,16 @@ import com.github.benmanes.caffeine.cache.CaffeineSpec;
  *
  */
 @Configuration
+// 启用属性类(也就是注入属性类，如果没有这一行，属性类要另外写注入，如在属性类上加注解@Compenent，或扫描)
 @EnableConfigurationProperties(CachePropertiesEx.class)
-public class CacheConfig {
-    @Bean(CacheManagerName.REDIS_CACHE_MANAGER)
-    @Primary
-    public RedisCacheManager cacheManager(final RedisConnectionFactory connectionFactory) {
-        // return RedisCacheManager.create(connectionFactory);
-        return RedisCacheManager.builder(connectionFactory)
-            .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
-                // .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new FstSerializer())))
-            .build();
-    }
+@ConditionalOnClass({ Caffeine.class, CaffeineCacheManager.class
+})
+public class CaffeineCacheConfig {
 
     /**
      * 参考了org.springframework.boot.autoconfigure.cache.CaffeineCacheConfiguration类的编写
      */
     @Bean(CacheManagerName.CAFFEINE_CACHE_MANAGER)
-    // public CaffeineCacheManager caffeineCacheManager() {
-    // // final MultiCaffeineCacheManager caffeineCacheManager = new MultiCaffeineCacheManager();
-    // CaffeineCacheManagerBuilder
-    // final CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
-    // caffeineCacheManager.
-    // caffeineCacheManager.setCaffeine(Caffeine.newBuilder()
-    // .expireAfterAccess(1, TimeUnit.SECONDS)
-    // .maximumSize(1024));
-    // return caffeineCacheManager;
-    // }
     public CaffeineCacheManager cacheManager(final CachePropertiesEx cacheProperties, final CacheManagerCustomizers customizers,
                                              final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
                                              final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {

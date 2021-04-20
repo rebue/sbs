@@ -22,7 +22,7 @@
 			<artifactId>caffeine</artifactId>
 		</dependency>
 
-		<!-- Redis缓存用FST序列化 -->
+		<!-- Redis缓存使用FST进行序列化 -->
 		<dependency>
 			<groupId>de.ruedigermoeller</groupId>
 			<artifactId>fst</artifactId>
