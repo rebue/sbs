@@ -1,4 +1,2 @@
 # Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-rebue.sbs.cache.config.RedisCacheConfig,\
-rebue.sbs.cache.config.CaffeineCacheConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=rebue.sbs.cache.CacheConfig

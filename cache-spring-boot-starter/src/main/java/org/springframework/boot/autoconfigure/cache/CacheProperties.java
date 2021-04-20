@@ -1,5 +1,5 @@
-/*
- * 复制并扩展org.springframework.boot.autoconfigure.cache.CacheProperties类
+/**
+ * 复制并改写了org.springframework.boot.autoconfigure.cache.CacheProperties类
  *
  * 1. 新增specs属性，支持不同名称的cache使用不同的spec
  *
@@ -17,14 +17,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rebue.sbs.cache;
+package org.springframework.boot.autoconfigure.cache;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.boot.autoconfigure.cache.CacheType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -39,7 +38,7 @@ import org.springframework.util.Assert;
  * @since 1.3.0
  */
 @ConfigurationProperties(prefix = "spring.cache")
-public class CachePropertiesEx {
+public class CacheProperties {
 
     /**
      * Cache type. By default, auto-detected according to the environment.
