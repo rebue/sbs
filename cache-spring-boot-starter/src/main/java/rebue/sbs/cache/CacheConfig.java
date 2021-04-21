@@ -97,7 +97,7 @@ public class CacheConfig {
             SerializationPair.fromSerializer(
                 // XXX 这里改写用FST代替原来的JDK进行序列化
                 // new JdkSerializationRedisSerializer(classLoader)//
-                new FstSerializer()//
+                new FstRedisSerializer()//
             ));
 
         if (redisProperties.getTimeToLive() != null) {

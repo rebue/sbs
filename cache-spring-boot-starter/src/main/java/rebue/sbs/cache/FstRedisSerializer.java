@@ -4,11 +4,11 @@ import org.nustaq.serialization.FSTConfiguration;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
-public class FstSerializer implements RedisSerializer<Object> {
+public class FstRedisSerializer implements RedisSerializer<Object> {
 
     private static FSTConfiguration configuration;
 
-    public FstSerializer() {
+    public FstRedisSerializer() {
         configuration = FSTConfiguration.getDefaultConfiguration();
         configuration.setClassLoader(Thread.currentThread().getContextClassLoader());
     }
