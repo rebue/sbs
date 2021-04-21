@@ -79,7 +79,7 @@ public class ApiErrAopConfig {
                 return new Ro<>(ResultDic.FAIL, "服务器出现空指针异常", e.getMessage(), "500", null);
             }
         } catch (final RuntimeExceptionX e) {
-            log.error("AOP拦截到自定义的运行时异常", e);
+            log.warn("AOP拦截到自定义的运行时异常", e);
             return new Ro<>(ResultDic.WARN, e.getMessage());
         } catch (final RuntimeException e) {
             log.error("AOP拦截到运行时异常", e);
