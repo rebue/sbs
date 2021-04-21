@@ -4,4 +4,6 @@ rebue.sbs.aop.CtrlLogAopConfig,\
 rebue.sbs.aop.CtrlErrAopConfig,\
 rebue.sbs.aop.ApiLogAopConfig,\
 rebue.sbs.aop.ApiErrAopConfig,\
+rebue.sbs.aop.SubLogAopConfig,\
+rebue.sbs.aop.SubErrAopConfig,\
 rebue.sbs.aop.SvcLogAopConfig
