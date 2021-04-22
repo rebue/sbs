@@ -14,7 +14,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
 
-import rebue.wheel.protostuff.ProtostuffUtils;
+import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 
 public class RabbitProducer {
     private final static Logger              _log = LoggerFactory.getLogger(ConnectionFactory.class);

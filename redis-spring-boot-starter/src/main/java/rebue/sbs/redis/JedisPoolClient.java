@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
-import rebue.wheel.protostuff.ProtostuffUtils;
+import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -175,7 +175,8 @@ public class JedisPoolClient implements RedisClient {
             final String result = jedis.get(key);
             if (result != "nil" && jedis.expire(key, expireTime) == 1) {
                 return result;
-            } else {
+            }
+            else {
                 return null;
             }
         } catch (final JedisConnectionException e) {
@@ -208,7 +209,8 @@ public class JedisPoolClient implements RedisClient {
             for (final String item : jedis.keys(key)) {
                 if ("java.lang.String".equals(clazz.getName())) {
                     result.add((T) get(item));
-                } else {
+                }
+                else {
                     result.add(getObj(item, clazz));
                 }
             }
@@ -222,7 +224,8 @@ public class JedisPoolClient implements RedisClient {
             final String result = jedis.get(key);
             if (result == null || jedis.del(key) == 0) {
                 return null;
-            } else {
+            }
+            else {
                 return result;
             }
         } catch (final JedisConnectionException e) {
@@ -237,7 +240,8 @@ public class JedisPoolClient implements RedisClient {
             final byte[] result = jedis.get(key.getBytes());
             if (result == null || jedis.del(key) == 0) {
                 return null;
-            } else {
+            }
+            else {
                 return ProtostuffUtils.deserialize(result, clazz);
             }
         } catch (final JedisConnectionException e) {

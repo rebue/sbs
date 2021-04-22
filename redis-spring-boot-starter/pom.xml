@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-protostuff</artifactId>
+			<artifactId>wheel-serialization</artifactId>
 		</dependency>
 
 		<dependency>
@@ -61,6 +61,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
 	</dependencies>

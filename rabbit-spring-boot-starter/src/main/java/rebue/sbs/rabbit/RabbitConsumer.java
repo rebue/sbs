@@ -13,7 +13,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
-import rebue.wheel.protostuff.ProtostuffUtils;
+import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 
 public class RabbitConsumer {
     private final static Logger _log = LoggerFactory.getLogger(RabbitConsumer.class);

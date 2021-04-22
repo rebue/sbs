@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import rebue.wheel.protostuff.ProtostuffUtils;
+import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
@@ -110,7 +110,8 @@ public class JedisClusterClient implements RedisClient {
         final String result = _jedisCluster.get(key);
         if (result != "" || result != "nil" || _jedisCluster.expire(key, expireTime) == 1) {
             return result;
-        } else {
+        }
+        else {
             return null;
         }
     }
@@ -130,14 +131,15 @@ public class JedisClusterClient implements RedisClient {
     @SuppressWarnings("unchecked")
     @Override
     public <T> List<T> listByWildcard(final String key, final Class<T> clazz) {
-        final List<T> result = new LinkedList<>();
+        final List<T>                result  = new LinkedList<>();
         final Map<String, JedisPool> jedises = _jedisCluster.getClusterNodes();
         for (final JedisPool jedisPool : jedises.values()) {
             final Jedis jedis = jedisPool.getResource();
             for (final String item : jedis.keys(key)) {
                 if ("java.lang.String".equals(clazz.getName())) {
                     result.add((T) get(item));
-                } else {
+                }
+                else {
                     result.add(getObj(item, clazz));
                 }
             }
@@ -150,7 +152,8 @@ public class JedisClusterClient implements RedisClient {
         final String result = _jedisCluster.get(key);
         if (result == null || result == "" || result == "nil" || _jedisCluster.del(key) == 0) {
             return null;
-        } else {
+        }
+        else {
             return result;
         }
     }
@@ -160,7 +163,8 @@ public class JedisClusterClient implements RedisClient {
         final byte[] result = _jedisCluster.get(key.getBytes());
         if (result == null || _jedisCluster.del(key) == 0) {
             return null;
-        } else {
+        }
+        else {
             return ProtostuffUtils.deserialize(result, clazz);
         }
     }
@@ -174,8 +178,8 @@ public class JedisClusterClient implements RedisClient {
     public void delByWildcard(final String key) {
         final Map<String, JedisPool> jedises = _jedisCluster.getClusterNodes();
         for (final JedisPool jedisPool : jedises.values()) {
-            final Jedis jedis = jedisPool.getResource();
-            final Set<String> keys = jedis.keys(key);
+            final Jedis       jedis = jedisPool.getResource();
+            final Set<String> keys  = jedis.keys(key);
             jedis.del(keys.toArray(new String[keys.size()]));
         }
     }
