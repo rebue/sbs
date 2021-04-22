@@ -53,6 +53,8 @@ import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.CaffeineSpec;
 
+import rebue.wheel.serialization.fst.FstRedisSerializer;
+
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @Conditional(CacheCondition.class)

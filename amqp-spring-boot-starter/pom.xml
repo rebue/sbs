@@ -24,11 +24,17 @@
 			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
 		</dependency>
 
-		<!-- 用Kryo序列化消息 -->
+		<!-- 用Fst序列化消息 -->
 		<dependency>
-			<groupId>com.esotericsoftware</groupId>
-			<artifactId>kryo</artifactId>
+			<groupId>de.ruedigermoeller</groupId>
+			<artifactId>fst</artifactId>
 		</dependency>
+
+		<!-- 用Kryo序列化消息 -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.esotericsoftware</groupId> -->
+		<!-- <artifactId>kryo</artifactId> -->
+		<!-- </dependency> -->
 
 		<!-- 使用字符串的一些帮助库 -->
 		<dependency>

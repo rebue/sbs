@@ -1,7 +1,6 @@
 package rebue.sbs.amqp;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.StringJoiner;
 
@@ -22,6 +21,8 @@ import org.springframework.context.annotation.Import;
 import com.rabbitmq.client.Channel;
 
 import lombok.extern.slf4j.Slf4j;
+import rebue.wheel.serialization.fst.FstAmqpMessageConverter;
+import rebue.wheel.serialization.fst.FstUtils;
 import rebue.wheel.serialization.kryo.KryoAmqpMessageConverter;
 import rebue.wheel.serialization.kryo.KryoUtils;
 
@@ -34,7 +35,8 @@ import rebue.wheel.serialization.kryo.KryoUtils;
 public class AmqpConfig {
     @Bean
     public MessageConverter messageConverter() {
-        return new KryoAmqpMessageConverter();
+        // return new KryoAmqpMessageConverter();
+        return new FstAmqpMessageConverter();
     }
 
     @Bean
@@ -60,6 +62,9 @@ public class AmqpConfig {
                             sMessageBody = objectInputStream.readObject().toString();
                         }
                         break;
+                    case FstAmqpMessageConverter.CONTENT_TYPE_FST:
+                        sMessageBody = FstUtils.readObject(message.getBody()).toString();
+                        break;
                     case KryoAmqpMessageConverter.CONTENT_TYPE_KRYO:
                         sMessageBody = KryoUtils.readObject(message.getBody()).toString();
                         break;
@@ -67,7 +72,7 @@ public class AmqpConfig {
                         sMessageBody = "不能识别的序列化方式";
                         break;
                     }
-                } catch (final IOException | ClassNotFoundException e) {
+                } catch (final Exception e) {
                     sMessageBody = "反序列化失败-" + e.getMessage();
                 }
             }
