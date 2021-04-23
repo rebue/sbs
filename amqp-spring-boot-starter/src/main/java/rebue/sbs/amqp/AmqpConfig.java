@@ -35,8 +35,8 @@ import rebue.wheel.serialization.kryo.KryoUtils;
 public class AmqpConfig {
     @Bean
     public MessageConverter messageConverter() {
-        // return new KryoAmqpMessageConverter();
-        return new FstAmqpMessageConverter();
+        // return new FstAmqpMessageConverter();
+        return new KryoAmqpMessageConverter();
     }
 
     @Bean

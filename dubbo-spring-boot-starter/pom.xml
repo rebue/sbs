@@ -1,4 +1,5 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -21,19 +22,16 @@
 			<artifactId>spring-cloud-starter-dubbo</artifactId>
 		</dependency>
 
+		<!-- dubbo使用FST序列化 -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.dubbo</groupId> -->
+		<!-- <artifactId>dubbo-serialization-fst</artifactId> -->
+		<!-- </dependency> -->
+
+		<!-- dubbo使用Kryo序列化 -->
 		<dependency>
 			<groupId>org.apache.dubbo</groupId>
 			<artifactId>dubbo-serialization-kryo</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>dubbo-common</artifactId>
-					<groupId>org.apache.dubbo</groupId>
-				</exclusion>
-				<!-- <exclusion> -->
-				<!-- <groupId>de.javakaffee</groupId> -->
-				<!-- <artifactId>kryo-serializers</artifactId> -->
-				<!-- </exclusion> -->
-			</exclusions>
 		</dependency>
 
 		<!-- <dependency> -->

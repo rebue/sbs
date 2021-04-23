@@ -28,9 +28,14 @@
 		</dependency>
 
 		<!-- Redis缓存使用FST进行序列化 -->
+		<!-- <dependency> -->
+		<!-- <groupId>de.ruedigermoeller</groupId> -->
+		<!-- <artifactId>fst</artifactId> -->
+		<!-- </dependency> -->
+		<!-- Redis缓存使用Kryo进行序列化 -->
 		<dependency>
-			<groupId>de.ruedigermoeller</groupId>
-			<artifactId>fst</artifactId>
+			<groupId>com.esotericsoftware</groupId>
+			<artifactId>kryo</artifactId>
 		</dependency>
 
 		<dependency>
