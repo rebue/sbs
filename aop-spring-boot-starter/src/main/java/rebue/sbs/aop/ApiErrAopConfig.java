@@ -51,13 +51,19 @@ public class ApiErrAopConfig {
                 return new Ro<>(ResultDic.PARAM_ERROR, "参数错误: " + e.getMessage());
             }
         } catch (final ConstraintViolationException e) {
-            log.error("AOP拦截到违反数据库约束的异常", e);
-            final String[]      errs = e.getMessage().split(",");
-            final StringBuilder sb   = new StringBuilder();
-            for (final String err : errs) {
-                sb.append(err.split(":")[1].trim() + ",");
+            log.error("AOP拦截到违反参数约束的异常", e);
+            final String[] errs = e.getMessage().split(":");
+            String         msg;
+            if (errs.length == 1) {
+                msg = errs[0].trim();
             }
-            return new Ro<>(ResultDic.PARAM_ERROR, sb.deleteCharAt(sb.length() - 1).toString());
+            else if (errs.length == 2) {
+                msg = errs[1].trim();
+            }
+            else {
+                msg = e.getMessage();
+            }
+            return new Ro<>(ResultDic.PARAM_ERROR, msg);
         } catch (final DataIntegrityViolationException e) {
             log.error("AOP拦截到违反数据库完整性的异常", e);
             final Throwable cause = e.getCause();
