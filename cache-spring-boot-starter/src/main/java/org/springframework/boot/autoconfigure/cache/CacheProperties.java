@@ -116,7 +116,7 @@ public class CacheProperties {
     public Resource resolveConfigLocation(final Resource config) {
         if (config != null) {
             Assert.isTrue(config.exists(),
-                () -> "Cache configuration does not exist '" + config.getDescription() + "'");
+                    () -> "Cache configuration does not exist '" + config.getDescription() + "'");
             return config;
         }
         return null;
