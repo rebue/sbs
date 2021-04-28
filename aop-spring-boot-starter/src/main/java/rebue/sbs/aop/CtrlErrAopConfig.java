@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.wheel.exception.RuntimeExceptionX;
+import rebue.wheel.core.exception.RuntimeExceptionX;
 
 /**
  * API层异常拦截

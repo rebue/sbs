@@ -2,7 +2,7 @@ package rebue.sbs.dozer.converter;
 
 import com.github.dozermapper.core.CustomConverter;
 
-import rebue.wheel.idworker.IdWorker3Helper;
+import rebue.wheel.core.idworker.IdWorker3Helper;
 
 /**
  * ID字段自动生成唯一long序列号
