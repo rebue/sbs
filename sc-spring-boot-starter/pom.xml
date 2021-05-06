@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.github.rebue.sbs</groupId>
 		<artifactId>sbs</artifactId>
-		<version>1.2.2</version>
+		<version>1.2.3</version>
 	</parent>
 	<artifactId>sc-spring-boot-starter</artifactId>
 
