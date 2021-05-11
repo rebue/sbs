@@ -3,9 +3,9 @@ package rebue.sbs.aop;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @Order(1)
 public class CtrlLogAopConfig {
 
-    @Before("execution(public * *..ctrl..*Ctrl.*(..))")
-    public void log(final JoinPoint joinPoint) throws Throwable {
+    @Around("execution(public * *..ctrl..*Ctrl.*(..))")
+    public Object around(final ProceedingJoinPoint joinPoint) throws Throwable {
         // 获取请求信息
         final ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         final HttpServletRequest       request                  = servletRequestAttributes.getRequest();
@@ -36,6 +36,8 @@ public class CtrlLogAopConfig {
         final String                   requestURI               = request.getRequestURI();
 
         log.info(StringUtils.rightPad("控制器层接收到请求:" + requestMethod + " " + requestURI, 73));
+        final Object result = joinPoint.proceed();
+        log.info("控制器层返回的结果: {}", result);
+        return result;
     }
-
 }

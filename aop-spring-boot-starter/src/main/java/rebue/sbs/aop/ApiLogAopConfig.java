@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ApiLogAopConfig {
 
     @Around("execution(public * *..api..*Api.*(..))")
-    public Object log(final ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object around(final ProceedingJoinPoint joinPoint) throws Throwable {
 
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
