@@ -29,8 +29,8 @@ public class ApiLogAopConfig {
         stopWatch.start();
         try {
             final String          clazzName       = joinPoint.getTarget().getClass().getSimpleName();
-            final String          methodName      = joinPoint.getSignature().getName();
             final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+            final String          methodName      = methodSignature.getName();
             final String[]        parameterNames  = methodSignature.getParameterNames();
             final Object[]        parameterValues = joinPoint.getArgs();
 
