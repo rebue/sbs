@@ -4,15 +4,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import io.undertow.servlet.api.SecurityConstraint;
 import io.undertow.servlet.api.SecurityInfo;
 import io.undertow.servlet.api.TransportGuaranteeType;
 import io.undertow.servlet.api.WebResourceCollection;
 
-@Configuration(proxyBeanMethods = false)
-//@ConditionalOnExpression("${server.ssl.enabled:true}")
+/**
+ *
+ *
+ * @deprecated 目前使用WebFlux已失效
+ *
+ * @author zbz
+ *
+ */
+@Deprecated
+// @Configuration(proxyBeanMethods = false)
+// @ConditionalOnExpression("${server.ssl.enabled:true}")
 @ConditionalOnProperty(name = "server.ssl.enabled", havingValue = "true")
 public class SslConfig {
 
@@ -32,11 +40,11 @@ public class SslConfig {
         // 将http的80端口重定向到https的443端口上
         undertowFactory.addDeploymentInfoCustomizers(deploymentInfo -> {
             deploymentInfo
-                    .addSecurityConstraint(new SecurityConstraint()
-                            .addWebResourceCollection(new WebResourceCollection().addUrlPattern("/**"))
-                            .setTransportGuaranteeType(TransportGuaranteeType.CONFIDENTIAL)
-                            .setEmptyRoleSemantic(SecurityInfo.EmptyRoleSemantic.PERMIT))
-                    .setConfidentialPortManager(exchange -> 443);
+                .addSecurityConstraint(new SecurityConstraint()
+                    .addWebResourceCollection(new WebResourceCollection().addUrlPattern("/**"))
+                    .setTransportGuaranteeType(TransportGuaranteeType.CONFIDENTIAL)
+                    .setEmptyRoleSemantic(SecurityInfo.EmptyRoleSemantic.PERMIT))
+                .setConfidentialPortManager(exchange -> 443);
         });
 
         return undertowFactory;

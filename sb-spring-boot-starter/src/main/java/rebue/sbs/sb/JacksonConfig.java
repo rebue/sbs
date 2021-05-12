@@ -6,9 +6,8 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -24,8 +23,8 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
  *
  * @author zbz
  */
-@Configuration(proxyBeanMethods = false)
-public class JacksonConfig implements WebMvcConfigurer {
+// @Configuration(proxyBeanMethods = false)
+public class JacksonConfig implements WebFluxConfigurer {
     /**
      * Parser that can read JSON formatted strings into Maps or Lists. 可以用来读取JSON字符串并解析到Map或List
      */
