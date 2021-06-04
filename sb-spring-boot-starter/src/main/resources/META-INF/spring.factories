@@ -1,6 +1,6 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-rebue.sbs.sb.ctx.ReactiveRequestContextFilter,\
+rebue.sbs.sb.ctx.ReactiveRequestAndResponseContextFilter,\
 rebue.sbs.sb.converter.ConverterConfig,\
 rebue.sbs.sb.ValidatorConfig,\
 rebue.sbs.sb.JacksonConfig

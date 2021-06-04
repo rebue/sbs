@@ -1,19 +1,17 @@
 package rebue.sbs.sb.ctx;
 
-import org.springframework.http.server.reactive.ServerHttpResponse;
-
 import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
 
-public class ReactiveResponseContextHolder {
-    static final Class<ServerHttpResponse> CONTEXT_KEY = ServerHttpResponse.class;
+public class ReactiveRequestAndResponseContextHolder {
+    static final String CONTEXT_KEY = "req.and.resp";
 
     /**
      * Gets the {@code Mono<ServerHttpRequest>} from Reactor {@link Context}
      *
      * @return the {@code Mono<ServerHttpRequest>}
      */
-    public static Mono<ServerHttpResponse> getResponse() {
+    public static Mono<RequestAndResponseContext> getRequestAndResponseContext() {
         return Mono.subscriberContext().map(ctx -> ctx.get(CONTEXT_KEY));
     }
 
