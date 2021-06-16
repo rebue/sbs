@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -56,6 +55,11 @@
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>jakarta.el</artifactId>
+		</dependency>
+
 
 		<!-- 配置中心 -->
 		<dependency>
@@ -83,8 +87,7 @@
 
 
 		<!-- 如果不加入此项，springboot启动会报错 -->
-		<!-- The Bean Validation API is on the classpath but no implementation 
-			could be found -->
+		<!-- The Bean Validation API is on the classpath but no implementation could be found -->
 		<!-- Action: -->
 		<!-- Add an implementation, such as Hibernate Validator, to the classpath -->
 		<!-- main org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter(LoggingFailureAnalysisReporter.java:40) -->
