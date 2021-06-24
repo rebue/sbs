@@ -17,7 +17,7 @@ import org.springframework.dao.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
-import rebue.wheel.core.exception.RuntimeExceptionX;
+import rebue.wheel.api.exception.RuntimeExceptionX;
 
 /**
  * SUB层异常拦截
