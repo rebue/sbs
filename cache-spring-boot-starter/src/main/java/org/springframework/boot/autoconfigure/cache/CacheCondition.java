@@ -1,8 +1,8 @@
 /**
- * CacheCondition在spring的代码中未声明为public，不能使用，所以复制过来
+ * XXX CacheCondition在spring的代码中未声明为public，不能使用，所以从 spring-boot-autoconfigure-2.3.10.RELEASE.jar 中复制过来
  *
- * 完全复制 org.springframework.boot.autoconfigure.cache.CacheCondition 类
- * 并给类添加public
+ * 完全复制 org.springframework.boot.autoconfigure.cache.CacheCondition 类并改变如下:
+ * 1. 给类添加public
  *
  * Copyright 2012-2019 the original author or authors.
  *

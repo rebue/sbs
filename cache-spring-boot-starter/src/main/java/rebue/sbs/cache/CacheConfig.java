@@ -73,7 +73,7 @@ public class CacheConfig {
                                    final ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
                                    final ObjectProvider<RedisCacheManagerBuilderCustomizer> redisCacheManagerBuilderCustomizers,
                                    final RedisConnectionFactory redisConnectionFactory, final ResourceLoader resourceLoader) {
-        final RedisCacheManagerBuilder builder    = RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(
+        final RedisCacheManagerBuilder builder    = RedisCacheManager.builder(new RebueRedisCacheWriter(redisConnectionFactory)).cacheDefaults(
             determineConfiguration(cacheProperties, redisCacheConfiguration, resourceLoader.getClassLoader()));
         final List<String>             cacheNames = cacheProperties.getCacheNames();
         if (!cacheNames.isEmpty()) {

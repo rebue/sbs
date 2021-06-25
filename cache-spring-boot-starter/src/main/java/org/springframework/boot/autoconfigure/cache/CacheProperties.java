@@ -1,5 +1,5 @@
 /**
- * 复制并改写了org.springframework.boot.autoconfigure.cache.CacheProperties类
+ * XXX 原本的CacheProperties属性不够自定义使用，为了方便扩展，从 spring-boot-autoconfigure-2.3.10.RELEASE.jar 中复制过来，改变内容如下:
  *
  * 1. 新增specs属性，支持不同名称的cache使用不同的spec
  *
@@ -116,7 +116,7 @@ public class CacheProperties {
     public Resource resolveConfigLocation(final Resource config) {
         if (config != null) {
             Assert.isTrue(config.exists(),
-                    () -> "Cache configuration does not exist '" + config.getDescription() + "'");
+                () -> "Cache configuration does not exist '" + config.getDescription() + "'");
             return config;
         }
         return null;

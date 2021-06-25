@@ -27,6 +27,14 @@
 			<artifactId>caffeine</artifactId>
 		</dependency>
 
+		<!-- parse org.springframework.cache.Cache to javax.cache.Cache by using 
+			getNativeCache() method and use java iterator as javax.cache.Cache already 
+			extends Iterable -->
+		<dependency>
+			<groupId>javax.cache</groupId>
+			<artifactId>cache-api</artifactId>
+		</dependency>
+
 		<!-- Redis缓存使用FST进行序列化 -->
 		<!-- <dependency> -->
 		<!-- <groupId>de.ruedigermoeller</groupId> -->
