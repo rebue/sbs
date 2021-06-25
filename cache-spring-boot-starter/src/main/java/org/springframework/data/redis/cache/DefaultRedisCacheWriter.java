@@ -2,8 +2,9 @@
  * XXX DefaultRedisCacheWriter在spring的代码中未声明为public，不能使用，所以从 spring-data-redis-2.3.9.RELEASE.jar 中复制过来
  *
  * 完全复制 org.springframework.data.redis.cache.DefaultRedisCacheWriter 类并改变如下:
- * 1. 给类添加public
- * 2. 给构造函数添加protected，以方便继承
+ * 1. 类改为 public
+ * 2. 构造函数改为 protected，方便继承
+ * 3. execute 改为 protected，方便继承
  *
  * Copyright 2017-2021 the original author or authors.
  *
@@ -61,7 +62,7 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
     private final Duration               sleepTime;
 
     /**
-     * XXX 给构造函数添加protected，以方便继承
+     * XXX 构造函数改为 protected，方便继承
      *
      * @param connectionFactory must not be {@literal null}.
      */
@@ -255,7 +256,7 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
         return !sleepTime.isZero() && !sleepTime.isNegative();
     }
 
-    private <T> T execute(final String name, final Function<RedisConnection, T> callback) {
+    protected <T> T execute(final String name, final Function<RedisConnection, T> callback) {
 
         final RedisConnection connection = connectionFactory.getConnection();
         try {

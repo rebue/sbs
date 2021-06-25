@@ -6,9 +6,11 @@ package rebue.sbs.cache;
 
 import java.nio.charset.Charset;
 import java.time.Duration;
+import java.util.Set;
 
 import org.springframework.data.redis.cache.DefaultRedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.util.Assert;
 
 public class RebueRedisCacheWriter extends DefaultRedisCacheWriter {
 
@@ -16,9 +18,15 @@ public class RebueRedisCacheWriter extends DefaultRedisCacheWriter {
         super(connectionFactory);
     }
 
+    public Set<byte[]> keys(final String name) {
+        Assert.notNull(name, "Name must not be null!");
+
+        return execute(name, connection -> connection.keys("*".getBytes()));
+    }
+
     @Override
     public void put(final String name, byte[] key, final byte[] value, Duration ttl) {
-        final String[] keySplit = new String(key, Charset.forName("UTF-8")).split("?");
+        final String[] keySplit = new String(key, Charset.forName("UTF-8")).split("\\?");
         if (keySplit.length == 2) {
             key = keySplit[0].getBytes();
             final String[] params = keySplit[0].split("&");
@@ -34,7 +42,7 @@ public class RebueRedisCacheWriter extends DefaultRedisCacheWriter {
 
     @Override
     public byte[] get(final String name, byte[] key) {
-        final String[] keySplit = new String(key, Charset.forName("UTF-8")).split("?");
+        final String[] keySplit = new String(key, Charset.forName("UTF-8")).split("\\?");
         if (keySplit.length == 2) {
             key = keySplit[0].getBytes();
         }
@@ -43,7 +51,7 @@ public class RebueRedisCacheWriter extends DefaultRedisCacheWriter {
 
     @Override
     public byte[] putIfAbsent(final String name, byte[] key, final byte[] value, Duration ttl) {
-        final String[] keySplit = new String(key, Charset.forName("UTF-8")).split("?");
+        final String[] keySplit = new String(key, Charset.forName("UTF-8")).split("\\?");
         if (keySplit.length == 2) {
             key = keySplit[0].getBytes();
             final String[] params = keySplit[0].split("&");

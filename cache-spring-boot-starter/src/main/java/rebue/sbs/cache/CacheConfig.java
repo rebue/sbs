@@ -36,6 +36,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
@@ -44,6 +45,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheManager.RedisCacheManagerBuilder;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 import org.springframework.util.CollectionUtils;
@@ -53,7 +55,7 @@ import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.CaffeineSpec;
 
-import rebue.wheel.serialization.kryo.KryoRedisSerializer;
+import rebue.wheel.serialization.fst.FstRedisSerializer;
 
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
@@ -62,6 +64,12 @@ import rebue.wheel.serialization.kryo.KryoRedisSerializer;
 @EnableConfigurationProperties(CacheProperties.class)
 public class CacheConfig {
 
+    @Primary
+    @Bean
+    RedisCacheWriter redisCacheWriter(final RedisConnectionFactory redisConnectionFactory) {
+        return new RebueRedisCacheWriter(redisConnectionFactory);
+    }
+
     // ↓↓↓↓↓↓↓↓↓↓↓ 参考org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration ↓↓↓↓↓↓↓↓↓↓↓
     // XXX @Primary注解让此缓存管理为默认的缓存管理
     @Primary
@@ -69,12 +77,13 @@ public class CacheConfig {
     @Bean(CacheManagerName.REDIS_CACHE_MANAGER)
     @ConditionalOnClass(RedisConnectionFactory.class)
     @ConditionalOnBean(RedisConnectionFactory.class)
-    RedisCacheManager cacheManager(final CacheProperties cacheProperties, final CacheManagerCustomizers cacheManagerCustomizers,
-                                   final ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
-                                   final ObjectProvider<RedisCacheManagerBuilderCustomizer> redisCacheManagerBuilderCustomizers,
-                                   final RedisConnectionFactory redisConnectionFactory, final ResourceLoader resourceLoader) {
-        final RedisCacheManagerBuilder builder    = RedisCacheManager.builder(new RebueRedisCacheWriter(redisConnectionFactory)).cacheDefaults(
-            determineConfiguration(cacheProperties, redisCacheConfiguration, resourceLoader.getClassLoader()));
+    CacheManager cacheManager(final CacheProperties cacheProperties, final CacheManagerCustomizers cacheManagerCustomizers,
+                              final ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
+                              final ObjectProvider<RedisCacheManagerBuilderCustomizer> redisCacheManagerBuilderCustomizers,
+                              final RedisConnectionFactory redisConnectionFactory, final ResourceLoader resourceLoader) {
+        // XXX 这里使用自定义的 RebueRedisCacheWriter
+        final RedisCacheManagerBuilder builder    = RedisCacheManager.builder(new RebueRedisCacheWriter(redisConnectionFactory))
+            .cacheDefaults(determineConfiguration(cacheProperties, redisCacheConfiguration, resourceLoader.getClassLoader()));
         final List<String>             cacheNames = cacheProperties.getCacheNames();
         if (!cacheNames.isEmpty()) {
             builder.initialCacheNames(new LinkedHashSet<>(cacheNames));
@@ -83,8 +92,7 @@ public class CacheConfig {
         return cacheManagerCustomizers.customize(builder.build());
     }
 
-    private org.springframework.data.redis.cache.RedisCacheConfiguration determineConfiguration(
-                                                                                                final CacheProperties cacheProperties,
+    private org.springframework.data.redis.cache.RedisCacheConfiguration determineConfiguration(final CacheProperties cacheProperties,
                                                                                                 final ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
                                                                                                 final ClassLoader classLoader) {
         return redisCacheConfiguration.getIfAvailable(() -> createConfiguration(cacheProperties, classLoader));
@@ -99,8 +107,8 @@ public class CacheConfig {
             SerializationPair.fromSerializer(
                 // XXX 这里改写用Kryo代替原来的JDK进行序列化
                 // new JdkSerializationRedisSerializer(classLoader)//
-                // new FstRedisSerializer()//
-                new KryoRedisSerializer()//
+                new FstRedisSerializer()//
+            // new KryoRedisSerializer()//
             ));
 
         if (redisProperties.getTimeToLive() != null) {
@@ -124,9 +132,9 @@ public class CacheConfig {
     @Bean(CacheManagerName.CAFFEINE_CACHE_MANAGER)
     @ConditionalOnClass({ Caffeine.class, CaffeineCacheManager.class
     })
-    public CaffeineCacheManager cacheManager(final CacheProperties cacheProperties, final CacheManagerCustomizers customizers,
-                                             final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
-                                             final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
+    public CacheManager cacheManager(final CacheProperties cacheProperties, final CacheManagerCustomizers customizers,
+                                     final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
+                                     final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
         final CaffeineCacheManager cacheManager = createCaffeineCacheManager(cacheProperties, caffeine, caffeineSpec, cacheLoader);
         final List<String>         cacheNames   = cacheProperties.getCacheNames();
         if (!CollectionUtils.isEmpty(cacheNames)) {
