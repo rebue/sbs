@@ -45,7 +45,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheManager.RedisCacheManagerBuilder;
-import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 import org.springframework.util.CollectionUtils;
@@ -63,12 +62,6 @@ import rebue.wheel.serialization.fst.FstRedisSerializer;
 // XXX 启用属性类(也就是注入属性类，如果没有这一行，属性类要另外写注入，如在属性类上加注解@Compenent，或扫描)
 @EnableConfigurationProperties(CacheProperties.class)
 public class CacheConfig {
-
-    @Primary
-    @Bean
-    RedisCacheWriter redisCacheWriter(final RedisConnectionFactory redisConnectionFactory) {
-        return new RebueRedisCacheWriter(redisConnectionFactory);
-    }
 
     // ↓↓↓↓↓↓↓↓↓↓↓ 参考org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration ↓↓↓↓↓↓↓↓↓↓↓
     // XXX @Primary注解让此缓存管理为默认的缓存管理
