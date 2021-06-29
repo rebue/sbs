@@ -54,7 +54,7 @@ import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.CaffeineSpec;
 
-import rebue.wheel.serialization.fst.FstRedisSerializer;
+import rebue.wheel.serialization.kryo.KryoRedisSerializer;
 
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
@@ -99,9 +99,10 @@ public class CacheConfig {
         config = config.serializeValuesWith(
             SerializationPair.fromSerializer(
                 // XXX 这里改写用Kryo代替原来的JDK进行序列化
-                // new JdkSerializationRedisSerializer(classLoader)//
-                new FstRedisSerializer()//
-            // new KryoRedisSerializer()//
+                // new JdkSerializationRedisSerializer(classLoader)
+                // new GenericJackson2JsonRedisSerializer()
+                // new FstRedisSerializer()//
+                new KryoRedisSerializer()//
             ));
 
         if (redisProperties.getTimeToLive() != null) {

@@ -6,11 +6,16 @@ package rebue.sbs.cache;
 
 import java.nio.charset.Charset;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.redis.cache.DefaultRedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.util.Assert;
+
+import rebue.wheel.serialization.kryo.KryoUtils;
 
 public class RebueRedisCacheWriter extends DefaultRedisCacheWriter {
 
@@ -20,12 +25,17 @@ public class RebueRedisCacheWriter extends DefaultRedisCacheWriter {
 
     public Set<byte[]> keys(final String name) {
         Assert.notNull(name, "Name must not be null!");
-
         return execute(name, connection -> connection.keys("*".getBytes()));
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> List<T> listAll(final String cacheName) {
+        return keys(cacheName).stream().map(key -> ((T) KryoUtils.readObject(get(cacheName, key)))).collect(Collectors.toList());
     }
 
     @Override
     public void put(final String name, byte[] key, final byte[] value, Duration ttl) {
+        System.out.println(new String(key, Charset.forName("UTF-8")) + ":" + Arrays.toString(value));
         final String[] keySplit = new String(key, Charset.forName("UTF-8")).split("\\?");
         if (keySplit.length == 2) {
             key = keySplit[0].getBytes();
