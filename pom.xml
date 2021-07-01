@@ -28,6 +28,7 @@
 		<module>es-spring-boot-starter</module>
 		<module>amqp-spring-boot-starter</module>
 		<module>minio-spring-boot-starter</module>
+		<module>xxljob-spring-boot-starter</module>
 	</modules>
 
 	<dependencyManagement>
@@ -60,6 +61,11 @@
 			<dependency>
 				<groupId>com.github.rebue.sbs</groupId>
 				<artifactId>minio-spring-boot-starter</artifactId>
+				<version>1.2.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.sbs</groupId>
+				<artifactId>xxljob-spring-boot-starter</artifactId>
 				<version>1.2.3</version>
 			</dependency>
 			<dependency>

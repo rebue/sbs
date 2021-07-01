@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -7,14 +6,13 @@
 		<artifactId>sbs</artifactId>
 		<version>1.2.3</version>
 	</parent>
-	<artifactId>minio-spring-boot-starter</artifactId>
-	<name>minio-spring-boot-starter</name>
-	<description>MinIO的SpringBoot启动器</description>
-
+	<artifactId>xxljob-spring-boot-starter</artifactId>
+	<name>xxljob-spring-boot-starter</name>
+	<description>XXL-JOB的SpringBoot启动器</description>
 	<dependencies>
 		<dependency>
-			<groupId>io.minio</groupId>
-			<artifactId>minio</artifactId>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-job-core</artifactId>
 		</dependency>
 
 		<dependency>
@@ -38,5 +36,6 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
+
 	</dependencies>
 </project>
