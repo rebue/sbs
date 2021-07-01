@@ -12,28 +12,28 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration(proxyBeanMethods = false)
 public class XxlJobConfig {
 
-    @Value("${xxl.job.admin.addresses}")
+    @Value("${xxl.job.admin.addresses:http://127.0.0.1:6060/xxl-job-admin}")
     private String adminAddresses;
 
-    @Value("${xxl.job.accessToken}")
+    @Value("${xxl.job.accessToken:}")
     private String accessToken;
 
     @Value("${xxl.job.executor.appname}")
     private String appname;
 
-    @Value("${xxl.job.executor.address}")
+    @Value("${xxl.job.executor.address:}")
     private String address;
 
-    @Value("${xxl.job.executor.ip}")
+    @Value("${xxl.job.executor.ip:}")
     private String ip;
 
-    @Value("${xxl.job.executor.port}")
+    @Value("${xxl.job.executor.port:0}")
     private int    port;
 
-    @Value("${xxl.job.executor.logpath}")
+    @Value("${xxl.job.executor.logpath:log/xxl-job-jobhandler}")
     private String logPath;
 
-    @Value("${xxl.job.executor.logretentiondays}")
+    @Value("${xxl.job.executor.logretentiondays:30}")
     private int    logRetentionDays;
 
     @Bean
