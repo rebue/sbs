@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>cfg-spring-boot-starter</artifactId>
 	<name>cfg-spring-boot-starter</name>
-	<description>自动配置属性的SpringBoot启动器</description>
+	<description>读取配置属性时自定义转换器的SpringBoot启动器</description>
 
 	<dependencies>
 		<dependency>
