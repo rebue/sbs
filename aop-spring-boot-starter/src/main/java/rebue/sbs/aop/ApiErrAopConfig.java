@@ -68,6 +68,7 @@ public class ApiErrAopConfig {
             log.error("AOP拦截到违反数据库完整性的异常", e);
             final Throwable cause = e.getCause();
             if (cause instanceof SQLIntegrityConstraintViolationException) {
+                //违反主外键约束
                 return new Ro<>(ResultDic.WARN, "该记录存在关联信息，请先解除关联", cause.getMessage());
             }
             else if (cause instanceof DataTruncation) {
