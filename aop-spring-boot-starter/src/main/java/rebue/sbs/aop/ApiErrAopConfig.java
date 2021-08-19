@@ -68,7 +68,7 @@ public class ApiErrAopConfig {
             log.error("AOP拦截到违反数据库完整性的异常", e);
             final Throwable cause = e.getCause();
             if (cause instanceof SQLIntegrityConstraintViolationException) {
-                return new Ro<>(ResultDic.WARN, "此操作违反了该字段作为外键、主键或唯一键的约束", cause.getMessage());
+                return new Ro<>(ResultDic.WARN, "该记录存在关联信息，请先解除关联", cause.getMessage());
             }
             else if (cause instanceof DataTruncation) {
                 return new Ro<>(ResultDic.WARN, "此操作违反了该字段最大长度的约束", cause.getMessage());
