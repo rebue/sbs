@@ -10,7 +10,7 @@ public class MinioProperties {
     /**
      * 连接地址
      */
-    private String endpoint  = "http://127.0.0.1:9000";
+    private String endpoint  = "http://172.20.14.125:9000";
     /**
      * 用户名
      */
