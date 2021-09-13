@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.data.redis.cache.DefaultRedisCacheWriter;
+import org.springframework.data.redis.cache.DefaultRedisCacheWriterCopy;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.util.Assert;
 
 import rebue.wheel.serialization.kryo.KryoUtils;
 
-public class RebueRedisCacheWriter extends DefaultRedisCacheWriter {
+public class RebueRedisCacheWriter extends DefaultRedisCacheWriterCopy {
 
     RebueRedisCacheWriter(final RedisConnectionFactory connectionFactory) {
         super(connectionFactory);

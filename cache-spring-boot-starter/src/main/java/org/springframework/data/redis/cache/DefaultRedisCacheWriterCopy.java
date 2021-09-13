@@ -42,7 +42,7 @@ import org.springframework.util.Assert;
  * {@link RedisCacheWriter} implementation capable of reading/writing binary data from/to Redis in {@literal standalone}
  * and {@literal cluster} environments. Works upon a given {@link RedisConnectionFactory} to obtain the actual
  * {@link RedisConnection}. <br />
- * {@link DefaultRedisCacheWriter} can be used in
+ * {@link DefaultRedisCacheWriterCopy} can be used in
  * {@link RedisCacheWriter#lockingRedisCacheWriter(RedisConnectionFactory) locking} or
  * {@link RedisCacheWriter#nonLockingRedisCacheWriter(RedisConnectionFactory) non-locking} mode. While
  * {@literal non-locking} aims for maximum performance it may result in overlapping, non atomic, command execution for
@@ -56,7 +56,7 @@ import org.springframework.util.Assert;
  *
  * @since 2.0
  */
-public class DefaultRedisCacheWriter implements RedisCacheWriter {
+public class DefaultRedisCacheWriterCopy implements RedisCacheWriter {
 
     private final RedisConnectionFactory connectionFactory;
     private final Duration               sleepTime;
@@ -66,7 +66,7 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
      *
      * @param connectionFactory must not be {@literal null}.
      */
-    protected DefaultRedisCacheWriter(final RedisConnectionFactory connectionFactory) {
+    protected DefaultRedisCacheWriterCopy(final RedisConnectionFactory connectionFactory) {
         this(connectionFactory, Duration.ZERO);
     }
 
@@ -75,7 +75,7 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
      * @param sleepTime         sleep time between lock request attempts. Must not be {@literal null}. Use {@link Duration#ZERO}
      *                          to disable locking.
      */
-    DefaultRedisCacheWriter(final RedisConnectionFactory connectionFactory, final Duration sleepTime) {
+    DefaultRedisCacheWriterCopy(final RedisConnectionFactory connectionFactory, final Duration sleepTime) {
 
         Assert.notNull(connectionFactory, "ConnectionFactory must not be null!");
         Assert.notNull(sleepTime, "SleepTime must not be null!");
