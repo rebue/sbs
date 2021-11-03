@@ -29,6 +29,7 @@
 		<module>minio-spring-boot-starter</module>
 		<module>xxljob-spring-boot-starter</module>
 		<module>curator-spring-boot-starter</module>
+		<module>shardingsphere-spring-boot-starter</module>
 	</modules>
 
 	<dependencyManagement>
