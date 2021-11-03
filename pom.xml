@@ -113,6 +113,11 @@
 				<artifactId>es-spring-boot-starter</artifactId>
 				<version>1.2.4</version>
 			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.sbs</groupId>
+				<artifactId>shardingsphere-spring-boot-starter</artifactId>
+				<version>1.2.4</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
