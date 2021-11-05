@@ -53,15 +53,19 @@ public class DesensitizePlugin implements Interceptor {
             // 获取对应的脱敏策略 并进行脱敏
             DesensitizeStrategy      desensitizeStrategy = annotation.value();
 
-            Function<String, String> desensitizer        = null;
-            if (desensitizeStrategy != null)
-                desensitizer = desensitizeStrategy.getDesensitizer();
-            else
+            Function<String, String> desensitizer;
+            // 自定义
+            if (DesensitizeStrategy.CUSTOM.equals(desensitizeStrategy))
                 desensitizer = str -> {
                     if (StringUtils.isBlank(str)) return "";
                     str = str.trim();
                     return str.replaceAll(annotation.regex(), annotation.replacement());
                 };
+
+            // 已定义好的策略
+            else
+                desensitizer = desensitizeStrategy.getDesensitizer();
+
             // 把脱敏后的值塞回去
             metaObject.setValue(name, desensitizer.apply(value));
         }
