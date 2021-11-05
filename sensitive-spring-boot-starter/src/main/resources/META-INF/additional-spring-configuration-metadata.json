@@ -1,0 +1,9 @@
+{
+	"properties": [
+		{
+			"name": "rebue.sbs.sensitive.enabled",
+			"type": "java.lang.Boolean",
+			"description": "启用敏感数据处理"
+		}
+	]
+}
