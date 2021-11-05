@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
@@ -51,9 +52,16 @@ public class DesensitizePlugin implements Interceptor {
             Desensitize              annotation          = field.getAnnotation(Desensitize.class);
             // 获取对应的脱敏策略 并进行脱敏
             DesensitizeStrategy      desensitizeStrategy = annotation.value();
-            Function<String, String> desensitizer        = desensitizeStrategy != null
-                    ? desensitizeStrategy.getDesensitizer()
-                    : str -> str.replaceAll(annotation.regex(), annotation.replacement());
+
+            Function<String, String> desensitizer        = null;
+            if (desensitizeStrategy != null)
+                desensitizer = desensitizeStrategy.getDesensitizer();
+            else
+                desensitizer = str -> {
+                    if (StringUtils.isBlank(str)) return "";
+                    str = str.trim();
+                    return str.replaceAll(annotation.regex(), annotation.replacement());
+                };
             // 把脱敏后的值塞回去
             metaObject.setValue(name, desensitizer.apply(value));
         }
