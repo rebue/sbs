@@ -24,31 +24,7 @@
 
         <dependency>
             <groupId>com.github.rebue.sbs</groupId>
-            <artifactId>cache-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.rebue.sbs</groupId>
             <artifactId>cfg-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.rebue.sbs</groupId>
-            <artifactId>sensitive-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.rebue.sbs</groupId>
-            <artifactId>shardingsphere-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
         </dependency>
 
         <dependency>
