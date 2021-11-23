@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.rebue.sbs</groupId>
 		<artifactId>sbs</artifactId>
-		<version>1.2.4</version>
+		<version>1.2.5</version>
 	</parent>
 	<artifactId>minio-spring-boot-starter</artifactId>
 	<name>minio-spring-boot-starter</name>
