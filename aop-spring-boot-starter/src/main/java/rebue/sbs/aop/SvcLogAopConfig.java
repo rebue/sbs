@@ -19,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnExpression("${rebue.sbs.aop.log-aop.svc.enabled:true}")
-@Order(5)
+@ConditionalOnExpression("${rebue.sbs.aop.svc.log.enabled:true}")
+@Order(7)
 public class SvcLogAopConfig {
 
     @Around("execution(public * *..svc..*Svc.*(..))")

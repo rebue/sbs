@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,7 +26,8 @@ import rebue.wheel.api.exception.RuntimeExceptionX;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@Order(4)
+@ConditionalOnExpression("${rebue.sbs.aop.api.err.enabled:true}")
+@Order(6)
 public class ApiErrAopConfig {
 
     @Around("execution(public * *..api..*Api.*(..))")
@@ -68,7 +70,7 @@ public class ApiErrAopConfig {
             log.error("AOP拦截到违反数据库完整性的异常", e);
             final Throwable cause = e.getCause();
             if (cause instanceof SQLIntegrityConstraintViolationException) {
-                //违反主外键约束
+                // 违反主外键约束
                 return new Ro<>(ResultDic.WARN, "该记录存在关联信息，请先解除关联", cause.getMessage());
             }
             else if (cause instanceof DataTruncation) {

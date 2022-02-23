@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,6 +26,7 @@ import rebue.wheel.api.exception.RuntimeExceptionX;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnExpression("${rebue.sbs.aop.sub.err.enabled:true}")
 @Order(4)
 public class SubErrAopConfig {
 

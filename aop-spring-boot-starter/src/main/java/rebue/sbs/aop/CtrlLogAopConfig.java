@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication
-@ConditionalOnExpression("${rebue.sbs.aop.log-aop.ctrl.enabled:true}")
+@ConditionalOnExpression("${rebue.sbs.aop.ctrl.log.enabled:true}")
 @Order(1)
 public class CtrlLogAopConfig {
 

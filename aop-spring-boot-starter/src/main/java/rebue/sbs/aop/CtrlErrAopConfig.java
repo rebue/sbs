@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
@@ -18,6 +19,7 @@ import rebue.wheel.api.exception.RuntimeExceptionX;
  */
 @Aspect
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnExpression("${rebue.sbs.aop.ctrl.err.enabled:true}")
 @Order(2)
 @Slf4j
 public class CtrlErrAopConfig {

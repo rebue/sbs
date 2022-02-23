@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnExpression("${rebue.sbs.aop.log-aop.api.enabled:true}")
-@Order(3)
+@ConditionalOnExpression("${rebue.sbs.aop.api.log.enabled:true}")
+@Order(5)
 public class ApiLogAopConfig {
 
     @Around("execution(public * *..api..*Api.*(..))")
