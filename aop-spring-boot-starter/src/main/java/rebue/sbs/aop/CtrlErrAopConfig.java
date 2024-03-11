@@ -9,9 +9,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import reactor.core.publisher.Mono;
-import rebue.robotech.dic.ResultDic;
-import rebue.wheel.api.ro.Rt;
 import rebue.wheel.api.exception.RuntimeExceptionX;
+import rebue.wheel.api.ro.Rt;
 
 /**
  * API层异常拦截
@@ -30,30 +29,30 @@ public class CtrlErrAopConfig {
         } catch (final IllegalArgumentException e) {
             log.error("AOP拦截到参数错误的异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
-                return returnRoInCatch(new Rt<>(ResultDic.PARAM_ERROR, "参数错误 "));
+                return returnRoInCatch(Rt.illegalArgument("参数错误 "));
             } else {
-                return returnRoInCatch(new Rt<>(ResultDic.PARAM_ERROR, "参数错误: " + e.getMessage()));
+                return returnRoInCatch(Rt.illegalArgument("参数错误: " + e.getMessage()));
             }
         } catch (final NullPointerException e) {
             log.error("AOP拦截到空指针异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
-                return returnRoInCatch(new Rt<>(ResultDic.FAIL, "服务器出现空指针异常", null, "500", null));
+                return returnRoInCatch(Rt.fail("服务器出现空指针异常", null, "500", null));
             } else {
-                return returnRoInCatch(new Rt<>(ResultDic.FAIL, "服务器出现空指针异常", e.getMessage(), "500", null));
+                return returnRoInCatch(Rt.fail("服务器出现空指针异常", e.getMessage(), "500", null));
             }
         } catch (final RuntimeExceptionX e) {
             log.warn("AOP拦截到自定义的运行时异常", e);
-            return returnRoInCatch(new Rt<>(ResultDic.WARN, e.getMessage()));
+            return returnRoInCatch(Rt.warn(e.getMessage()));
         } catch (final RuntimeException e) {
             log.error("AOP拦截到运行时异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
-                return returnRoInCatch(new Rt<>(ResultDic.FAIL, "服务器出现运行时异常", null, "500", null));
+                return returnRoInCatch(Rt.fail("服务器出现运行时异常", null, "500", null));
             } else {
-                return returnRoInCatch(new Rt<>(ResultDic.FAIL, "服务器出现运行时异常", e.getMessage(), "500", null));
+                return returnRoInCatch(Rt.fail("服务器出现运行时异常", e.getMessage(), "500", null));
             }
         } catch (final Throwable e) {
             log.error("AOP拦截到未能识别的异常", e);
-            return returnRoInCatch(new Rt<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", e.getMessage(), "500", null));
+            return returnRoInCatch(Rt.fail("服务器出现未定义的异常，请联系管理员", e.getMessage(), "500", null));
         }
     }
 

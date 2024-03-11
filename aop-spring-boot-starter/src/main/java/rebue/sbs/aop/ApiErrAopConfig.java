@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
-import rebue.robotech.dic.ResultDic;
-import rebue.wheel.api.ro.Rt;
 import rebue.wheel.api.exception.RuntimeExceptionX;
+import rebue.wheel.api.ro.Rt;
 
 import java.sql.DataTruncation;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -81,7 +80,7 @@ public class ApiErrAopConfig {
             }
         } catch (final RuntimeExceptionX e) {
             log.warn("AOP拦截到自定义的运行时异常", e);
-            return Rt.warn( e.getMessage());
+            return Rt.warn(e.getMessage());
         } catch (final RuntimeException e) {
             log.error("AOP拦截到运行时异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
@@ -91,7 +90,7 @@ public class ApiErrAopConfig {
             }
         } catch (final Throwable e) {
             log.error("AOP拦截到未能识别的异常", e);
-            return new Rt.fail("服务器出现未定义的异常，请联系管理员", e.getMessage(), "500", null);
+            return Rt.fail("服务器出现未定义的异常，请联系管理员", e.getMessage(), "500");
         }
     }
 
