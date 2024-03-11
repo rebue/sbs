@@ -15,7 +15,7 @@ import rebue.robotech.ra.LongRa;
 import rebue.robotech.ra.PageRa;
 import rebue.robotech.ra.PojoRa;
 import rebue.robotech.ra.StringRa;
-import rebue.robotech.ro.Ro;
+import rebue.wheel.api.ro.Rt;
 import rebue.robotech.to.PageTo;
 
 public class SerializationOptimizerImpl implements SerializationOptimizer {
@@ -32,7 +32,7 @@ public class SerializationOptimizerImpl implements SerializationOptimizer {
 
         _classes = new LinkedList<>();
         _classes.add(PageTo.class);
-        _classes.add(Ro.class);
+        _classes.add(Rt.class);
         _classes.add(BooleanRa.class);
         _classes.add(CountRa.class);
         _classes.add(IdRa.class);

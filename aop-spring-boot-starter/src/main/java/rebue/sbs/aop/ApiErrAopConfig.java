@@ -12,7 +12,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import rebue.robotech.dic.ResultDic;
-import rebue.robotech.ro.Ro;
+import rebue.wheel.api.ro.Rt;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 
 import java.sql.DataTruncation;
@@ -37,17 +37,17 @@ public class ApiErrAopConfig {
             final String message = e.getCause().getMessage();
             final int    start   = message.indexOf("'");
             final int    end     = message.indexOf("'", start + 1) + 1;
-            return new Ro<>(ResultDic.WARN, message.substring(start, end) + "已存在");
+            return Rt.warn(message.substring(start, end) + "已存在");
         } catch (final NumberFormatException e) {
             log.error("AOP拦截到字符串转数值的异常", e);
             final String[] errs = e.getMessage().split("\"");
-            return new Ro<>(ResultDic.PARAM_ERROR, "参数错误: \"" + errs[1] + "\"不是数值类型");
+            return Rt.illegalArgument("参数错误: \"" + errs[1] + "\"不是数值类型");
         } catch (final IllegalArgumentException e) {
             log.error("AOP拦截到参数错误的异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
-                return new Ro<>(ResultDic.PARAM_ERROR, "参数错误");
+                return Rt.illegalArgument("参数错误");
             } else {
-                return new Ro<>(ResultDic.PARAM_ERROR, "参数错误: " + e.getMessage());
+                return Rt.illegalArgument("参数错误: " + e.getMessage());
             }
         } catch (final ConstraintViolationException e) {
             log.error("AOP拦截到违反参数约束的异常", e);
@@ -60,38 +60,38 @@ public class ApiErrAopConfig {
             } else {
                 msg = e.getMessage();
             }
-            return new Ro<>(ResultDic.PARAM_ERROR, msg);
+            return Rt.illegalArgument(msg);
         } catch (final DataIntegrityViolationException e) {
             log.error("AOP拦截到违反数据库完整性的异常", e);
             final Throwable cause = e.getCause();
             if (cause instanceof SQLIntegrityConstraintViolationException) {
                 // 违反主外键约束
-                return new Ro<>(ResultDic.WARN, "该记录存在关联信息，请先解除关联", cause.getMessage());
+                return Rt.warn("该记录存在关联信息，请先解除关联", cause.getMessage());
             } else if (cause instanceof DataTruncation) {
-                return new Ro<>(ResultDic.WARN, "此操作违反了该字段最大长度的约束", cause.getMessage());
+                return Rt.warn("此操作违反了该字段最大长度的约束", cause.getMessage());
             } else {
-                return new Ro<>(ResultDic.WARN, "此操作违反了数据库完整性的约束", cause.getMessage());
+                return Rt.warn("此操作违反了数据库完整性的约束", cause.getMessage());
             }
         } catch (final NullPointerException e) {
             log.error("AOP拦截到空指针异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
-                return new Ro<>(ResultDic.FAIL, "服务器出现空指针异常", null, "500", null);
+                return Rt.fail("服务器出现空指针异常", null, "500", null);
             } else {
-                return new Ro<>(ResultDic.FAIL, "服务器出现空指针异常", e.getMessage(), "500", null);
+                return Rt.fail("服务器出现空指针异常", e.getMessage(), "500", null);
             }
         } catch (final RuntimeExceptionX e) {
             log.warn("AOP拦截到自定义的运行时异常", e);
-            return new Ro<>(ResultDic.WARN, e.getMessage());
+            return Rt.warn( e.getMessage());
         } catch (final RuntimeException e) {
             log.error("AOP拦截到运行时异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
-                return new Ro<>(ResultDic.FAIL, "服务器出现运行时异常", null, "500", null);
+                return Rt.fail("服务器出现运行时异常", null, "500");
             } else {
-                return new Ro<>(ResultDic.FAIL, "服务器出现运行时异常", e.getMessage(), "500", null);
+                return Rt.fail("服务器出现运行时异常", e.getMessage(), "500");
             }
         } catch (final Throwable e) {
             log.error("AOP拦截到未能识别的异常", e);
-            return new Ro<>(ResultDic.FAIL, "服务器出现未定义的异常，请联系管理员", e.getMessage(), "500", null);
+            return new Rt.fail("服务器出现未定义的异常，请联系管理员", e.getMessage(), "500", null);
         }
     }
 
