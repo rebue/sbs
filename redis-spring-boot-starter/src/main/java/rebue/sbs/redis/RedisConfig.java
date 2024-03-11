@@ -28,19 +28,19 @@ public class RedisConfig {
         config.setMaxWaitMillis(properties.getMaxWaitMillis());
         config.setTestOnBorrow(properties.getTestOnBorrow());
         switch (properties.getClusterType()) {
-        case "Single":
-            return new JedisPoolClient(new JedisPool(config, properties.getHost(), properties.getPort(),
-                    properties.getConnectionTimeout(), properties.getPassword()));
-        case "RedisCluster":
-            Set<HostAndPort> nodes = new HashSet<>();
-            for (String node : properties.getClusterNodes()) {
-                String[] ipPortPair = node.split(":");
-                nodes.add(new HostAndPort(ipPortPair[0].trim(), Integer.parseInt(ipPortPair[1].trim())));
-            }
-            JedisClusterClient result = new JedisClusterClient(
-                    new JedisCluster(nodes, properties.getConnectionTimeout(), properties.getSoTimeout(),
-                            properties.getMaxAttempts(), properties.getPassword(), config));
-            return result;
+            case "Single":
+                return new JedisPoolClient(new JedisPool(config, properties.getHost(), properties.getPort(),
+                        properties.getConnectionTimeout(), properties.getPassword()));
+            case "RedisCluster":
+                Set<HostAndPort> nodes = new HashSet<>();
+                for (String node : properties.getClusterNodes()) {
+                    String[] ipPortPair = node.split(":");
+                    nodes.add(new HostAndPort(ipPortPair[0].trim(), Integer.parseInt(ipPortPair[1].trim())));
+                }
+                JedisClusterClient result = new JedisClusterClient(
+                        new JedisCluster(nodes, properties.getConnectionTimeout(), properties.getSoTimeout(),
+                                properties.getMaxAttempts(), properties.getPassword(), config));
+                return result;
         }
         return null;
     }

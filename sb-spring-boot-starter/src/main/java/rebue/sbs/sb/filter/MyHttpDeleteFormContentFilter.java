@@ -16,25 +16,11 @@
 
 package rebue.sbs.sb.filter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -46,8 +32,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.*;
+
 /**
- * {@link javax.servlet.Filter} that makes form encoded data available through
+ * {@link jakarta.servlet.Filter} that makes form encoded data available through
  * the {@code ServletRequest.getParameter*()} family of methods during HTTP PUT
  * or PATCH requests.
  *
@@ -60,9 +51,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * it is for HTTP POST requests.
  *
  * @author Rossen Stoyanchev
- *
  * @since 3.1
- *
  * @deprecated 目前使用WebFlux已失效
  */
 @Deprecated
@@ -97,17 +86,17 @@ public class MyHttpDeleteFormContentFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain filterChain)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
 
         // if (("PUT".equals(request.getMethod()) || "PATCH".equals(request.getMethod())) && isFormContentType(request)) {
         // XXX SpringMvc : MyHttpPutFormContentFilter : FIX-只在这行修改为delete的判断（base from HttpPutFormContentFilter in spring-web-5.0.6.RELEASE）
         if ("DELETE".equals(request.getMethod()) && isFormContentType(request)) {
-            final HttpInputMessage              inputMessage   = new ServletServerHttpRequest(request) {
-                                                                   @Override
-                                                                   public InputStream getBody() throws IOException {
-                                                                       return request.getInputStream();
-                                                                   }
-                                                               };
+            final HttpInputMessage inputMessage = new ServletServerHttpRequest(request) {
+                @Override
+                public InputStream getBody() throws IOException {
+                    return request.getInputStream();
+                }
+            };
             final MultiValueMap<String, String> formParameters = formConverter.read(null, inputMessage);
             if (!formParameters.isEmpty()) {
                 final HttpServletRequest wrapper = new HttpPutFormContentRequestWrapper(request, formParameters);
@@ -128,8 +117,7 @@ public class MyHttpDeleteFormContentFilter extends OncePerRequestFilter {
             } catch (final IllegalArgumentException ex) {
                 return false;
             }
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -180,8 +168,7 @@ public class MyHttpDeleteFormContentFilter extends OncePerRequestFilter {
             }
             if (parameterValues == null || getQueryString() == null) {
                 return StringUtils.toStringArray(formParam);
-            }
-            else {
+            } else {
                 final List<String> result = new ArrayList<>(parameterValues.length + formParam.size());
                 result.addAll(Arrays.asList(parameterValues));
                 result.addAll(formParam);

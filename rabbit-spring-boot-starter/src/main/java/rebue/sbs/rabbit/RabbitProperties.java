@@ -8,37 +8,37 @@ public class RabbitProperties {
     /**
      * RabbitMQ host.
      */
-    private String  host                 = "localhost";
+    private String host = "localhost";
 
     /**
      * RabbitMQ port.
      */
-    private int     port                 = 5672;
+    private int port = 5672;
 
     /**
      * Login user to authenticate to the broker.
      */
-    private String  username;
+    private String username;
 
     /**
      * Login to authenticate against the broker.
      */
-    private String  password;
+    private String password;
 
     /**
      * Virtual host to use when connecting to the broker.
      */
-    private String  virtualHost          = "/";
+    private String virtualHost = "/";
 
     /**
      * 默认发送消息超时判断的毫秒数(默认为10000毫秒)
      */
-    private Long    defaultSendTimeoutMs = 10000L;
+    private Long defaultSendTimeoutMs = 10000L;
 
     /**
      * Channel池的最大的对象数量
      */
-    private Integer channelMaxTotal      = Runtime.getRuntime().availableProcessors() * 100;
+    private Integer channelMaxTotal = Runtime.getRuntime().availableProcessors() * 100;
 
     public String getHost() {
         return host;

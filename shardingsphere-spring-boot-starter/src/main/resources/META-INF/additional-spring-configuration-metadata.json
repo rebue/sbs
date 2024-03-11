@@ -1,9 +1,9 @@
 {
-	"properties": [
-		{
-			"name": "rebue.sbs.shardingsphere.enabled",
-			"type": "boolean",
-			"description": "启用ShardingSphere拦截"
-		}
-	]
+  "properties": [
+    {
+      "name": "rebue.sbs.shardingsphere.enabled",
+      "type": "boolean",
+      "description": "启用ShardingSphere拦截"
+    }
+  ]
 }

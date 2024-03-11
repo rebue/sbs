@@ -1,5 +1,6 @@
 package rebue.sbs.aop;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -7,8 +8,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
@@ -32,16 +31,14 @@ public class CtrlErrAopConfig {
             log.error("AOP拦截到参数错误的异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
                 return returnRoInCatch(new Ro<>(ResultDic.PARAM_ERROR, "参数错误 "));
-            }
-            else {
+            } else {
                 return returnRoInCatch(new Ro<>(ResultDic.PARAM_ERROR, "参数错误: " + e.getMessage()));
             }
         } catch (final NullPointerException e) {
             log.error("AOP拦截到空指针异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
                 return returnRoInCatch(new Ro<>(ResultDic.FAIL, "服务器出现空指针异常", null, "500", null));
-            }
-            else {
+            } else {
                 return returnRoInCatch(new Ro<>(ResultDic.FAIL, "服务器出现空指针异常", e.getMessage(), "500", null));
             }
         } catch (final RuntimeExceptionX e) {
@@ -51,8 +48,7 @@ public class CtrlErrAopConfig {
             log.error("AOP拦截到运行时异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
                 return returnRoInCatch(new Ro<>(ResultDic.FAIL, "服务器出现运行时异常", null, "500", null));
-            }
-            else {
+            } else {
                 return returnRoInCatch(new Ro<>(ResultDic.FAIL, "服务器出现运行时异常", e.getMessage(), "500", null));
             }
         } catch (final Throwable e) {

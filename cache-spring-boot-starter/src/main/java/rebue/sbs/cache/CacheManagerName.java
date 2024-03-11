@@ -4,7 +4,7 @@ public interface CacheManagerName {
     /**
      * redis
      */
-    String REDIS_CACHE_MANAGER    = "redisCacheManager";
+    String REDIS_CACHE_MANAGER = "redisCacheManager";
 
     /**
      * ehCache

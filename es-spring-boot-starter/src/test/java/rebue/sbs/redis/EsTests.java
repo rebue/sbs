@@ -31,7 +31,7 @@ public class EsTests {
 
     @Test
     public void test01() {
-        final SearchRequest searchRequest = new SearchRequest("gdp_tops*");
+        final SearchRequest       searchRequest = new SearchRequest("gdp_tops*");
         final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(QueryBuilders.termQuery("city", "北京市"));
         sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));

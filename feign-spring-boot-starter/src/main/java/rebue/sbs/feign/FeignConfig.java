@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,11 +44,11 @@ public class FeignConfig {
             if (attributes == null) {
                 return;
             }
-            final HttpServletRequest request = attributes.getRequest();
+            final HttpServletRequest  request     = attributes.getRequest();
             final Enumeration<String> headerNames = request.getHeaderNames();
             if (headerNames != null) {
                 while (headerNames.hasMoreElements()) {
-                    final String name = headerNames.nextElement();
+                    final String name   = headerNames.nextElement();
                     final String values = request.getHeader(name);
                     requestTemplate.header(name, values);
                 }

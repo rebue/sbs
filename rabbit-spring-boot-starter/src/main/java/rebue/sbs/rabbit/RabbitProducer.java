@@ -17,14 +17,14 @@ import com.rabbitmq.client.MessageProperties;
 import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 
 public class RabbitProducer {
-    private final static Logger              _log = LoggerFactory.getLogger(ConnectionFactory.class);
+    private final static Logger _log = LoggerFactory.getLogger(ConnectionFactory.class);
 
     private final GenericObjectPool<Channel> _channelPool;
 
     /**
      * 默认发送消息超时判断的毫秒数(默认为10000毫秒)
      */
-    private final Long                       _defaultSendTimeoutMs;
+    private final Long _defaultSendTimeoutMs;
 
     public RabbitProducer(final RabbitProperties properties) throws IOException, TimeoutException {
         // 获取连接
@@ -71,10 +71,8 @@ public class RabbitProducer {
      * 发送消息(如果超过配置的默认超时时间(不配置为10秒)，抛出运行时异常)
      * 如果想直接指定超时时间，请用 <b>send(String exchangeName, byte[] msg, Long timeoutMs)</b> 方法
      *
-     * @param exchangeName
-     *                     Exchage的名称
-     * @param msg
-     *                     要发送的消息
+     * @param exchangeName Exchage的名称
+     * @param msg          要发送的消息
      */
     public void send(final String exchangeName, final Object msg) {
         send(exchangeName, ProtostuffUtils.serialize(msg), _defaultSendTimeoutMs);
@@ -83,12 +81,9 @@ public class RabbitProducer {
     /**
      * 发送消息(超时会抛出RuntimeException)
      *
-     * @param exchangeName
-     *                     Exchage的名称
-     * @param msg
-     *                     要发送的消息
-     * @param timeoutMs
-     *                     判断超时的毫秒数(如果为0则永远不超时)
+     * @param exchangeName Exchage的名称
+     * @param msg          要发送的消息
+     * @param timeoutMs    判断超时的毫秒数(如果为0则永远不超时)
      */
     public void send(final String exchangeName, final Object msg, final Long timeoutMs) {
         send(exchangeName, ProtostuffUtils.serialize(msg), timeoutMs);

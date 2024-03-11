@@ -1,8 +1,7 @@
 package rebue.sbs.aop;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties("rebue.sbs.aop")
@@ -10,38 +9,38 @@ public class AopProperties {
 
     private Ctrl ctrl = new Ctrl();
 
-    private Sub  sub  = new Sub();
+    private Sub sub = new Sub();
 
-    private Api  api  = new Api();
+    private Api api = new Api();
 
-    private Svc  svc  = new Svc();
+    private Svc svc = new Svc();
 
     @Data
-    class Ctrl {
+    static class Ctrl {
         private Enabled log = new Enabled();
         private Enabled err = new Enabled();
     }
 
     @Data
-    class Sub {
+    static class Sub {
         private Enabled log = new Enabled();
         private Enabled err = new Enabled();
     }
 
     @Data
-    class Api {
+    static class Api {
         private Enabled log = new Enabled();
         private Enabled err = new Enabled();
     }
 
     @Data
-    class Svc {
+    static class Svc {
         private Enabled log = new Enabled();
         private Enabled err = new Enabled();
     }
 
     @Data
-    class Enabled {
+    static class Enabled {
         private Boolean enabled = true;
     }
 }

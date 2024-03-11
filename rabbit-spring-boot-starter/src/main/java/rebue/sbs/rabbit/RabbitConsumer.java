@@ -18,7 +18,7 @@ import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 public class RabbitConsumer {
     private final static Logger _log = LoggerFactory.getLogger(RabbitConsumer.class);
 
-    private final Connection    _connection;
+    private final Connection _connection;
 
     public RabbitConsumer(final RabbitProperties properties) throws IOException, TimeoutException {
         // 获取连接
@@ -33,7 +33,6 @@ public class RabbitConsumer {
      * @param queueName    队列名称
      * @param msgClazz     消息的类
      * @param handler      处理接收消息的方法
-     *
      * @return 返回是否绑定成功
      */
     public <T> boolean bind(final String exchangeName, final String queueName, final Class<T> msgClazz, final RabbitMsgHandler<T> handler) {
@@ -50,7 +49,6 @@ public class RabbitConsumer {
      * @param routingKey   路由键
      * @param msgClazz     消息的类
      * @param handler      处理接收消息的方法
-     *
      * @return 返回是否绑定成功
      */
     public <T> boolean bind(final String exchangeName, final String queueName, final String routingKey, final Class<T> msgClazz, final RabbitMsgHandler<T> handler,
@@ -75,8 +73,7 @@ public class RabbitConsumer {
                         if (handler.handle(msg)) {
                             // 应答ACK（false表示仅仅应答当前的这条消息）
                             channel.basicAck(envelope.getDeliveryTag(), false);
-                        }
-                        else {
+                        } else {
                             // 应答NACK，消息重新入列
                             channel.basicReject(envelope.getDeliveryTag(), true);
                         }

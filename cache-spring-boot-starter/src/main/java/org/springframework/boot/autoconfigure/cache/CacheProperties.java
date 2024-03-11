@@ -1,16 +1,16 @@
 /**
  * XXX 原本的CacheProperties属性不够自定义使用，为了方便扩展，从 spring-boot-autoconfigure-2.3.10.RELEASE.jar 中复制过来，改变内容如下:
- *
+ * <p>
  * 1. 新增specs属性，支持不同名称的cache使用不同的spec
- *
+ * <p>
  * Copyright 2012-2019 the original author or authors.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * https://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,6 @@ import org.springframework.util.Assert;
  * @author Stephane Nicoll
  * @author Eddú Meléndez
  * @author Ryon Day
- *
  * @since 1.3.0
  */
 @ConfigurationProperties(prefix = "spring.cache")
@@ -43,25 +42,25 @@ public class CacheProperties {
     /**
      * Cache type. By default, auto-detected according to the environment.
      */
-    private CacheType        type;
+    private CacheType type;
 
     /**
      * Comma-separated list of cache names to create if supported by the underlying cache
      * manager. Usually, this disables the ability to create additional caches on-the-fly.
      */
-    private List<String>     cacheNames = new ArrayList<>();
+    private List<String> cacheNames = new ArrayList<>();
 
-    private final Caffeine   caffeine   = new Caffeine();
+    private final Caffeine caffeine = new Caffeine();
 
-    private final Couchbase  couchbase  = new Couchbase();
+    private final Couchbase couchbase = new Couchbase();
 
-    private final EhCache    ehcache    = new EhCache();
+    private final EhCache ehcache = new EhCache();
 
     private final Infinispan infinispan = new Infinispan();
 
-    private final JCache     jcache     = new JCache();
+    private final JCache jcache = new JCache();
 
-    private final Redis      redis      = new Redis();
+    private final Redis redis = new Redis();
 
     public CacheType getType() {
         return type;
@@ -107,16 +106,14 @@ public class CacheProperties {
      * Resolve the config location if set.
      *
      * @param config the config resource
-     *
      * @return the location or {@code null} if it is not set
-     *
      * @throws IllegalArgumentException if the config attribute is set to an unknown
      *                                  location
      */
     public Resource resolveConfigLocation(final Resource config) {
         if (config != null) {
             Assert.isTrue(config.exists(),
-                () -> "Cache configuration does not exist '" + config.getDescription() + "'");
+                    () -> "Cache configuration does not exist '" + config.getDescription() + "'");
             return config;
         }
         return null;
@@ -233,7 +230,7 @@ public class CacheProperties {
          * the JSR-107 compliant cache manager. Needed only if more than one JSR-107
          * implementation is available on the classpath.
          */
-        private String   provider;
+        private String provider;
 
         public String getProvider() {
             return provider;
@@ -266,17 +263,17 @@ public class CacheProperties {
         /**
          * Allow caching null values.
          */
-        private boolean  cacheNullValues = true;
+        private boolean cacheNullValues = true;
 
         /**
          * Key prefix.
          */
-        private String   keyPrefix;
+        private String keyPrefix;
 
         /**
          * Whether to use the key prefix when writing to Redis.
          */
-        private boolean  useKeyPrefix    = true;
+        private boolean useKeyPrefix = true;
 
         public Duration getTimeToLive() {
             return timeToLive;

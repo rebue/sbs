@@ -1,45 +1,45 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.github.rebue.sbs</groupId>
-		<artifactId>sbs</artifactId>
-		<version>1.2.5</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.rebue.sbs</groupId>
+        <artifactId>sbs</artifactId>
+        <version>3.0.15</version>
+    </parent>
 
-	<artifactId>dozer-spring-boot-starter</artifactId>
+    <artifactId>dozer-spring-boot-starter</artifactId>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.github.rebue.wheel</groupId>
-			<artifactId>wheel-core</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.rebue.wheel</groupId>
+            <artifactId>wheel-core</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-autoconfigure</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
 
-		<!-- 可以在JavaBean到JavaBean之间进行递归数据复制 -->
-		<!-- <dependency> -->
-		<!-- <groupId>com.github.dozermapper</groupId> -->
-		<!-- <artifactId>dozer-core</artifactId> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>com.github.dozermapper</groupId> -->
-		<!-- <artifactId>dozer-spring4</artifactId> -->
-		<!-- </dependency> -->
-		<dependency>
-			<groupId>com.github.dozermapper</groupId>
-			<artifactId>dozer-spring-boot-starter</artifactId>
-		</dependency>
-	</dependencies>
+        <!-- 可以在JavaBean到JavaBean之间进行递归数据复制 -->
+        <!-- <dependency> -->
+        <!-- <groupId>com.github.dozermapper</groupId> -->
+        <!-- <artifactId>dozer-core</artifactId> -->
+        <!-- </dependency> -->
+        <!-- <dependency> -->
+        <!-- <groupId>com.github.dozermapper</groupId> -->
+        <!-- <artifactId>dozer-spring4</artifactId> -->
+        <!-- </dependency> -->
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 </project>

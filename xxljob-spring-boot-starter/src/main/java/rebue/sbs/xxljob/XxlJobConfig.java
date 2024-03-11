@@ -1,12 +1,10 @@
 package rebue.sbs.xxljob;
 
+import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration(proxyBeanMethods = false)
@@ -28,13 +26,13 @@ public class XxlJobConfig {
     private String ip;
 
     @Value("${xxl.job.executor.port:0}")
-    private int    port;
+    private int port;
 
     @Value("${xxl.job.executor.logpath:logs/xxl-job-jobhandler}")
     private String logPath;
 
     @Value("${xxl.job.executor.logretentiondays:30}")
-    private int    logRetentionDays;
+    private int logRetentionDays;
 
     @Bean
     public XxlJobSpringExecutor xxlJobExecutor() {

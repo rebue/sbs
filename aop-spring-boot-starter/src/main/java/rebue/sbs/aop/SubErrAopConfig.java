@@ -1,10 +1,7 @@
 package rebue.sbs.aop;
 
-import java.sql.DataTruncation;
-import java.sql.SQLIntegrityConstraintViolationException;
-
-import javax.validation.ConstraintViolationException;
-
+import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,11 +11,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
-
-import lombok.extern.slf4j.Slf4j;
 import rebue.robotech.dic.ResultDic;
 import rebue.robotech.ro.Ro;
 import rebue.wheel.api.exception.RuntimeExceptionX;
+
+import java.sql.DataTruncation;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * SUB层异常拦截
@@ -48,8 +46,7 @@ public class SubErrAopConfig {
             log.error("AOP拦截到参数错误的异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
                 return new Ro<>(ResultDic.PARAM_ERROR, "参数错误");
-            }
-            else {
+            } else {
                 return new Ro<>(ResultDic.PARAM_ERROR, "参数错误: " + e.getMessage());
             }
         } catch (final ConstraintViolationException e) {
@@ -57,7 +54,7 @@ public class SubErrAopConfig {
             final String[]      errs = e.getMessage().split(",");
             final StringBuilder sb   = new StringBuilder();
             for (final String err : errs) {
-                sb.append(err.split(":")[1].trim() + ",");
+                sb.append(err.split(":")[1].trim()).append(",");
             }
             return new Ro<>(ResultDic.PARAM_ERROR, sb.deleteCharAt(sb.length() - 1).toString());
         } catch (final DataIntegrityViolationException e) {
@@ -65,19 +62,16 @@ public class SubErrAopConfig {
             final Throwable cause = e.getCause();
             if (cause instanceof SQLIntegrityConstraintViolationException) {
                 return new Ro<>(ResultDic.WARN, "此操作违反了该字段作为外键、主键或唯一键的约束", cause.getMessage());
-            }
-            else if (cause instanceof DataTruncation) {
+            } else if (cause instanceof DataTruncation) {
                 return new Ro<>(ResultDic.WARN, "此操作违反了该字段最大长度的约束", cause.getMessage());
-            }
-            else {
+            } else {
                 return new Ro<>(ResultDic.WARN, "此操作违反了数据库完整性的约束", cause.getMessage());
             }
         } catch (final NullPointerException e) {
             log.error("AOP拦截到空指针异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
                 return new Ro<>(ResultDic.FAIL, "服务器出现空指针异常", null, "500", null);
-            }
-            else {
+            } else {
                 return new Ro<>(ResultDic.FAIL, "服务器出现空指针异常", e.getMessage(), "500", null);
             }
         } catch (final RuntimeExceptionX e) {
@@ -87,8 +81,7 @@ public class SubErrAopConfig {
             log.error("AOP拦截到运行时异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
                 return new Ro<>(ResultDic.FAIL, "服务器出现运行时异常", null, "500", null);
-            }
-            else {
+            } else {
                 return new Ro<>(ResultDic.FAIL, "服务器出现运行时异常", e.getMessage(), "500", null);
             }
         } catch (final Throwable e) {

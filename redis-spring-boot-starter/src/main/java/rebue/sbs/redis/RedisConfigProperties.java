@@ -13,23 +13,23 @@ public class RedisConfigProperties {
     /**
      * 密码
      */
-    private String       password;
+    private String  password;
     /**
      * 最大实例数
      */
-    private Integer      maxTotal;
+    private Integer maxTotal;
     /**
      * 最大空闲实例数
      */
-    private Integer      maxIdle;
+    private Integer maxIdle;
     /**
      * (创建实例时)最大等待时间
      */
-    private Long         maxWaitMillis;
+    private Long    maxWaitMillis;
     /**
      * (创建实例时)是否验证
      */
-    private Boolean      testOnBorrow;
+    private Boolean testOnBorrow;
 
     /**
      * 集群类型 (Single,RedisCluster)

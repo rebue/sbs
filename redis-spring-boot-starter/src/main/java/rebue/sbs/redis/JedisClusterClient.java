@@ -1,16 +1,13 @@
 package rebue.sbs.redis;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import org.apache.commons.lang3.StringUtils;
 import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class JedisClusterClient implements RedisClient {
 
@@ -86,13 +83,13 @@ public class JedisClusterClient implements RedisClient {
     @Override
     public String get(final String key) {
         final String result = _jedisCluster.get(key);
-        return result == null || result == "" || result == "nil" ? null : result;
+        return StringUtils.isBlank(result) || "nil".equalsIgnoreCase(result) ? null : result;
     }
 
     @Override
     public Long getLong(final String key) throws ClassCastException {
         String result = _jedisCluster.get(key);
-        if (result == null || result == "" || result == "nil") {
+        if (StringUtils.isBlank(result) || "nil".equalsIgnoreCase(result)) {
             return null;
         }
         result = result.replaceAll("\"", "");
@@ -110,8 +107,7 @@ public class JedisClusterClient implements RedisClient {
         final String result = _jedisCluster.get(key);
         if (result != "" || result != "nil" || _jedisCluster.expire(key, expireTime) == 1) {
             return result;
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -119,7 +115,7 @@ public class JedisClusterClient implements RedisClient {
     @Override
     public Long getLong(final String key, final int expireTime) {
         String result = _jedisCluster.get(key);
-        if (result == null || result == "" || result == "nil" || _jedisCluster.expire(key, expireTime) != 1) {
+        if (StringUtils.isBlank(result) || "nil".equalsIgnoreCase(result) || _jedisCluster.expire(key, expireTime) != 1) {
             return null;
         }
         result = result.replaceAll("\"", "");
@@ -130,18 +126,13 @@ public class JedisClusterClient implements RedisClient {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> List<T> listByWildcard(final String key, final Class<T> clazz) {
-        final List<T>                result  = new LinkedList<>();
-        final Map<String, JedisPool> jedises = _jedisCluster.getClusterNodes();
-        for (final JedisPool jedisPool : jedises.values()) {
-            final Jedis jedis = jedisPool.getResource();
-            for (final String item : jedis.keys(key)) {
-                if ("java.lang.String".equals(clazz.getName())) {
-                    result.add((T) get(item));
-                }
-                else {
-                    result.add(getObj(item, clazz));
-                }
+    public <T> Set<T> listByWildcard(final String key, final Class<T> clazz) {
+        final Set<T> result = new LinkedHashSet<>();
+        for (final String item : _jedisCluster.keys(key)) {
+            if ("java.lang.String".equals(clazz.getName())) {
+                result.add((T) get(item));
+            } else {
+                result.add(getObj(item, clazz));
             }
         }
         return result;
@@ -150,10 +141,9 @@ public class JedisClusterClient implements RedisClient {
     @Override
     public String pop(final String key) {
         final String result = _jedisCluster.get(key);
-        if (result == null || result == "" || result == "nil" || _jedisCluster.del(key) == 0) {
+        if (StringUtils.isBlank(result) || "nil".equalsIgnoreCase(result) || _jedisCluster.del(key) == 0) {
             return null;
-        }
-        else {
+        } else {
             return result;
         }
     }
@@ -163,8 +153,7 @@ public class JedisClusterClient implements RedisClient {
         final byte[] result = _jedisCluster.get(key.getBytes());
         if (result == null || _jedisCluster.del(key) == 0) {
             return null;
-        }
-        else {
+        } else {
             return ProtostuffUtils.deserialize(result, clazz);
         }
     }
@@ -176,12 +165,8 @@ public class JedisClusterClient implements RedisClient {
 
     @Override
     public void delByWildcard(final String key) {
-        final Map<String, JedisPool> jedises = _jedisCluster.getClusterNodes();
-        for (final JedisPool jedisPool : jedises.values()) {
-            final Jedis       jedis = jedisPool.getResource();
-            final Set<String> keys  = jedis.keys(key);
-            jedis.del(keys.toArray(new String[keys.size()]));
-        }
+        Set<String> keys = _jedisCluster.keys(key);
+        _jedisCluster.del(keys.toArray(new String[keys.size()]));
     }
 
     @Override

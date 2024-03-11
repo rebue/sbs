@@ -7,7 +7,6 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 /**
  * 初始化转换器
- *
  */
 @Configuration(proxyBeanMethods = false)
 @EnableWebFlux

@@ -25,7 +25,7 @@ public class EsConfig {
      * 使用实际ES的地址 使用冒号隔开ip和端口1
      */
     @Value("${elasticsearch.host}")
-    String[]                    hosts;
+    String[] hosts;
 
     @Bean
     public RestClientBuilder restClientBuilder() {

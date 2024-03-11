@@ -14,7 +14,7 @@ import rebue.sbs.sensitive.plugin.DesensitizePlugin;
 public class SensitiveConfig {
 
     @Bean
-    public DesensitizePlugin sensitivePlugin(){
+    public DesensitizePlugin sensitivePlugin() {
         return new DesensitizePlugin();
     }
 }

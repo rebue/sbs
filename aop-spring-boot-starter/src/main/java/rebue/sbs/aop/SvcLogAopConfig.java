@@ -1,7 +1,6 @@
 package rebue.sbs.aop;
 
-import java.util.StringJoiner;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.StringJoiner;
 
 /**
  * 服务层日志拦截
@@ -31,7 +30,7 @@ public class SvcLogAopConfig {
         final String[]        parameterNames  = methodSignature.getParameterNames();
         final Object[]        parameterValues = joinPoint.getArgs();
 
-        StringBuilder         sb              = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("开始调用服务层");
         sb.append(clazzName);
         sb.append(".");
@@ -42,7 +41,7 @@ public class SvcLogAopConfig {
             sj.add(parameterNames[i] + "=" + (parameterValues[i] == null ? "" : parameterValues[i].toString()));
         }
 
-        log.info(StringUtils.rightPad(sb.toString() + sj.toString(), 73));
+        log.info(StringUtils.rightPad(sb + sj.toString(), 73));
 
         try {
             // 调用
@@ -60,13 +59,8 @@ public class SvcLogAopConfig {
             log.info(StringUtils.rightPad(sb.toString(), 73));
             return result;
         } catch (final Throwable e) {
-            final StringBuilder sbErr = new StringBuilder();
-            sbErr.append("调用服务层");
-            sbErr.append(clazzName);
-            sbErr.append(".");
-            sbErr.append(methodName);
-            sbErr.append("出现异常");
-            log.error(sbErr.toString(), e);
+            String sbErr = "调用服务层%s.%s出现异常".formatted(clazzName, methodName);
+            log.error(sbErr, e);
             throw e;
         }
 

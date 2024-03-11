@@ -6,9 +6,8 @@ import rebue.wheel.core.idworker.IdWorker3Helper;
 
 /**
  * ID字段自动生成唯一long序列号
- * 
- * @author 张柏子
  *
+ * @author 张柏子
  */
 public class IdGenConverter implements CustomConverter {
 

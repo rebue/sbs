@@ -1,16 +1,18 @@
 package rebue.sbs.redis;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.exceptions.JedisConnectionException;
+
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class JedisPoolClient implements RedisClient {
@@ -136,7 +138,7 @@ public class JedisPoolClient implements RedisClient {
     public String get(final String key) {
         try (Jedis jedis = getJedis()) {
             final String result = jedis.get(key);
-            return result == null || result == "" || result == "nil" ? null : result;
+            return StringUtils.isBlank(result) || "nil".equalsIgnoreCase(result) ? null : result;
         } catch (final JedisConnectionException e) {
             log.error("\n连接Redis服务器异常", e);
             throw e;
@@ -147,7 +149,7 @@ public class JedisPoolClient implements RedisClient {
     public Long getLong(final String key) {
         try (Jedis jedis = getJedis()) {
             String result = jedis.get(key);
-            if (result == null || result == "" || result == "nil") {
+            if (StringUtils.isBlank(result) || "nil".equalsIgnoreCase(result)) {
                 return null;
             }
             result = result.replaceAll("\"", "");
@@ -175,8 +177,7 @@ public class JedisPoolClient implements RedisClient {
             final String result = jedis.get(key);
             if (result != "nil" && jedis.expire(key, expireTime) == 1) {
                 return result;
-            }
-            else {
+            } else {
                 return null;
             }
         } catch (final JedisConnectionException e) {
@@ -189,7 +190,7 @@ public class JedisPoolClient implements RedisClient {
     public Long getLong(final String key, final int expireTime) {
         try (Jedis jedis = getJedis()) {
             String result = jedis.get(key);
-            if (result == null || result == "" || result == "nil" || jedis.expire(key, expireTime) != 1) {
+            if (StringUtils.isBlank(result) || "nil".equalsIgnoreCase(result) || jedis.expire(key, expireTime) != 1) {
                 return null;
             }
             result = result.replaceAll("\"", "");
@@ -203,14 +204,13 @@ public class JedisPoolClient implements RedisClient {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> List<T> listByWildcard(final String key, final Class<T> clazz) {
-        final List<T> result = new LinkedList<>();
+    public <T> Set<T> listByWildcard(final String key, final Class<T> clazz) {
+        final Set<T> result = new LinkedHashSet<>();
         try (Jedis jedis = getJedis()) {
             for (final String item : jedis.keys(key)) {
                 if ("java.lang.String".equals(clazz.getName())) {
                     result.add((T) get(item));
-                }
-                else {
+                } else {
                     result.add(getObj(item, clazz));
                 }
             }
@@ -224,8 +224,7 @@ public class JedisPoolClient implements RedisClient {
             final String result = jedis.get(key);
             if (result == null || jedis.del(key) == 0) {
                 return null;
-            }
-            else {
+            } else {
                 return result;
             }
         } catch (final JedisConnectionException e) {
@@ -240,8 +239,7 @@ public class JedisPoolClient implements RedisClient {
             final byte[] result = jedis.get(key.getBytes());
             if (result == null || jedis.del(key) == 0) {
                 return null;
-            }
-            else {
+            } else {
                 return ProtostuffUtils.deserialize(result, clazz);
             }
         } catch (final JedisConnectionException e) {

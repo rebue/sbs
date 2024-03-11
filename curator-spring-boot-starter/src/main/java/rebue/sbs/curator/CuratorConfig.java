@@ -20,11 +20,11 @@ public class CuratorConfig {
     @Bean
     public CuratorFramework zookeeperClient(final CuratorProperties properties, final RetryPolicy retryPolicy) {
         final CuratorFramework client = CuratorFrameworkFactory.builder()
-            .connectString(properties.getConnectString())
-            .retryPolicy(retryPolicy)
-            .connectionTimeoutMs((int) properties.getConnectionTimeout().toMillis())
-            .sessionTimeoutMs((int) properties.getSessionTimeout().toMillis())
-            .build();
+                .connectString(properties.getConnectString())
+                .retryPolicy(retryPolicy)
+                .connectionTimeoutMs((int) properties.getConnectionTimeout().toMillis())
+                .sessionTimeoutMs((int) properties.getSessionTimeout().toMillis())
+                .build();
         // 开始连接
         client.start();
         return client;

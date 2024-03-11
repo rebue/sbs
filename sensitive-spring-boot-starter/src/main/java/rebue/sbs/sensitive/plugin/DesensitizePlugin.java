@@ -18,14 +18,13 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import rebue.wheel.api.annotation.Desensitize;
 import rebue.wheel.api.strategy.DesensitizeStrategy;
 
-@Intercepts(@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class
+@Intercepts(@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class
 }))
 public class DesensitizePlugin implements Interceptor {
 
     @Override
     public Object intercept(final Invocation invocation) throws Throwable {
-        @SuppressWarnings("unchecked")
-        final List<Object> records = (List<Object>) invocation.proceed();
+        @SuppressWarnings("unchecked") final List<Object> records = (List<Object>) invocation.proceed();
         // 对结果集脱敏
         records.forEach(this::desensitize);
         return records;
@@ -49,9 +48,9 @@ public class DesensitizePlugin implements Interceptor {
         String value = (String) metaObject.getValue(name);
         // 只有字符串类型才能脱敏 而且不能为null
         if (String.class == metaObject.getGetterType(name) && value != null) {
-            Desensitize              annotation          = field.getAnnotation(Desensitize.class);
+            Desensitize annotation = field.getAnnotation(Desensitize.class);
             // 获取对应的脱敏策略 并进行脱敏
-            DesensitizeStrategy      desensitizeStrategy = annotation.value();
+            DesensitizeStrategy desensitizeStrategy = annotation.value();
 
             Function<String, String> desensitizer;
             // 自定义
@@ -62,7 +61,7 @@ public class DesensitizePlugin implements Interceptor {
                     return str.replaceAll(annotation.regex(), annotation.replacement());
                 };
 
-            // 已定义好的策略
+                // 已定义好的策略
             else
                 desensitizer = desensitizeStrategy.getDesensitizer();
 
