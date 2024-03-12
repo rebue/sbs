@@ -4,9 +4,10 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.hibernate.validator.HibernateValidator;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 
 /**
  * 配置hibernate Validator为快速失败返回模式
@@ -17,18 +18,15 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 @Configuration(proxyBeanMethods = false)
 public class ValidatorConfig {
     @Bean
-    public MethodValidationPostProcessor methodValidationPostProcessor() {
-        final MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
-        /** 设置validator模式为快速失败返回 */
-        postProcessor.setValidator(validator());
-        return postProcessor;
-    }
-
-    @Bean
-    public Validator validator() {
-        final ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class).configure()
-                .addProperty("hibernate.validator.fail_fast", "true").buildValidatorFactory();
-        final Validator validator = validatorFactory.getValidator();
-        return validator;
+    public Validator validator(AutowireCapableBeanFactory springFactory) {
+        try (ValidatorFactory factory = Validation.byProvider(HibernateValidator.class)
+                .configure()
+                // 快速失败
+                .failFast(true)
+                // 解决 SpringBoot 依赖注入问题
+                .constraintValidatorFactory(new SpringConstraintValidatorFactory(springFactory))
+                .buildValidatorFactory()) {
+            return factory.getValidator();
+        }
     }
 }

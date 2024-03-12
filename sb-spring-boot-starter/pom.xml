@@ -33,18 +33,24 @@
         </dependency>
 
         <!-- Web服务器换用undertow -->
-        <!--		<dependency>-->
-        <!--			<groupId>org.springframework.boot</groupId>-->
-        <!--			<artifactId>spring-boot-starter-web</artifactId>-->
-        <!--			<scope>provided</scope>-->
-        <!--			<optional>true</optional>-->
-        <!--		</dependency>-->
-        <!-- <dependency> -->
-        <!-- <groupId>org.springframework.boot</groupId> -->
-        <!-- <artifactId>spring-boot-starter-undertow</artifactId> -->
-        <!-- <scope>provided</scope> -->
-        <!-- <optional>true</optional> -->
-        <!-- </dependency> -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+            <!--            <scope>provided</scope>-->
+            <!--            <optional>true</optional>-->
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+            <!--            <scope>provided</scope>-->
+            <!--            <optional>true</optional>-->
+        </dependency>
         <!-- smart-doc上传到torna服务器需要 -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -72,6 +78,16 @@
         <!-- 引入log4j2依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
         <!-- 用slf4j实现jcl -->
@@ -93,16 +109,40 @@
             <artifactId>log4j-jul</artifactId>
         </dependency>
 
+        <!--        <dependency>-->
+        <!--            <groupId>jakarta.el</groupId>-->
+        <!--            <artifactId>jakarta.el-api</artifactId>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- 数据库版本控制 -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
 
         <!-- 如果不加入此项，springboot启动会报错 -->
         <!-- The Bean Validation API is on the classpath but no implementation could be found -->
         <!-- Action: -->
         <!-- Add an implementation, such as Hibernate Validator, to the classpath -->
         <!-- main org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter(LoggingFailureAnalysisReporter.java:40) -->
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.hibernate.validator</groupId>-->
+        <!--            <artifactId>hibernate-validator</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
