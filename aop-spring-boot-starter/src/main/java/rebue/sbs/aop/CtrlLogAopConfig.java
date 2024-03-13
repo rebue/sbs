@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 @Aspect
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication
-@ConditionalOnExpression("${rebue.sbs.aop.ctrl.log.enabled:true}")
+@ConditionalOnExpression("${rebue.aop.ctrl-log:false}")
 @Order(1)
 public class CtrlLogAopConfig {
 

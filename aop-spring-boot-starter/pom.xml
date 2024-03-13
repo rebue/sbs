@@ -68,4 +68,16 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <parameters>true</parameters>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
 </project>

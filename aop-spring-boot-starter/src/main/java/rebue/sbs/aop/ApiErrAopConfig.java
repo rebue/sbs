@@ -23,7 +23,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnExpression("${rebue.sbs.aop.api.err.enabled:true}")
+@ConditionalOnExpression("${rebue.aop.api-err:true}")
 @Order(6)
 public class ApiErrAopConfig {
 

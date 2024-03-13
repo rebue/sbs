@@ -17,7 +17,7 @@ import rebue.wheel.api.ro.Rt;
  */
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnExpression("${rebue.sbs.aop.ctrl.err.enabled:true}")
+@ConditionalOnExpression("${rebue.aop.ctrl-err:true}")
 @Order(2)
 @Slf4j
 public class CtrlErrAopConfig {

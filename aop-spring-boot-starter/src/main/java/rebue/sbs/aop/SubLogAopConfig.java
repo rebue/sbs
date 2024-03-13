@@ -17,7 +17,7 @@ import org.springframework.core.annotation.Order;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnExpression("${rebue.sbs.aop.sub.log.enabled:true}")
+@ConditionalOnExpression("${rebue.aop.sub-log:false}")
 @Order(3)
 public class SubLogAopConfig {
 
@@ -39,11 +39,13 @@ public class SubLogAopConfig {
             sb.append(".");
             sb.append(methodName);
             sb.append("\r\n* 参数:");
-            for (int i = 0; i < parameterNames.length; i++) {
-                sb.append("\r\n*     ");
-                sb.append(parameterNames[i]);
-                sb.append("=");
-                sb.append(parameterValues[i] == null ? "" : parameterValues[i].toString());
+            if (parameterNames != null) {
+                for (int i = 0; i < parameterNames.length; i++) {
+                    sb.append("\r\n*     ");
+                    sb.append(parameterNames[i]);
+                    sb.append("=");
+                    sb.append(parameterValues[i] == null ? "" : parameterValues[i].toString());
+                }
             }
             sb.append(StringUtils.rightPad("\r\n-----------------------------------------------------------------", 100));
             log.info(sb.toString());

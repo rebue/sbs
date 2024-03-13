@@ -17,7 +17,7 @@ import org.springframework.core.annotation.Order;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnExpression("${rebue.sbs.aop.api.log.enabled:true}")
+@ConditionalOnExpression("${rebue.aop.api-log:false}")
 @Order(5)
 public class ApiLogAopConfig {
 
@@ -40,11 +40,13 @@ public class ApiLogAopConfig {
             sb.append(".");
             sb.append(methodName);
             sb.append("\r\n* 参数:");
-            for (int i = 0; i < parameterNames.length; i++) {
-                sb.append("\r\n*     ");
-                sb.append(parameterNames[i]);
-                sb.append("=");
-                sb.append(parameterValues[i] == null ? "" : parameterValues[i].toString());
+            if (parameterNames != null) {
+                for (int i = 0; i < parameterNames.length; i++) {
+                    sb.append("\r\n*     ");
+                    sb.append(parameterNames[i]);
+                    sb.append("=");
+                    sb.append(parameterValues[i] == null ? "" : parameterValues[i].toString());
+                }
             }
             sb.append(StringUtils.rightPad("\r\n-----------------------------------------------------------------", 100));
             log.info(sb.toString());
@@ -64,11 +66,13 @@ public class ApiLogAopConfig {
             sb.append(".");
             sb.append(methodName);
             sb.append("\r\n* 参数:");
-            for (int i = 0; i < parameterNames.length; i++) {
-                sb.append("\r\n*     ");
-                sb.append(parameterNames[i]);
-                sb.append("=");
-                sb.append(parameterValues[i] == null ? "" : parameterValues[i].toString());
+            if (parameterNames != null) {
+                for (int i = 0; i < parameterNames.length; i++) {
+                    sb.append("\r\n*     ");
+                    sb.append(parameterNames[i]);
+                    sb.append("=");
+                    sb.append(parameterValues[i] == null ? "" : parameterValues[i].toString());
+                }
             }
             sb.append("\r\n* 返回:\r\n*    ");
             sb.append(result == null ? "null" : result.toString());

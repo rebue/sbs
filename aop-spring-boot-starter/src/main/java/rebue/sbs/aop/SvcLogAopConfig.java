@@ -18,7 +18,7 @@ import java.util.StringJoiner;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnExpression("${rebue.sbs.aop.svc.log.enabled:true}")
+@ConditionalOnExpression("${rebue.aop.svc-log:false}")
 @Order(7)
 public class SvcLogAopConfig {
 
@@ -36,12 +36,14 @@ public class SvcLogAopConfig {
         sb.append(".");
         sb.append(methodName);
         sb.append("，参数: ");
-        final StringJoiner sj = new StringJoiner(", ");
-        for (int i = 0; i < parameterNames.length; i++) {
-            sj.add(parameterNames[i] + "=" + (parameterValues[i] == null ? "" : parameterValues[i].toString()));
+        if (parameterNames != null) {
+            final StringJoiner sj = new StringJoiner(", ");
+            for (int i = 0; i < parameterNames.length; i++) {
+                sj.add(parameterNames[i] + "=" + (parameterValues[i] == null ? "" : parameterValues[i].toString()));
+            }
+            log.info(StringUtils.rightPad(sb + sj.toString(), 73));
         }
 
-        log.info(StringUtils.rightPad(sb + sj.toString(), 73));
 
         try {
             // 调用
@@ -59,7 +61,7 @@ public class SvcLogAopConfig {
             log.info(StringUtils.rightPad(sb.toString(), 73));
             return result;
         } catch (final Throwable e) {
-            String sbErr = "调用服务层%s.%s出现异常".formatted(clazzName, methodName);
+            String sbErr = String.format("调用服务层%s.%s出现异常", clazzName, methodName);
             log.error(sbErr, e);
             throw e;
         }

@@ -32,36 +32,6 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
-        <!-- Web服务器换用undertow -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
-            <!--            <scope>provided</scope>-->
-            <!--            <optional>true</optional>-->
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-            <!--            <scope>provided</scope>-->
-            <!--            <optional>true</optional>-->
-        </dependency>
-        <!-- smart-doc上传到torna服务器需要 -->
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-        </dependency>
-        <!--		<dependency>-->
-        <!--			<groupId>org.glassfish</groupId>-->
-        <!--			<artifactId>jakarta.el</artifactId>-->
-        <!--		</dependency>-->
-
-
         <!-- 配置中心 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -109,29 +79,23 @@
             <artifactId>log4j-jul</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>jakarta.el</groupId>-->
-        <!--            <artifactId>jakarta.el-api</artifactId>-->
-        <!--        </dependency>-->
+        <!-- smart-doc上传到torna服务器需要 -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
-
+        <!-- 提供com.sun.el.ExpressionFactoryImpl类 -->
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <!-- 数据库版本控制 -->
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>el-impl</artifactId>
         </dependency>
 
         <!-- 如果不加入此项，springboot启动会报错 -->
@@ -143,6 +107,17 @@
         <!--            <groupId>org.hibernate.validator</groupId>-->
         <!--            <artifactId>hibernate-validator</artifactId>-->
         <!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- 数据库版本控制 -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>

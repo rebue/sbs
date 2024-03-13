@@ -4,43 +4,36 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties("rebue.sbs.aop")
+@ConfigurationProperties("rebue.aop")
 public class AopProperties {
 
-    private Ctrl ctrl = new Ctrl();
+    /**
+     * 拦截控制层日志
+     */
+    private Boolean ctrlLog = false;
+    /**
+     * 拦截控制层错误
+     */
+    private Boolean ctrlErr = true;
+    /**
+     * 拦截API层日志
+     */
+    private Boolean apiLog  = false;
+    /**
+     * 拦截API层错误
+     */
+    private Boolean apiErr  = true;
+    /**
+     * 拦截服务层日志
+     */
+    private Boolean svcLog  = false;
+    /**
+     * 拦截消息订阅层日志
+     */
+    private Boolean subLog  = false;
+    /**
+     * 拦截消息订阅层错误
+     */
+    private Boolean subErr  = true;
 
-    private Sub sub = new Sub();
-
-    private Api api = new Api();
-
-    private Svc svc = new Svc();
-
-    @Data
-    static class Ctrl {
-        private Enabled log = new Enabled();
-        private Enabled err = new Enabled();
-    }
-
-    @Data
-    static class Sub {
-        private Enabled log = new Enabled();
-        private Enabled err = new Enabled();
-    }
-
-    @Data
-    static class Api {
-        private Enabled log = new Enabled();
-        private Enabled err = new Enabled();
-    }
-
-    @Data
-    static class Svc {
-        private Enabled log = new Enabled();
-        private Enabled err = new Enabled();
-    }
-
-    @Data
-    static class Enabled {
-        private Boolean enabled = true;
-    }
 }
