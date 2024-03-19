@@ -1,5 +1,7 @@
 package rebue.sbs.sb.converter;
 
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.reactive.config.EnableWebFlux;
@@ -10,6 +12,8 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableWebFlux
+// graalvm编译需要加上下面这个注解 https://github.com/spring-attic/spring-native/issues/1535
+@AutoConfigureBefore(WebFluxAutoConfiguration.class)
 public class ConverterConfig implements WebFluxConfigurer {
 
     /**
