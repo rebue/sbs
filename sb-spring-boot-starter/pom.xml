@@ -54,6 +54,11 @@
             <artifactId>commons-compiler</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+        </dependency>
+
         <!-- smart-doc上传到torna服务器需要 -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
