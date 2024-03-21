@@ -16,14 +16,6 @@ public class AopProperties {
      */
     private Boolean ctrlErr = true;
     /**
-     * 拦截API层日志
-     */
-    private Boolean apiLog  = false;
-    /**
-     * 拦截API层错误
-     */
-    private Boolean apiErr  = true;
-    /**
      * 拦截服务层日志
      */
     private Boolean svcLog  = false;
