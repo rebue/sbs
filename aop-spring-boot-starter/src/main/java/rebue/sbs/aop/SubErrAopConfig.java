@@ -23,7 +23,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnExpression("${rebue.aop.sub-err:true}")
 @Order(4)
 public class SubErrAopConfig {
 
