@@ -1,7 +1,6 @@
 package rebue.sbs.curator;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;

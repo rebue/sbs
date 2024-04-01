@@ -5,13 +5,18 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.0.15</version>
+        <version>3.0.16</version>
     </parent>
 
     <artifactId>sb-spring-boot-starter</artifactId>
     <description>SpringBoot微服务项目的启动器</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.rebue.wheel</groupId>
+            <artifactId>wheel-serialization</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.github.rebue.robotech</groupId>
             <artifactId>robotech-api</artifactId>

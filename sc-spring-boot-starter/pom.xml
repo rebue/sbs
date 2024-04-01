@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.0.15</version>
+        <version>3.0.16</version>
     </parent>
     <artifactId>sc-spring-boot-starter</artifactId>
 
@@ -65,16 +65,16 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.csp</groupId>-->
-<!--            <artifactId>sentinel-datasource-nacos</artifactId>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>com.alibaba.nacos</groupId>-->
-<!--                    <artifactId>nacos-client</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba.csp</groupId>-->
+        <!--            <artifactId>sentinel-datasource-nacos</artifactId>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <groupId>com.alibaba.nacos</groupId>-->
+        <!--                    <artifactId>nacos-client</artifactId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
 
         <!-- 服务链路跟踪 -->
         <!--        <dependency>-->
