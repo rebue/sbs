@@ -1,4 +1,4 @@
-package rebue.sbs.sb;
+package rebue.sbs.sb.config;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.annotations.DeleteProvider;

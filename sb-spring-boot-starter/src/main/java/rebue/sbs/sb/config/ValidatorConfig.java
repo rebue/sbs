@@ -1,4 +1,4 @@
-package rebue.sbs.sb;
+package rebue.sbs.sb.config;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

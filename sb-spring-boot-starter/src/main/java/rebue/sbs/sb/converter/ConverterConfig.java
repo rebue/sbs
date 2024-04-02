@@ -14,6 +14,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @EnableWebFlux
 // graalvm编译需要加上下面这个注解 https://github.com/spring-attic/spring-native/issues/1535
 @AutoConfigureBefore(WebFluxAutoConfiguration.class)
+@Deprecated
 public class ConverterConfig implements WebFluxConfigurer {
 
     /**

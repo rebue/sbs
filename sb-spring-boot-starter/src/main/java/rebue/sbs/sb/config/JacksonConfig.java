@@ -1,9 +1,10 @@
-package rebue.sbs.sb;
+package rebue.sbs.sb.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
@@ -13,7 +14,6 @@ import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import rebue.wheel.serialization.jackson.LongToStringSerializer;
 
 import java.util.TimeZone;
 
@@ -26,6 +26,7 @@ import java.util.TimeZone;
  * @author zbz
  */
 @Configuration(proxyBeanMethods = false)
+@Deprecated
 public class JacksonConfig {
     /**
      * Parser that can read JSON formatted strings into Maps or Lists. 可以用来读取JSON字符串并解析到Map或List
@@ -39,7 +40,7 @@ public class JacksonConfig {
      * 可以用来对JSON字符串与POJO对象进行相互转换
      */
     @Bean
-    public ObjectMapper getObjectMapper() {
+    public ObjectMapper objectMapper() {
         return setJackson2ObjectMapperBuilder(Jackson2ObjectMapperBuilder.json()).build();
     }
 
@@ -73,8 +74,10 @@ public class JacksonConfig {
                 // 不转换值为null的项
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
                 // 全局转化long类型为String，避免js用number接收long类型时丢失精度问题
-                .serializerByType(Long.TYPE, LongToStringSerializer.instance)//
-                .serializerByType(Long.class, LongToStringSerializer.instance)
+                .serializerByType(Long.TYPE, ToStringSerializer.instance)//
+                .serializerByType(Long.class, ToStringSerializer.instance)
+//                .serializerByType(Long.TYPE, LongToStringSerializer.instance)//
+//                .serializerByType(Long.class, LongToStringSerializer.instance)
                 .timeZone(TimeZone.getTimeZone("Asia/Shanghai"))//
                 // 全局支持Java8的时间格式化
                 .modules(new ParameterNamesModule())  //
