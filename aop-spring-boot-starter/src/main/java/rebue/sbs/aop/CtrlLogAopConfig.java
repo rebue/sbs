@@ -31,6 +31,7 @@ public class CtrlLogAopConfig {
     public void before(final JoinPoint joinPoint) throws Throwable {
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         final Method          method          = methodSignature.getMethod();
+        Object[]              args            = joinPoint.getArgs();
         String                requestMethods  = null;
         String                requestPaths    = null;
         if (method.isAnnotationPresent(RequestMapping.class)) {
@@ -55,7 +56,7 @@ public class CtrlLogAopConfig {
             requestPaths = Stream.concat(Stream.of(annotation.path()), Stream.of(annotation.value())).collect(Collectors.joining(","));
         }
         if (StringUtils.isNoneBlank(requestMethods, requestPaths)) {
-            log.info(StringUtils.rightPad("控制器层接收到请求: [" + requestMethods + "]" + requestPaths, 73));
+            log.info(StringUtils.rightPad("控制器层接收到请求: [{}]{}:{}", 73), requestMethods, requestPaths, args);
         }
     }
 }

@@ -1,11 +1,12 @@
 package rebue.sbs.aop;
 
 import jakarta.validation.ConstraintViolationException;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,7 +20,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 /**
  * SUB层异常拦截
  */
-@Slf4j
 @Aspect
 @Configuration(proxyBeanMethods = false)
 @Order(4)
@@ -27,6 +27,8 @@ public class SubErrAopConfig {
 
     @Around("execution(public * *..sub..*Sub.*(..))")
     public Object around(final ProceedingJoinPoint joinPoint) throws Throwable {
+        Class<?> clazz = joinPoint.getTarget().getClass();
+        Logger   log   = LoggerFactory.getLogger(clazz);
         try {
             return joinPoint.proceed();
         } catch (final DuplicateKeyException e) {
