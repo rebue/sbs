@@ -41,8 +41,9 @@ public class SvcLogAopConfig {
             for (int i = 0; i < parameterNames.length; i++) {
                 sj.add(parameterNames[i] + "=" + (parameterValues[i] == null ? "" : parameterValues[i].toString()));
             }
-            log.info(StringUtils.rightPad(sb + sj.toString(), 73));
+            sb.append(sj);
         }
+        log.info(StringUtils.rightPad(sb.toString(), 73));
 
 
         try {

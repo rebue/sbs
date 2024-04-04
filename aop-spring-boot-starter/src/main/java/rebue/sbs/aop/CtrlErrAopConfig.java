@@ -8,6 +8,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ServerWebInputException;
+import rebue.wheel.api.dic.HttpStatusCodeDic;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.api.ro.Rt;
 
@@ -27,10 +29,14 @@ public class CtrlErrAopConfig {
     @ResponseBody
     @ExceptionHandler(value = Throwable.class)
     public Rt<?> errorHandler(Throwable e) {
-        if (e instanceof IllegalArgumentException) {
+        if (e instanceof NumberFormatException) {
+            log.error("AOP拦截到字符串转数值的异常", e);
+            final String[] errs = e.getMessage().split("\"");
+            return Rt.illegalArgument("参数错误: \"" + errs[1] + "\"不是数值类型");
+        } else if (e instanceof IllegalArgumentException) {
             log.error("AOP拦截到参数错误的异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
-                return Rt.illegalArgument("参数错误 ");
+                return Rt.illegalArgument("参数错误");
             } else {
                 return Rt.illegalArgument("参数错误: " + e.getMessage());
             }
@@ -40,10 +46,19 @@ public class CtrlErrAopConfig {
             final int    start   = message.indexOf("'");
             final int    end     = message.indexOf("'", start + 1) + 1;
             return Rt.warn(message.substring(start, end) + "已存在");
-        } else if (e instanceof NumberFormatException) {
-            log.error("AOP拦截到字符串转数值的异常", e);
-            final String[] errs = e.getMessage().split("\"");
-            return Rt.illegalArgument("参数错误: \"" + errs[1] + "\"不是数值类型");
+        } else if (e instanceof ServerWebInputException serverWebInputException) {
+            int statusCode = serverWebInputException.getStatusCode().value();
+            try {
+                Throwable cause = serverWebInputException.getCause().getCause().getCause();
+                if (statusCode == 400 && cause instanceof IllegalArgumentException err) {
+                    return Rt.illegalArgument("参数错误: " + err.getMessage());
+                }
+                HttpStatusCodeDic status = HttpStatusCodeDic.getItem(statusCode);
+                return Rt.illegalArgument("请求出现错误: " + status.getDesc(), e.getMessage(), String.valueOf(statusCode));
+            } catch (IllegalArgumentException unknown) {
+                log.error("AOP拦截到未能识别的异常", unknown);
+                return Rt.fail("服务器出现未定义的异常，请联系管理员", e.getMessage(), String.valueOf(statusCode), null);
+            }
         } else if (e instanceof ConstraintViolationException) {
             log.error("AOP拦截到违反参数约束的异常", e);
             final String[] errs = e.getMessage().split(":");
@@ -79,7 +94,6 @@ public class CtrlErrAopConfig {
         } else if (e instanceof RuntimeExceptionX) {
             log.warn("AOP拦截到自定义的运行时异常", e);
             return Rt.warn(e.getMessage());
-
         } else if (e instanceof RuntimeException) {
             log.error("AOP拦截到运行时异常", e);
             if (StringUtils.isBlank(e.getMessage())) {
