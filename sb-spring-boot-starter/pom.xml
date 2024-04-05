@@ -73,10 +73,10 @@
         <!--            <groupId>jakarta.el</groupId>-->
         <!--            <artifactId>jakarta.el-api</artifactId>-->
         <!--        </dependency>-->
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>jakarta.persistence</groupId>-->
+<!--            <artifactId>jakarta.persistence-api</artifactId>-->
+<!--        </dependency>-->
         <!-- 提供com.sun.el.ExpressionFactoryImpl类 -->
         <!--        <dependency>-->
         <!--            <groupId>org.glassfish.web</groupId>-->
