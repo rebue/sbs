@@ -7,8 +7,8 @@ import rebue.wheel.api.dic.Dic;
 /**
  * 升级版本后不知是否还需要使用
  *
- * @Deprecated
  */
+@Deprecated
 public class EnumConverter {//implements Converter<Dic, String> {
 
 //    @Override

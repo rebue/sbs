@@ -9,6 +9,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 
 import java.util.stream.Collectors;
 
+/**
+ * OpenFeign的配置器
+ */
 @Configuration(proxyBeanMethods = false)
 public class FeignConfig {
     /**
