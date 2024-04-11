@@ -26,7 +26,6 @@ import java.util.TimeZone;
  * @author zbz
  */
 @Configuration(proxyBeanMethods = false)
-@Deprecated
 public class JacksonConfig {
     /**
      * Parser that can read JSON formatted strings into Maps or Lists. 可以用来读取JSON字符串并解析到Map或List
