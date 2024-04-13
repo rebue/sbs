@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.1.20</version>
+        <version>3.2.22</version>
     </parent>
 
     <artifactId>sb-spring-boot-starter</artifactId>

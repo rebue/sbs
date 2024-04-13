@@ -1,10 +1,9 @@
 package rebue.sbs.amqp;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
-import java.util.StringJoiner;
-
+import com.rabbitmq.client.Channel;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,14 +16,14 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
-import com.rabbitmq.client.Channel;
-
-import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.serialization.fst.FstAmqpMessageConverter;
 import rebue.wheel.serialization.fst.FstUtils;
 import rebue.wheel.serialization.kryo.KryoAmqpMessageConverter;
 import rebue.wheel.serialization.kryo.KryoUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+import java.util.StringJoiner;
 
 @Slf4j
 @Configuration(proxyBeanMethods = false)
@@ -48,13 +47,20 @@ public class AmqpConfig {
         rabbitTemplate.setMessageConverter(messageConverter);
 
         // 设置处理消息发送不到队列的回调函数
-        rabbitTemplate.setReturnsCallback((message, replyCode, replyText, exchange, routingKey) -> {
+        rabbitTemplate.setReturnsCallback((returnedMessage) -> {
+            Message           message           = returnedMessage.getMessage();
+            String            exchange          = returnedMessage.getExchange();
+            String            routingKey        = returnedMessage.getRoutingKey();
+            int               replyCode         = returnedMessage.getReplyCode();
+            String            replyText         = returnedMessage.getReplyText();
+            MessageProperties messageProperties = message.getMessageProperties();
+
             String sMessageBody;
             if (message == null || message.getBody() == null || message.getBody().length == 0) {
                 sMessageBody = "";
             } else {
                 try {
-                    switch (message.getMessageProperties().getContentType()) {
+                    switch (messageProperties.getContentType()) {
                         case MessageProperties.CONTENT_TYPE_SERIALIZED_OBJECT:
                             try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(message.getBody());
                                  ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
@@ -84,7 +90,7 @@ public class AmqpConfig {
             sj.add("* routing key        : " + StringUtils.rightPad(routingKey, rightPadLen));
             sj.add("* reply code         : " + StringUtils.rightPad(String.valueOf(replyCode), rightPadLen));
             sj.add("* reply text         : " + StringUtils.rightPad(replyText, rightPadLen));
-            sj.add("* message properties : " + StringUtils.rightPad(message.getMessageProperties().toString(), rightPadLen));
+            sj.add("* message properties : " + messageProperties == null ? "" : StringUtils.rightPad(messageProperties.toString(), rightPadLen));
             sj.add("* message body       : " + StringUtils.rightPad(sMessageBody, rightPadLen));
             sj.add("********************************************************************************************************");
             sj.add("");
