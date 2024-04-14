@@ -18,7 +18,7 @@ import org.springframework.core.annotation.Order;
 @Aspect
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnExpression("${rebue.aop.sub-log:false}")
-@Order(3)
+@Order(2)
 public class SubLogAopConfig {
 
     @Around("execution(public * *..sub..*Sub.*(..))")

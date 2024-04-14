@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication
 @ConditionalOnExpression("${rebue.aop.ctrl-log:false}")
-@Order(1)
+@Order(4)
 public class CtrlLogAopConfig {
 
     @Before("execution(public * *..ctrl..*Ctrl.*(..))")

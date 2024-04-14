@@ -19,7 +19,7 @@ import java.util.StringJoiner;
 @Aspect
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnExpression("${rebue.aop.svc-log:false}")
-@Order(7)
+@Order(1)
 public class SvcLogAopConfig {
 
     @Around("execution(public * *..svc..*Svc.*(..))")

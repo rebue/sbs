@@ -3,6 +3,7 @@ package rebue.sbs.aop;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,6 +22,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
  */
 @Slf4j
 @ControllerAdvice
+@Order(5)
 public class CtrlErrAopConfig {
 
     /**

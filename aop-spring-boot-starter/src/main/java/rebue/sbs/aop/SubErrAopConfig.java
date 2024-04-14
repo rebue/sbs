@@ -22,7 +22,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
  */
 @Aspect
 @Configuration(proxyBeanMethods = false)
-@Order(4)
+@Order(3)
 public class SubErrAopConfig {
 
     @Around("execution(public * *..sub..*Sub.*(..))")
