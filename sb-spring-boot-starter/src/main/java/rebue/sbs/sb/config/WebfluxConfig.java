@@ -17,7 +17,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 public class WebfluxConfig implements WebFluxConfigurer {
     private final ObjectMapper objectMapper;
 
-    @Value("${spring.mvc.static-path-pattern}")
+    @Value("${spring.mvc.static-path-pattern:#{null}}")
     private       String   staticPathPattern;
     private final String[] staticLocations;
 
@@ -35,7 +35,9 @@ public class WebfluxConfig implements WebFluxConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(staticPathPattern)
-                .addResourceLocations(staticLocations);
+        if (staticPathPattern != null && staticLocations != null) {
+            registry.addResourceHandler(staticPathPattern)
+                    .addResourceLocations(staticLocations);
+        }
     }
 }
