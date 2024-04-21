@@ -3,8 +3,11 @@ package rebue.sbs.feign;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
 
 import java.util.stream.Collectors;
@@ -24,6 +27,16 @@ public class FeignConfig {
     @ConditionalOnMissingBean
     public HttpMessageConverters messageConverters(ObjectProvider<HttpMessageConverter<?>> converters) {
         return new HttpMessageConverters(converters.orderedStream().collect(Collectors.toList()));
+    }
+
+    /**
+     * 解决Feign客户端调用接口报错的问题
+     * webflux会导致报block()/blockFirst()/blockLast()异常
+     */
+    @Bean
+    @Primary
+    public LoadBalancerClient BlockingLoadBalancerClient(LoadBalancerClientFactory loadBalancerClientFactory) {
+        return new CustomBlockingLoadBalancerClient(loadBalancerClientFactory);
     }
 
 //    /**
