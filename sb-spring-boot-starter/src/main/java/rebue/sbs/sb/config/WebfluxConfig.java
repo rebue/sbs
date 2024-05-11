@@ -1,7 +1,5 @@
 package rebue.sbs.sb.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Configuration;
@@ -12,17 +10,18 @@ import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.ResourceHandlerRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Configuration(proxyBeanMethods = false)
 public class WebfluxConfig implements WebFluxConfigurer {
     private final ObjectMapper objectMapper;
 
     @Value("${spring.mvc.static-path-pattern:#{null}}")
-    private       String   staticPathPattern;
-    private final String[] staticLocations;
+    private String             staticPathPattern;
+    private final String[]     staticLocations;
 
-    @Autowired
     public WebfluxConfig(ObjectMapper objectMapper, WebProperties webProperties) {
-        this.objectMapper = objectMapper;
+        this.objectMapper    = objectMapper;
         this.staticLocations = webProperties.getResources().getStaticLocations();
     }
 
