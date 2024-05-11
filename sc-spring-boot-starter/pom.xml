@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.4.28</version>
+        <version>3.5.29</version>
     </parent>
     <artifactId>sc-spring-boot-starter</artifactId>
 
@@ -23,7 +23,7 @@
             <artifactId>curator-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- 配置中心 -->
+        <!-- 注册中心 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
@@ -39,7 +39,7 @@
         <!--            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
         <!--        </dependency>-->
 
-        <!-- 注册中心 -->
+        <!-- 配置中心 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-config</artifactId>
