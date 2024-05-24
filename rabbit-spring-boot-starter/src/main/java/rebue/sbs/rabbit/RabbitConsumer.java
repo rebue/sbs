@@ -6,19 +6,15 @@ import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.rabbitmq.client.*;
 import com.rabbitmq.client.AMQP.BasicProperties;
-import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
 
 import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 
 public class RabbitConsumer {
     private final static Logger _log = LoggerFactory.getLogger(RabbitConsumer.class);
 
-    private final Connection _connection;
+    private final Connection    _connection;
 
     public RabbitConsumer(final RabbitProperties properties) throws IOException, TimeoutException {
         // 获取连接
@@ -52,7 +48,7 @@ public class RabbitConsumer {
      * @return 返回是否绑定成功
      */
     public <T> boolean bind(final String exchangeName, final String queueName, final String routingKey, final Class<T> msgClazz, final RabbitMsgHandler<T> handler,
-                            final BuiltinExchangeType builtinExchangeType) {
+            final BuiltinExchangeType builtinExchangeType) {
         _log.info("创建消费者: Exchange-{},Queue-{}", exchangeName, queueName);
         try {
             final Channel channel = _connection.createChannel();

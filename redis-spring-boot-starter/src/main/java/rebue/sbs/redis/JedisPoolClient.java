@@ -1,18 +1,17 @@
 package rebue.sbs.redis;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
+
+import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.exceptions.JedisConnectionException;
-
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 @Slf4j
 public class JedisPoolClient implements RedisClient {

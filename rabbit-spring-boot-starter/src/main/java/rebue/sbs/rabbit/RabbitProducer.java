@@ -8,30 +8,26 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.MessageProperties;
+import com.rabbitmq.client.*;
 
 import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 
 public class RabbitProducer {
-    private final static Logger _log = LoggerFactory.getLogger(ConnectionFactory.class);
+    private final static Logger              _log = LoggerFactory.getLogger(ConnectionFactory.class);
 
     private final GenericObjectPool<Channel> _channelPool;
 
     /**
      * 默认发送消息超时判断的毫秒数(默认为10000毫秒)
      */
-    private final Long _defaultSendTimeoutMs;
+    private final Long                       _defaultSendTimeoutMs;
 
     public RabbitProducer(final RabbitProperties properties) throws IOException, TimeoutException {
         // 获取连接
-        final Connection connection = RabbitConnectionFactory.newConnection(properties);
+        final Connection                       connection = RabbitConnectionFactory.newConnection(properties);
 
         // Channel池配置
-        final GenericObjectPoolConfig<Channel> config = new GenericObjectPoolConfig<>();
+        final GenericObjectPoolConfig<Channel> config     = new GenericObjectPoolConfig<>();
         // 配置Channel池保持最小空闲对象的数量
         config.setMinIdle(Runtime.getRuntime().availableProcessors());
         // 配置Channel池保持最大对象的数量

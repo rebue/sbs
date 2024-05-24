@@ -25,7 +25,7 @@ public class EsConfig {
      * 使用实际ES的地址 使用冒号隔开ip和端口1
      */
     @Value("${elasticsearch.host}")
-    String[] hosts;
+    String[]                    hosts;
 
     @Bean
     public RestClientBuilder restClientBuilder() {
@@ -36,7 +36,7 @@ public class EsConfig {
 
     @Bean
     public RestHighLevelClient restHighLevelClient(@Autowired final RestClientBuilder restClientBuilder) {
-//        restClientBuilder.setMaxRetryTimeoutMillis(60000);
+        // restClientBuilder.setMaxRetryTimeoutMillis(60000);
         return new RestHighLevelClient(restClientBuilder);
     }
 

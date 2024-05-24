@@ -22,7 +22,7 @@ public class RedisTests {
     private static final String REDIS_KEY_TEST_PREFIX = "rebue.sbs.redis.test.";
 
     @Resource
-    private RedisClient redisClient;
+    private RedisClient         redisClient;
 
     /**
      * 测试一些常用方法
@@ -163,7 +163,8 @@ public class RedisTests {
         map1.put("c", true);
         map1.put("d", now);
         redisClient.setObj("test", map1, 10);
-        @SuppressWarnings("unchecked") final Map<String, Object> map2 = redisClient.getObj("test", Map.class);
+        @SuppressWarnings("unchecked")
+        final Map<String, Object> map2 = redisClient.getObj("test", Map.class);
         Assertions.assertEquals(map1, map2);
     }
 

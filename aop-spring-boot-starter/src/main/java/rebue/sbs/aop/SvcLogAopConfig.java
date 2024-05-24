@@ -1,6 +1,7 @@
 package rebue.sbs.aop;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.StringJoiner;
+
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,7 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
-import java.util.StringJoiner;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 服务层日志拦截
@@ -30,7 +31,7 @@ public class SvcLogAopConfig {
         final String[]        parameterNames  = methodSignature.getParameterNames();
         final Object[]        parameterValues = joinPoint.getArgs();
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder         sb              = new StringBuilder();
         sb.append("开始调用服务层");
         sb.append(clazzName);
         sb.append(".");
@@ -44,7 +45,6 @@ public class SvcLogAopConfig {
             sb.append(sj);
         }
         log.info(StringUtils.rightPad(sb.toString(), 73));
-
 
         try {
             // 调用

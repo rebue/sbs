@@ -1,10 +1,10 @@
 package rebue.sbs.redis;
 
+import java.util.Set;
+
 import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.JedisPubSub;
-
-import java.util.Set;
 
 public interface RedisClient {
 

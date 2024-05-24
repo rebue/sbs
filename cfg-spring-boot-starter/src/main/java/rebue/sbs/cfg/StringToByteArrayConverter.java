@@ -1,8 +1,8 @@
 package rebue.sbs.cfg;
 
-import org.springframework.core.convert.converter.Converter;
-
 import java.nio.charset.StandardCharsets;
+
+import org.springframework.core.convert.converter.Converter;
 
 /**
  * 字符串转byte[]的转换器

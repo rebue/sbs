@@ -1,13 +1,14 @@
 package rebue.sbs.redis;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
+
 import rebue.wheel.serialization.protostuff.ProtostuffUtils;
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPubSub;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class JedisClusterClient implements RedisClient {
 

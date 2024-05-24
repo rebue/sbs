@@ -1,7 +1,8 @@
 package rebue.sbs.aop;
 
-import jakarta.validation.ConstraintViolationException;
-import lombok.extern.slf4j.Slf4j;
+import java.sql.DataTruncation;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,12 +11,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ServerWebInputException;
+
+import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.api.dic.HttpStatusCodeDic;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.api.ro.Rt;
-
-import java.sql.DataTruncation;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * 控制器层异常拦截
@@ -79,7 +80,7 @@ public class CtrlErrAopConfig {
             log.error("AOP拦截到违反数据库完整性的异常", e);
             final Throwable cause = e.getCause();
             if (cause instanceof SQLIntegrityConstraintViolationException) {
-                //违反主外键约束
+                // 违反主外键约束
                 return Rt.warn("该记录存在关联信息，请先解除关联", cause.getMessage());
             } else if (cause instanceof DataTruncation) {
                 return Rt.warn("此操作违反了该字段最大长度的约束", cause.getMessage());

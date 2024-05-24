@@ -16,11 +16,11 @@ import com.github.benmanes.caffeine.cache.Caffeine;
  */
 // public class FlexibleCaffeineCacheManager extends CaffeineCacheManager implements InitializingBean {
 public class FlexibleCaffeineCacheManager extends CaffeineCacheManager {
-    private Map<String, String> cacheSpecs = new HashMap<>();
+    private Map<String, String>                         cacheSpecs = new HashMap<>();
 
-    private final Map<String, Caffeine<Object, Object>> builders = new HashMap<>();
+    private final Map<String, Caffeine<Object, Object>> builders   = new HashMap<>();
 
-    private CacheLoader<Object, Object> cacheLoader;
+    private CacheLoader<Object, Object>                 cacheLoader;
 
     // @Override
     // public void afterPropertiesSet() throws Exception {

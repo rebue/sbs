@@ -47,21 +47,21 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(EnableRabbit.class)
 public class RabbitAnnotationDrivenConfiguration {
 
-    private final ObjectProvider<MessageConverter> messageConverter;
+    private final ObjectProvider<MessageConverter>              messageConverter;
 
-    private final ObjectProvider<MessageRecoverer> messageRecoverer;
+    private final ObjectProvider<MessageRecoverer>              messageRecoverer;
 
     private final ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers;
 
-    private final RabbitProperties properties;
+    private final RabbitProperties                              properties;
 
     RabbitAnnotationDrivenConfiguration(final ObjectProvider<MessageConverter> messageConverter,
-                                        final ObjectProvider<MessageRecoverer> messageRecoverer,
-                                        final ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers, final RabbitProperties properties) {
-        this.messageConverter = messageConverter;
-        this.messageRecoverer = messageRecoverer;
+            final ObjectProvider<MessageRecoverer> messageRecoverer,
+            final ObjectProvider<RabbitRetryTemplateCustomizer> retryTemplateCustomizers, final RabbitProperties properties) {
+        this.messageConverter         = messageConverter;
+        this.messageRecoverer         = messageRecoverer;
         this.retryTemplateCustomizers = retryTemplateCustomizers;
-        this.properties = properties;
+        this.properties               = properties;
     }
 
     @Bean

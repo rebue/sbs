@@ -1,6 +1,8 @@
 package rebue.sbs.aop;
 
-import jakarta.validation.ConstraintViolationException;
+import java.sql.DataTruncation;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,11 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+
+import jakarta.validation.ConstraintViolationException;
 import rebue.wheel.api.exception.RuntimeExceptionX;
 import rebue.wheel.api.ro.Rt;
-
-import java.sql.DataTruncation;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * SUB层异常拦截

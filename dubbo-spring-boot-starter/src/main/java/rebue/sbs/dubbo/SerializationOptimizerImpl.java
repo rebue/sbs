@@ -6,17 +6,9 @@ import java.util.List;
 
 import org.apache.dubbo.common.serialize.support.SerializationOptimizer;
 
-import rebue.robotech.ra.BooleanRa;
-import rebue.robotech.ra.CountRa;
-import rebue.robotech.ra.IdRa;
-import rebue.robotech.ra.IntegerRa;
-import rebue.robotech.ra.ListRa;
-import rebue.robotech.ra.LongRa;
-import rebue.robotech.ra.PageRa;
-import rebue.robotech.ra.PojoRa;
-import rebue.robotech.ra.StringRa;
-import rebue.wheel.api.ro.Rt;
+import rebue.robotech.ra.*;
 import rebue.robotech.to.PageTo;
+import rebue.wheel.api.ro.Rt;
 
 public class SerializationOptimizerImpl implements SerializationOptimizer {
 

@@ -1,7 +1,8 @@
 package rebue.sbs.aop;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import lombok.Data;
 
 @Data
 @ConfigurationProperties("rebue.aop")

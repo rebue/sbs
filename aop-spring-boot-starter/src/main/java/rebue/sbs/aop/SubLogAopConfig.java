@@ -1,6 +1,5 @@
 package rebue.sbs.aop;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,6 +9,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * SUB层日志拦截
@@ -32,7 +33,7 @@ public class SubLogAopConfig {
             final String[]        parameterNames  = methodSignature.getParameterNames();
             final Object[]        parameterValues = joinPoint.getArgs();
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder         sb              = new StringBuilder();
             sb.append("\r\n----------------------- SUB层方法准备被调用 -----------------------\r\n");
             sb.append("* 方法: \r\n*     ");
             sb.append(clazzName);

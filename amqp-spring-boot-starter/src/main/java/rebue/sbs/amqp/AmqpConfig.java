@@ -1,7 +1,9 @@
 package rebue.sbs.amqp;
 
-import com.rabbitmq.client.Channel;
-import lombok.extern.slf4j.Slf4j;
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+import java.util.StringJoiner;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -16,18 +18,18 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import com.rabbitmq.client.Channel;
+
+import lombok.extern.slf4j.Slf4j;
 import rebue.wheel.serialization.fst.FstAmqpMessageConverter;
 import rebue.wheel.serialization.fst.FstUtils;
 import rebue.wheel.serialization.kryo.KryoAmqpMessageConverter;
 import rebue.wheel.serialization.kryo.KryoUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
-import java.util.StringJoiner;
-
 @Slf4j
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnClass({RabbitTemplate.class, Channel.class
+@ConditionalOnClass({ RabbitTemplate.class, Channel.class
 })
 @EnableConfigurationProperties(RabbitProperties.class)
 @Import(RabbitAnnotationDrivenConfiguration.class)
@@ -55,27 +57,27 @@ public class AmqpConfig {
             String            replyText         = returnedMessage.getReplyText();
             MessageProperties messageProperties = message.getMessageProperties();
 
-            String sMessageBody;
+            String            sMessageBody;
             if (message == null || message.getBody() == null || message.getBody().length == 0) {
                 sMessageBody = "";
             } else {
                 try {
                     switch (messageProperties.getContentType()) {
-                        case MessageProperties.CONTENT_TYPE_SERIALIZED_OBJECT:
-                            try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(message.getBody());
-                                 ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
-                                sMessageBody = objectInputStream.readObject().toString();
-                            }
-                            break;
-                        case FstAmqpMessageConverter.CONTENT_TYPE_FST:
-                            sMessageBody = FstUtils.readObject(message.getBody()).toString();
-                            break;
-                        case KryoAmqpMessageConverter.CONTENT_TYPE_KRYO:
-                            sMessageBody = KryoUtils.readObject(message.getBody()).toString();
-                            break;
-                        default:
-                            sMessageBody = "不能识别的序列化方式";
-                            break;
+                    case MessageProperties.CONTENT_TYPE_SERIALIZED_OBJECT:
+                        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(message.getBody());
+                                ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
+                            sMessageBody = objectInputStream.readObject().toString();
+                        }
+                        break;
+                    case FstAmqpMessageConverter.CONTENT_TYPE_FST:
+                        sMessageBody = FstUtils.readObject(message.getBody()).toString();
+                        break;
+                    case KryoAmqpMessageConverter.CONTENT_TYPE_KRYO:
+                        sMessageBody = KryoUtils.readObject(message.getBody()).toString();
+                        break;
+                    default:
+                        sMessageBody = "不能识别的序列化方式";
+                        break;
                     }
                 } catch (final Exception e) {
                     sMessageBody = "反序列化失败-" + e.getMessage();

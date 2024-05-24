@@ -22,9 +22,6 @@
  */
 package org.springframework.data.redis.cache;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -34,11 +31,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 
 import org.springframework.dao.PessimisticLockingFailureException;
-import org.springframework.data.redis.connection.ReactiveRedisConnection;
-import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
-import org.springframework.data.redis.connection.ReactiveStringCommands;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.RedisStringCommands.SetOption;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.data.redis.util.ByteUtils;
@@ -46,6 +39,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * {@link RedisCacheWriter} implementation capable of reading/writing binary data from/to Redis in {@literal standalone}
@@ -68,20 +64,20 @@ import org.springframework.util.ObjectUtils;
  */
 public class DefaultRedisCacheWriter implements RedisCacheWriter {
 
-    private static final boolean REACTIVE_REDIS_CONNECTION_FACTORY_PRESENT = ClassUtils
+    private static final boolean           REACTIVE_REDIS_CONNECTION_FACTORY_PRESENT = ClassUtils
             .isPresent("org.springframework.data.redis.connection.ReactiveRedisConnectionFactory", null);
 
-    private final BatchStrategy batchStrategy;
+    private final BatchStrategy            batchStrategy;
 
     private final CacheStatisticsCollector statistics;
 
-    private final Duration sleepTime;
+    private final Duration                 sleepTime;
 
-    private final RedisConnectionFactory connectionFactory;
+    private final RedisConnectionFactory   connectionFactory;
 
-    private final TtlFunction lockTtl;
+    private final TtlFunction              lockTtl;
 
-    private final AsyncCacheWriter asyncCacheWriter;
+    private final AsyncCacheWriter         asyncCacheWriter;
 
     /**
      * @param connectionFactory must not be {@literal null}.
@@ -110,7 +106,7 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
      * @param batchStrategy            must not be {@literal null}.
      */
     DefaultRedisCacheWriter(RedisConnectionFactory connectionFactory, Duration sleepTime, TtlFunction lockTtl,
-                            CacheStatisticsCollector cacheStatisticsCollector, BatchStrategy batchStrategy) {
+            CacheStatisticsCollector cacheStatisticsCollector, BatchStrategy batchStrategy) {
 
         Assert.notNull(connectionFactory, "ConnectionFactory must not be null");
         Assert.notNull(sleepTime, "SleepTime must not be null");
@@ -119,10 +115,10 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
         Assert.notNull(batchStrategy, "BatchStrategy must not be null");
 
         this.connectionFactory = connectionFactory;
-        this.sleepTime = sleepTime;
-        this.lockTtl = lockTtl;
-        this.statistics = cacheStatisticsCollector;
-        this.batchStrategy = batchStrategy;
+        this.sleepTime         = sleepTime;
+        this.lockTtl           = lockTtl;
+        this.statistics        = cacheStatisticsCollector;
+        this.batchStrategy     = batchStrategy;
 
         if (REACTIVE_REDIS_CONNECTION_FACTORY_PRESENT && this.connectionFactory instanceof ReactiveRedisConnectionFactory) {
             asyncCacheWriter = new AsynchronousCacheWriterDelegate();
@@ -327,7 +323,7 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
 
     @Nullable
     private Boolean doLock(String name, Object contextualKey, @Nullable Object contextualValue,
-                           RedisConnection connection) {
+            RedisConnection connection) {
 
         Expiration expiration = Expiration.from(this.lockTtl.getTimeToLive(contextualKey, contextualValue));
 
@@ -428,7 +424,7 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
          * @param key  the cache entry key.
          * @param ttl  optional TTL to set for Time-to-Idle eviction.
          * @return a future that completes either with a value if the value exists or completing with {@code null} if the
-         * cache does not contain an entry.
+         *         cache does not contain an entry.
          */
         CompletableFuture<byte[]> retrieve(String name, byte[] key, @Nullable Duration ttl);
 
@@ -492,7 +488,7 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
                 Mono<?>                cacheLockCheck = isLockingCacheWriter() ? waitForLock(connection, name) : Mono.empty();
                 ReactiveStringCommands stringCommands = connection.stringCommands();
 
-                Mono<ByteBuffer> get = shouldExpireWithin(ttl)
+                Mono<ByteBuffer>       get            = shouldExpireWithin(ttl)
                         ? stringCommands.getEx(wrappedKey, Expiration.from(ttl))
                         : stringCommands.get(wrappedKey);
 
@@ -514,14 +510,14 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
         }
 
         private Mono<Boolean> doStoreWithLocking(String name, byte[] key, byte[] value, @Nullable Duration ttl,
-                                                 ReactiveRedisConnection connection) {
+                ReactiveRedisConnection connection) {
 
             return Mono.usingWhen(doLock(name, key, value, connection), unused -> doStore(key, value, ttl, connection),
                     unused -> doUnlock(name, connection));
         }
 
         private Mono<Boolean> doStore(byte[] cacheKey, byte[] value, @Nullable Duration ttl,
-                                      ReactiveRedisConnection connection) {
+                ReactiveRedisConnection connection) {
 
             ByteBuffer wrappedKey   = ByteBuffer.wrap(cacheKey);
             ByteBuffer wrappedValue = ByteBuffer.wrap(value);
@@ -534,9 +530,8 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
             }
         }
 
-
         private Mono<Object> doLock(String name, Object contextualKey, @Nullable Object contextualValue,
-                                    ReactiveRedisConnection connection) {
+                ReactiveRedisConnection connection) {
 
             ByteBuffer key        = ByteBuffer.wrap(createCacheLockKey(name));
             ByteBuffer value      = ByteBuffer.wrap(new byte[0]);
@@ -553,11 +548,11 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
 
         private Mono<Void> waitForLock(ReactiveRedisConnection connection, String cacheName) {
 
-            AtomicLong lockWaitTimeNs = new AtomicLong();
-            byte[]     cacheLockKey   = createCacheLockKey(cacheName);
+            AtomicLong    lockWaitTimeNs = new AtomicLong();
+            byte[]        cacheLockKey   = createCacheLockKey(cacheName);
 
-            Flux<Long>    wait   = Flux.interval(Duration.ZERO, sleepTime);
-            Mono<Boolean> exists = connection.keyCommands().exists(ByteBuffer.wrap(cacheLockKey)).filter(it -> !it);
+            Flux<Long>    wait           = Flux.interval(Duration.ZERO, sleepTime);
+            Mono<Boolean> exists         = connection.keyCommands().exists(ByteBuffer.wrap(cacheLockKey)).filter(it -> !it);
 
             return wait.doOnSubscribe(subscription -> lockWaitTimeNs.set(System.nanoTime())) //
                     .flatMap(it -> exists) //
@@ -572,8 +567,8 @@ public class DefaultRedisCacheWriter implements RedisCacheWriter {
             ReactiveRedisConnectionFactory cf = (ReactiveRedisConnectionFactory) connectionFactory;
 
             return Mono.usingWhen(Mono.fromSupplier(cf::getReactiveConnection), //
-                            it -> Mono.fromCompletionStage(callback.apply(it)), //
-                            ReactiveRedisConnection::closeLater) //
+                    it -> Mono.fromCompletionStage(callback.apply(it)), //
+                    ReactiveRedisConnection::closeLater) //
                     .toFuture();
         }
     }

@@ -1,5 +1,16 @@
 package rebue.sbs.sb.config;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -28,17 +39,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ResolvableType;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Configuration(proxyBeanMethods = false)
 public class MyBatisNativeConfiguration {
@@ -151,10 +151,10 @@ public class MyBatisNativeConfiguration {
                 }
             } else if (src instanceof ParameterizedType) {
                 ParameterizedType parameterizedType = (ParameterizedType) src;
-                int index = (parameterizedType.getRawType() instanceof Class
+                int               index             = (parameterizedType.getRawType() instanceof Class
                         && Map.class.isAssignableFrom((Class<?>) parameterizedType.getRawType())
                         && parameterizedType.getActualTypeArguments().length > 1) ? 1 : 0;
-                Type actualType = parameterizedType.getActualTypeArguments()[index];
+                Type              actualType        = parameterizedType.getActualTypeArguments()[index];
                 result = typeToClass(actualType, fallback);
             }
             if (result == null) {
@@ -167,11 +167,11 @@ public class MyBatisNativeConfiguration {
 
     static class MyBatisMapperFactoryBeanPostProcessor implements MergedBeanDefinitionPostProcessor, BeanFactoryAware {
 
-        private static final org.apache.commons.logging.Log LOG = LogFactory.getLog(MyBatisMapperFactoryBeanPostProcessor.class);
+        private static final org.apache.commons.logging.Log LOG                 = LogFactory.getLog(MyBatisMapperFactoryBeanPostProcessor.class);
 
-        private static final String MAPPER_FACTORY_BEAN = "org.mybatis.spring.mapper.MapperFactoryBean";
+        private static final String                         MAPPER_FACTORY_BEAN = "org.mybatis.spring.mapper.MapperFactoryBean";
 
-        private ConfigurableBeanFactory beanFactory;
+        private ConfigurableBeanFactory                     beanFactory;
 
         @Override
         public void setBeanFactory(BeanFactory beanFactory) {

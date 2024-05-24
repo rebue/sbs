@@ -1,5 +1,7 @@
 package rebue.sbs.feign;
 
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
@@ -9,8 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
-
-import java.util.stream.Collectors;
 
 /**
  * OpenFeign的配置器
@@ -39,46 +39,46 @@ public class FeignConfig {
         return new CustomBlockingLoadBalancerClient(loadBalancerClientFactory);
     }
 
-//    /**
-//     * 只有在这里才能控制feign的日志级别
-//     */
-//    @Bean
-//    feign.Logger.Level feignLoggerLevel() {
-////        return Logger.Level.FULL;
-//        return feign.Logger.Level.BASIC;
-//    }
+    // /**
+    // * 只有在这里才能控制feign的日志级别
+    // */
+    // @Bean
+    // feign.Logger.Level feignLoggerLevel() {
+    //// return Logger.Level.FULL;
+    // return feign.Logger.Level.BASIC;
+    // }
 
-//    /**
-//     * 传递接收到的请求头
-//     */
-//    @Bean
-//    public RequestInterceptor headerInterceptor() {
-//        _log.info("传递接收到的请求头");
-//        return requestTemplate -> {
-//            final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//            if (attributes == null) {
-//                return;
-//            }
-//            final HttpServletRequest  request     = attributes.getRequest();
-//            final Enumeration<String> headerNames = request.getHeaderNames();
-//            if (headerNames != null) {
-//                while (headerNames.hasMoreElements()) {
-//                    final String name   = headerNames.nextElement();
-//                    final String values = request.getHeader(name);
-//                    requestTemplate.header(name, values);
-//                }
-//            }
-//        };
-//    }
-//
-//    @Autowired(required = false)
-//    private final List<AnnotatedParameterProcessor> parameterProcessors = new ArrayList<>();
-//
-//    @Bean
-//    public Contract feignContract(final FormattingConversionService feignConversionService) {
-//        // 在原配置类中是用ConversionService类型的参数，但ConversionService接口不支持addConverter操作，使用FormattingConversionService仍然可以实现feignContract配置。
-//        feignConversionService.addConverter(new EnumConverter());
-//        return new SpringMvcContract(parameterProcessors, feignConversionService);
-//    }
+    // /**
+    // * 传递接收到的请求头
+    // */
+    // @Bean
+    // public RequestInterceptor headerInterceptor() {
+    // _log.info("传递接收到的请求头");
+    // return requestTemplate -> {
+    // final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    // if (attributes == null) {
+    // return;
+    // }
+    // final HttpServletRequest request = attributes.getRequest();
+    // final Enumeration<String> headerNames = request.getHeaderNames();
+    // if (headerNames != null) {
+    // while (headerNames.hasMoreElements()) {
+    // final String name = headerNames.nextElement();
+    // final String values = request.getHeader(name);
+    // requestTemplate.header(name, values);
+    // }
+    // }
+    // };
+    // }
+    //
+    // @Autowired(required = false)
+    // private final List<AnnotatedParameterProcessor> parameterProcessors = new ArrayList<>();
+    //
+    // @Bean
+    // public Contract feignContract(final FormattingConversionService feignConversionService) {
+    // // 在原配置类中是用ConversionService类型的参数，但ConversionService接口不支持addConverter操作，使用FormattingConversionService仍然可以实现feignContract配置。
+    // feignConversionService.addConverter(new EnumConverter());
+    // return new SpringMvcContract(parameterProcessors, feignConversionService);
+    // }
 
 }

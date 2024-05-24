@@ -42,25 +42,25 @@ public class CacheProperties {
     /**
      * Cache type. By default, auto-detected according to the environment.
      */
-    private CacheType type;
+    private CacheType        type;
 
     /**
      * Comma-separated list of cache names to create if supported by the underlying cache
      * manager. Usually, this disables the ability to create additional caches on-the-fly.
      */
-    private List<String> cacheNames = new ArrayList<>();
+    private List<String>     cacheNames = new ArrayList<>();
 
-    private final Caffeine caffeine = new Caffeine();
+    private final Caffeine   caffeine   = new Caffeine();
 
-    private final Couchbase couchbase = new Couchbase();
+    private final Couchbase  couchbase  = new Couchbase();
 
-    private final EhCache ehcache = new EhCache();
+    private final EhCache    ehcache    = new EhCache();
 
     private final Infinispan infinispan = new Infinispan();
 
-    private final JCache jcache = new JCache();
+    private final JCache     jcache     = new JCache();
 
-    private final Redis redis = new Redis();
+    private final Redis      redis      = new Redis();
 
     public CacheType getType() {
         return type;
@@ -230,7 +230,7 @@ public class CacheProperties {
          * the JSR-107 compliant cache manager. Needed only if more than one JSR-107
          * implementation is available on the classpath.
          */
-        private String provider;
+        private String   provider;
 
         public String getProvider() {
             return provider;
@@ -263,17 +263,17 @@ public class CacheProperties {
         /**
          * Allow caching null values.
          */
-        private boolean cacheNullValues = true;
+        private boolean  cacheNullValues = true;
 
         /**
          * Key prefix.
          */
-        private String keyPrefix;
+        private String   keyPrefix;
 
         /**
          * Whether to use the key prefix when writing to Redis.
          */
-        private boolean useKeyPrefix = true;
+        private boolean  useKeyPrefix    = true;
 
         public Duration getTimeToLive() {
             return timeToLive;

@@ -71,13 +71,13 @@ public class CacheConfig {
     @ConditionalOnClass(RedisConnectionFactory.class)
     @ConditionalOnBean(RedisConnectionFactory.class)
     CacheManager cacheManager(final CacheProperties cacheProperties, final CacheManagerCustomizers cacheManagerCustomizers,
-                              final ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
-                              final ObjectProvider<RedisCacheManagerBuilderCustomizer> redisCacheManagerBuilderCustomizers,
-                              final RedisConnectionFactory redisConnectionFactory, final ResourceLoader resourceLoader) {
+            final ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
+            final ObjectProvider<RedisCacheManagerBuilderCustomizer> redisCacheManagerBuilderCustomizers,
+            final RedisConnectionFactory redisConnectionFactory, final ResourceLoader resourceLoader) {
         // XXX 这里使用自定义的 RebueRedisCacheWriter
-        final RedisCacheManagerBuilder builder = RedisCacheManager.builder(new RebueRedisCacheWriter(redisConnectionFactory))
+        final RedisCacheManagerBuilder builder    = RedisCacheManager.builder(new RebueRedisCacheWriter(redisConnectionFactory))
                 .cacheDefaults(determineConfiguration(cacheProperties, redisCacheConfiguration, resourceLoader.getClassLoader()));
-        final List<String> cacheNames = cacheProperties.getCacheNames();
+        final List<String>             cacheNames = cacheProperties.getCacheNames();
         if (!cacheNames.isEmpty()) {
             builder.initialCacheNames(new LinkedHashSet<>(cacheNames));
         }
@@ -86,15 +86,15 @@ public class CacheConfig {
     }
 
     private org.springframework.data.redis.cache.RedisCacheConfiguration determineConfiguration(final CacheProperties cacheProperties,
-                                                                                                final ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
-                                                                                                final ClassLoader classLoader) {
+            final ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
+            final ClassLoader classLoader) {
         return redisCacheConfiguration.getIfAvailable(() -> createConfiguration(cacheProperties, classLoader));
     }
 
     private org.springframework.data.redis.cache.RedisCacheConfiguration createConfiguration(
             final CacheProperties cacheProperties, final ClassLoader classLoader) {
-        final Redis redisProperties = cacheProperties.getRedis();
-        org.springframework.data.redis.cache.RedisCacheConfiguration config = org.springframework.data.redis.cache.RedisCacheConfiguration
+        final Redis                                                  redisProperties = cacheProperties.getRedis();
+        org.springframework.data.redis.cache.RedisCacheConfiguration config          = org.springframework.data.redis.cache.RedisCacheConfiguration
                 .defaultCacheConfig();
         config = config.serializeValuesWith(
                 SerializationPair.fromSerializer(
@@ -124,11 +124,11 @@ public class CacheConfig {
     // ↓↓↓↓↓↓↓↓↓↓↓ 参考org.springframework.boot.autoconfigure.cache.CaffeineCacheConfiguration ↓↓↓↓↓↓↓↓↓↓↓
     // XXX 指定 Bean 的名称
     @Bean(CacheManagerName.CAFFEINE_CACHE_MANAGER)
-    @ConditionalOnClass({Caffeine.class, CaffeineCacheManager.class
+    @ConditionalOnClass({ Caffeine.class, CaffeineCacheManager.class
     })
     public CacheManager cacheManager(final CacheProperties cacheProperties, final CacheManagerCustomizers customizers,
-                                     final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
-                                     final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
+            final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
+            final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
         final CaffeineCacheManager cacheManager = createCaffeineCacheManager(cacheProperties, caffeine, caffeineSpec, cacheLoader);
         final List<String>         cacheNames   = cacheProperties.getCacheNames();
         if (!CollectionUtils.isEmpty(cacheNames)) {
@@ -138,8 +138,8 @@ public class CacheConfig {
     }
 
     private CaffeineCacheManager createCaffeineCacheManager(final CacheProperties cacheProperties,
-                                                            final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
-                                                            final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
+            final ObjectProvider<Caffeine<Object, Object>> caffeine, final ObjectProvider<CaffeineSpec> caffeineSpec,
+            final ObjectProvider<CacheLoader<Object, Object>> cacheLoader) {
         // XXX 这里使用了自写的缓存管理器
         final CaffeineCacheManager cacheManager = new FlexibleCaffeineCacheManager();
         setCacheBuilder(cacheProperties, caffeineSpec.getIfAvailable(), caffeine.getIfAvailable(), cacheManager);
@@ -148,7 +148,7 @@ public class CacheConfig {
     }
 
     private void setCacheBuilder(final CacheProperties cacheProperties, final CaffeineSpec caffeineSpec,
-                                 final Caffeine<Object, Object> caffeine, final CaffeineCacheManager cacheManager) {
+            final Caffeine<Object, Object> caffeine, final CaffeineCacheManager cacheManager) {
         final String specification = cacheProperties.getCaffeine().getSpec();
         if (StringUtils.hasText(specification)) {
             cacheManager.setCacheSpecification(specification);
