@@ -35,8 +35,13 @@ public class SubErrAopConfig {
         } catch (final DuplicateKeyException e) {
             log.error("AOP拦截到关键字重复的异常", e);
             final String message = e.getCause().getMessage();
+            log.debug("message: {}", message);
+            // MySQL
             final int    start   = message.indexOf("'");
             final int    end     = message.indexOf("'", start + 1) + 1;
+            // final int start = message.lastIndexOf("(") + 1;
+            // final int end = message.lastIndexOf(")");
+            log.debug("start: {}, end: {}", start, end);
             return Rt.warn(message.substring(start, end) + "已存在");
         } catch (final NumberFormatException e) {
             log.error("AOP拦截到字符串转数值的异常", e);
