@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.5.34</version>
+        <version>3.5.35</version>
     </parent>
     <artifactId>sensitive-spring-boot-starter</artifactId>
     <description>敏感数据处理的Spring Boot Starter</description>

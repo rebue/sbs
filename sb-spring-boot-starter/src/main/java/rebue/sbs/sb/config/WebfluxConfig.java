@@ -19,6 +19,8 @@ public class WebfluxConfig implements WebFluxConfigurer {
     @Value("${spring.mvc.static-path-pattern:#{null}}")
     private String             staticPathPattern;
     private final String[]     staticLocations;
+    @Value("${cors.enabled:false}")
+    private Boolean            corsEnabled;
 
     public WebfluxConfig(ObjectMapper objectMapper, WebProperties webProperties) {
         this.objectMapper    = objectMapper;
@@ -41,6 +43,12 @@ public class WebfluxConfig implements WebFluxConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        WebFluxConfigurer.super.addCorsMappings(registry);
+        if (corsEnabled) {
+            registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("*")
+                    .allowedHeaders("*")
+                    .allowCredentials(true);
+        }
     }
 }
