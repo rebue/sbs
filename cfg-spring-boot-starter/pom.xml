@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.5.35</version>
+        <version>3.5.36</version>
     </parent>
     <artifactId>cfg-spring-boot-starter</artifactId>
     <name>cfg-spring-boot-starter</name>
