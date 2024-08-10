@@ -48,8 +48,8 @@ public class CtrlErrAopConfig {
             final String message = e.getCause().getMessage();
             log.debug("message: {}", message);
             // MySQL
-            final int    start   = message.indexOf("'");
-            final int    end     = message.indexOf("'", start + 1) + 1;
+            final int start = message.indexOf("'");
+            final int end   = message.indexOf("'", start + 1) + 1;
             // final int start = message.lastIndexOf("(") + 1;
             // final int end = message.lastIndexOf(")");
             log.debug("start: {}, end: {}", start, end);
@@ -63,9 +63,14 @@ public class CtrlErrAopConfig {
                 }
                 HttpStatusCodeDic status = HttpStatusCodeDic.getItem(statusCode);
                 return Rt.illegalArgument("请求出现错误: " + status.getDesc(), e.getMessage(), String.valueOf(statusCode));
-            } catch (IllegalArgumentException unknown) {
-                log.error("AOP拦截到未能识别的异常", unknown);
-                return Rt.fail("服务器出现未定义的异常，请联系管理员", e.getMessage(), String.valueOf(statusCode), null);
+            } catch (NullPointerException nullPointerException) {
+                // 请求body为空时，上面的 serverWebInputException.getCause() 为 null，会报空指针异常
+                log.warn("请求错误", serverWebInputException);
+                HttpStatusCodeDic status = HttpStatusCodeDic.getItem(statusCode);
+                return Rt.illegalArgument("请求错误: " + status.getDesc(), serverWebInputException.getMessage(), String.valueOf(statusCode));
+                // } catch (IllegalArgumentException unknown) {
+                // log.error("AOP拦截到未能识别的异常", unknown);
+                // return Rt.fail("服务器出现未定义的异常，请联系管理员", e.getMessage(), String.valueOf(statusCode), null);
             }
         } else if (e instanceof ConstraintViolationException) {
             log.error("AOP拦截到违反参数约束的异常", e);
