@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.5.42</version>
+        <version>3.5.43</version>
     </parent>
     <artifactId>xxljob-spring-boot-starter</artifactId>
     <name>xxljob-spring-boot-starter</name>
