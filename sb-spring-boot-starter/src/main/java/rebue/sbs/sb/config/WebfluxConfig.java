@@ -1,5 +1,6 @@
 package rebue.sbs.sb.config;
 
+import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,7 @@ public class WebfluxConfig implements WebFluxConfigurer {
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(@Nonnull ResourceHandlerRegistry registry) {
         if (staticPathPattern != null && staticLocations != null) {
             registry.addResourceHandler(staticPathPattern)
                     .addResourceLocations(staticLocations);
@@ -42,13 +43,12 @@ public class WebfluxConfig implements WebFluxConfigurer {
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(@Nonnull CorsRegistry registry) {
         if (corsEnabled) {
             registry.addMapping("/**")
                     .allowedOrigins("*")
                     .allowedMethods("*")
-                    .allowedHeaders("*")
-                    .allowCredentials(true);
+                    .allowedHeaders("*");
         }
     }
 }
