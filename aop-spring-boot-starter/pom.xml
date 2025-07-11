@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.6.53</version>
+        <version>3.7.54</version>
     </parent>
     <artifactId>aop-spring-boot-starter</artifactId>
     <name>aop-spring-boot-starter</name>
@@ -55,12 +55,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
