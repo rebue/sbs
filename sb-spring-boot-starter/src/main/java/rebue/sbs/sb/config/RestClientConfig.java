@@ -9,11 +9,15 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * RestClient配置
+ * 
+ * @Deprecated 2025-07-11 弃用，请使用RestClient.builder
  */
 @Configuration(proxyBeanMethods = false)
+@Deprecated(since = "2025-07-11")
 public class RestClientConfig {
     @Bean
     public ClientHttpRequestFactory simpleClientHttpRequestFactory() {
@@ -35,5 +39,15 @@ public class RestClientConfig {
     @Bean
     public RestClient restClient(RestTemplate restTemplate) {
         return RestClient.create(restTemplate);
+    }
+
+    @Bean
+    public RestClient.Builder restClientBuilder(RestTemplate restTemplate) {
+        return RestClient.builder(restTemplate);
+    }
+
+    @Bean
+    public WebClient.Builder webClient() {
+        return WebClient.builder();
     }
 }

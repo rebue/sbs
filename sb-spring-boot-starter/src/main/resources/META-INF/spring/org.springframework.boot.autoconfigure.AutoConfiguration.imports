@@ -1,5 +1,4 @@
 rebue.sbs.sb.config.JacksonConfig
-rebue.sbs.sb.config.RestClientConfig
 rebue.sbs.sb.config.ValidatorConfig
 rebue.sbs.sb.config.WebfluxConfig
 rebue.sbs.sb.config.MyBatisNativeConfiguration
