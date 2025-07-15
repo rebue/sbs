@@ -12,13 +12,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
- * RestClient配置
- * 
- * @Deprecated 2025-07-11 弃用，请使用RestClient.builder
+ * Spring中几个HttpClient类的配置
  */
 @Configuration(proxyBeanMethods = false)
-@Deprecated(since = "2025-07-11")
-public class RestClientConfig {
+public class HttpClientConfig {
     @Bean
     public ClientHttpRequestFactory simpleClientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
@@ -37,17 +34,12 @@ public class RestClientConfig {
     }
 
     @Bean
-    public RestClient restClient(RestTemplate restTemplate) {
-        return RestClient.create(restTemplate);
+    public RestClient restClient() {
+        return RestClient.builder().build();
     }
 
     @Bean
-    public RestClient.Builder restClientBuilder(RestTemplate restTemplate) {
-        return RestClient.builder(restTemplate);
-    }
-
-    @Bean
-    public WebClient.Builder webClient() {
-        return WebClient.builder();
+    public WebClient webClient() {
+        return WebClient.builder().build();
     }
 }
