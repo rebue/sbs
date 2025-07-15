@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.rebue.sbs</groupId>
         <artifactId>sbs</artifactId>
-        <version>3.7.54</version>
+        <version>3.7.55</version>
     </parent>
     <artifactId>shardingsphere-spring-boot-starter</artifactId>
     <name>shardingsphere-spring-boot-starter</name>
