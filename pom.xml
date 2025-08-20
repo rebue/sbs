@@ -29,17 +29,8 @@
         <!--        <module>sensitive-spring-boot-starter</module>-->
     </modules>
 
-    <properties>
-        <java.version>17</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <wheel.version>3.8.59</wheel.version>
-        <robotech.version>3.8.59</robotech.version>
-    </properties>
-
     <url>https://github.com/rebue/mbgx</url>
+
     <developers>
         <developer>
             <name>zhangbaizi</name>
@@ -163,6 +154,17 @@
         </dependencies>
     </dependencyManagement>
 
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <wheel.version>3.8.59</wheel.version>
+        <robotech.version>3.8.59</robotech.version>
+        <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
+    </properties>
+
     <profiles>
         <profile>
             <id>deploy-private</id>
@@ -216,7 +218,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.6.0</version>
+                        <version>${maven-javadoc-plugin.version}</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
