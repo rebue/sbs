@@ -1,6 +1,5 @@
 package rebue.sbs.sb.config;
 
-import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +11,8 @@ import org.springframework.web.reactive.config.ResourceHandlerRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.annotation.Nonnull;
 
 @Configuration(proxyBeanMethods = false)
 public class WebfluxConfig implements WebFluxConfigurer {
