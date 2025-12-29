@@ -4,7 +4,7 @@
 
     <groupId>com.github.rebue.sbs</groupId>
     <artifactId>sbs</artifactId>
-    <version>3.8.64</version>
+    <version>3.9.65</version>
     <packaging>pom</packaging>
     <name>sbs</name>
     <description>Spring Boot Starter类项目</description>
@@ -160,8 +160,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <wheel.version>3.8.64</wheel.version>
-        <robotech.version>3.8.64</robotech.version>
+        <wheel.version>3.9.65</wheel.version>
+        <robotech.version>3.9.65</robotech.version>
         <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
     </properties>
 
